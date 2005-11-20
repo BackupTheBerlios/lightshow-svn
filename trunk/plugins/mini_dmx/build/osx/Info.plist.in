@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleIdentifier</key>
+	<string>de.totosoft.EXECUTABLE</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>EXECUTABLE</string>
+	<key>CFBundleName</key>
+	<string>EXECUTABLE</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>VERSION</string>
+	<key>CFBundleShortVersionString</key>
+	<string>VERSION</string>
+	<key>CFBundleGetInfoString</key>
+	<string>EXECUTABLE version VERSION, (c) 2002 Thorsten Baumhöfer</string>
+	<key>CFBundleLongVersionString</key>
+	<string>VERSION, (c) 2002 Thorsten Baumhöfer</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 2002 Thorsten Baumhöfer</string>
+	<key>LSRequiresCarbon</key>
+        <true/>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+</dict>
+</plist>

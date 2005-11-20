@@ -1,0 +1,511 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildStyle section */
+		05952DFCFFF02D1B11CA0E50 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		05952DFDFFF02D1B11CA0E50 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		D7003359085496CA00DFE3A3 /* ChannelDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ChannelDialog.h; path = ../../include/ChannelDialog.h; sourceTree = SOURCE_ROOT; };
+		D700335A085496CA00DFE3A3 /* channelitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = channelitem.h; path = ../../include/channelitem.h; sourceTree = SOURCE_ROOT; };
+		D700335B085496CA00DFE3A3 /* configitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = configitem.h; path = ../../include/configitem.h; sourceTree = SOURCE_ROOT; };
+		D700335C085496CA00DFE3A3 /* dataitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dataitem.h; path = ../../include/dataitem.h; sourceTree = SOURCE_ROOT; };
+		D700335D085496CA00DFE3A3 /* deskitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = deskitem.h; path = ../../include/deskitem.h; sourceTree = SOURCE_ROOT; };
+		D700335E085496CA00DFE3A3 /* DeskSetupToolBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DeskSetupToolBar.h; path = ../../include/DeskSetupToolBar.h; sourceTree = SOURCE_ROOT; };
+		D700335F085496CA00DFE3A3 /* DMXPatchDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DMXPatchDialog.h; path = ../../include/DMXPatchDialog.h; sourceTree = SOURCE_ROOT; };
+		D7003360085496CA00DFE3A3 /* FaderDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FaderDialog.h; path = ../../include/FaderDialog.h; sourceTree = SOURCE_ROOT; };
+		D7003361085496CA00DFE3A3 /* faderitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = faderitem.h; path = ../../include/faderitem.h; sourceTree = SOURCE_ROOT; };
+		D7003362085496CA00DFE3A3 /* FunctionDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FunctionDialog.h; path = ../../include/FunctionDialog.h; sourceTree = SOURCE_ROOT; };
+		D7003363085496CA00DFE3A3 /* functionitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = functionitem.h; path = ../../include/functionitem.h; sourceTree = SOURCE_ROOT; };
+		D7003364085496CA00DFE3A3 /* FunctionThread.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FunctionThread.h; path = ../../include/FunctionThread.h; sourceTree = SOURCE_ROOT; };
+		D7003365085496CA00DFE3A3 /* GroupDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GroupDialog.h; path = ../../include/GroupDialog.h; sourceTree = SOURCE_ROOT; };
+		D7003366085496CA00DFE3A3 /* groupitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = groupitem.h; path = ../../include/groupitem.h; sourceTree = SOURCE_ROOT; };
+		D7003367085496CA00DFE3A3 /* GroupSelectDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GroupSelectDialog.h; path = ../../include/GroupSelectDialog.h; sourceTree = SOURCE_ROOT; };
+		D7003368085496CA00DFE3A3 /* groupselectitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = groupselectitem.h; path = ../../include/groupselectitem.h; sourceTree = SOURCE_ROOT; };
+		D7003369085496CA00DFE3A3 /* LibraryDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LibraryDialog.h; path = ../../include/LibraryDialog.h; sourceTree = SOURCE_ROOT; };
+		D700336A085496CA00DFE3A3 /* MainDrawWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainDrawWindow.h; path = ../../include/MainDrawWindow.h; sourceTree = SOURCE_ROOT; };
+		D700336B085496CA00DFE3A3 /* MainFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainFrame.h; path = ../../include/MainFrame.h; sourceTree = SOURCE_ROOT; };
+		D700336C085496CA00DFE3A3 /* MainToolBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainToolBar.h; path = ../../include/MainToolBar.h; sourceTree = SOURCE_ROOT; };
+		D700336D085496CA00DFE3A3 /* mywxGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mywxGrid.h; path = ../../include/mywxGrid.h; sourceTree = SOURCE_ROOT; };
+		D700336E085496CA00DFE3A3 /* mywxGridCellAttrProvider.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mywxGridCellAttrProvider.h; path = ../../include/mywxGridCellAttrProvider.h; sourceTree = SOURCE_ROOT; };
+		D700336F085496CA00DFE3A3 /* mywxGridCellEditors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mywxGridCellEditors.h; path = ../../include/mywxGridCellEditors.h; sourceTree = SOURCE_ROOT; };
+		D7003370085496CA00DFE3A3 /* mywxGridTableBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mywxGridTableBase.h; path = ../../include/mywxGridTableBase.h; sourceTree = SOURCE_ROOT; };
+		D7003371085496CA00DFE3A3 /* OutputDrawWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OutputDrawWindow.h; path = ../../include/OutputDrawWindow.h; sourceTree = SOURCE_ROOT; };
+		D7003372085496CA00DFE3A3 /* patchitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = patchitem.h; path = ../../include/patchitem.h; sourceTree = SOURCE_ROOT; };
+		D7003373085496CA00DFE3A3 /* PosSelectWidget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PosSelectWidget.h; path = ../../include/PosSelectWidget.h; sourceTree = SOURCE_ROOT; };
+		D7003374085496CA00DFE3A3 /* prec.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = prec.h; path = ../../include/prec.h; sourceTree = SOURCE_ROOT; };
+		D7003375085496CA00DFE3A3 /* projectorchannelitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = projectorchannelitem.h; path = ../../include/projectorchannelitem.h; sourceTree = SOURCE_ROOT; };
+		D7003376085496CA00DFE3A3 /* projectoritem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = projectoritem.h; path = ../../include/projectoritem.h; sourceTree = SOURCE_ROOT; };
+		D7003377085496CA00DFE3A3 /* stateitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stateitem.h; path = ../../include/stateitem.h; sourceTree = SOURCE_ROOT; };
+		D7003378085496CA00DFE3A3 /* storage_item.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = storage_item.h; path = ../../include/storage_item.h; sourceTree = SOURCE_ROOT; };
+		D7003379085496CA00DFE3A3 /* storage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = storage.h; path = ../../include/storage.h; sourceTree = SOURCE_ROOT; };
+		D700337A085496CA00DFE3A3 /* valueitem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = valueitem.h; path = ../../include/valueitem.h; sourceTree = SOURCE_ROOT; };
+		D700337B085496CA00DFE3A3 /* ChannelDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ChannelDialog.cpp; path = ../../src/ChannelDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D700337C085496CA00DFE3A3 /* channelitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = channelitem.cpp; path = ../../src/channelitem.cpp; sourceTree = SOURCE_ROOT; };
+		D700337D085496CA00DFE3A3 /* configitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = configitem.cpp; path = ../../src/configitem.cpp; sourceTree = SOURCE_ROOT; };
+		D700337E085496CA00DFE3A3 /* dataitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = dataitem.cpp; path = ../../src/dataitem.cpp; sourceTree = SOURCE_ROOT; };
+		D700337F085496CA00DFE3A3 /* deskitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = deskitem.cpp; path = ../../src/deskitem.cpp; sourceTree = SOURCE_ROOT; };
+		D7003380085496CA00DFE3A3 /* DeskSetupToolBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DeskSetupToolBar.cpp; path = ../../src/DeskSetupToolBar.cpp; sourceTree = SOURCE_ROOT; };
+		D7003381085496CA00DFE3A3 /* DMXPatchDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DMXPatchDialog.cpp; path = ../../src/DMXPatchDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D7003382085496CA00DFE3A3 /* FaderDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FaderDialog.cpp; path = ../../src/FaderDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D7003383085496CA00DFE3A3 /* faderitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = faderitem.cpp; path = ../../src/faderitem.cpp; sourceTree = SOURCE_ROOT; };
+		D7003384085496CA00DFE3A3 /* FunctionDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDialog.cpp; path = ../../src/FunctionDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D7003385085496CA00DFE3A3 /* functionitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = functionitem.cpp; path = ../../src/functionitem.cpp; sourceTree = SOURCE_ROOT; };
+		D7003386085496CA00DFE3A3 /* FunctionThread.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionThread.cpp; path = ../../src/FunctionThread.cpp; sourceTree = SOURCE_ROOT; };
+		D7003387085496CA00DFE3A3 /* GroupDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GroupDialog.cpp; path = ../../src/GroupDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D7003388085496CA00DFE3A3 /* groupitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = groupitem.cpp; path = ../../src/groupitem.cpp; sourceTree = SOURCE_ROOT; };
+		D7003389085496CA00DFE3A3 /* GroupSelectDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GroupSelectDialog.cpp; path = ../../src/GroupSelectDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D700338A085496CA00DFE3A3 /* groupselectitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = groupselectitem.cpp; path = ../../src/groupselectitem.cpp; sourceTree = SOURCE_ROOT; };
+		D700338B085496CA00DFE3A3 /* LibraryDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LibraryDialog.cpp; path = ../../src/LibraryDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D700338C085496CA00DFE3A3 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = SOURCE_ROOT; };
+		D700338D085496CA00DFE3A3 /* MainDrawWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainDrawWindow.cpp; path = ../../src/MainDrawWindow.cpp; sourceTree = SOURCE_ROOT; };
+		D700338E085496CA00DFE3A3 /* MainFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainFrame.cpp; path = ../../src/MainFrame.cpp; sourceTree = SOURCE_ROOT; };
+		D700338F085496CA00DFE3A3 /* MainToolBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainToolBar.cpp; path = ../../src/MainToolBar.cpp; sourceTree = SOURCE_ROOT; };
+		D7003390085496CA00DFE3A3 /* mywxGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mywxGrid.cpp; path = ../../src/mywxGrid.cpp; sourceTree = SOURCE_ROOT; };
+		D7003391085496CA00DFE3A3 /* mywxGridCellAttrProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mywxGridCellAttrProvider.cpp; path = ../../src/mywxGridCellAttrProvider.cpp; sourceTree = SOURCE_ROOT; };
+		D7003392085496CA00DFE3A3 /* mywxGridCellEditors.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mywxGridCellEditors.cpp; path = ../../src/mywxGridCellEditors.cpp; sourceTree = SOURCE_ROOT; };
+		D7003393085496CA00DFE3A3 /* mywxGridTableBase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mywxGridTableBase.cpp; path = ../../src/mywxGridTableBase.cpp; sourceTree = SOURCE_ROOT; };
+		D7003394085496CA00DFE3A3 /* OutputDrawWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = OutputDrawWindow.cpp; path = ../../src/OutputDrawWindow.cpp; sourceTree = SOURCE_ROOT; };
+		D7003395085496CA00DFE3A3 /* patchitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = patchitem.cpp; path = ../../src/patchitem.cpp; sourceTree = SOURCE_ROOT; };
+		D7003396085496CA00DFE3A3 /* PosSelectWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PosSelectWidget.cpp; path = ../../src/PosSelectWidget.cpp; sourceTree = SOURCE_ROOT; };
+		D7003397085496CA00DFE3A3 /* projectorchannelitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = projectorchannelitem.cpp; path = ../../src/projectorchannelitem.cpp; sourceTree = SOURCE_ROOT; };
+		D7003398085496CA00DFE3A3 /* projectoritem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = projectoritem.cpp; path = ../../src/projectoritem.cpp; sourceTree = SOURCE_ROOT; };
+		D7003399085496CA00DFE3A3 /* stateitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = stateitem.cpp; path = ../../src/stateitem.cpp; sourceTree = SOURCE_ROOT; };
+		D700339A085496CA00DFE3A3 /* storage_item.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = storage_item.cpp; path = ../../src/storage_item.cpp; sourceTree = SOURCE_ROOT; };
+		D700339B085496CA00DFE3A3 /* storage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = storage.cpp; path = ../../src/storage.cpp; sourceTree = SOURCE_ROOT; };
+		D700339C085496CA00DFE3A3 /* valueitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = valueitem.cpp; path = ../../src/valueitem.cpp; sourceTree = SOURCE_ROOT; };
+		D724C8E208AE070300B9ABFF /* plugin_interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = plugin_interface.cpp; path = ../../src/plugin_interface.cpp; sourceTree = SOURCE_ROOT; };
+		D724C8E508AE071D00B9ABFF /* plugin_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = plugin_interface.h; path = ../../include/plugin_interface.h; sourceTree = SOURCE_ROOT; };
+		D724C92908AE118E00B9ABFF /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../../include/main.h; sourceTree = SOURCE_ROOT; };
+		D7265E740879DEA20053EDB8 /* IOSetupDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = IOSetupDialog.cpp; path = ../../src/IOSetupDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D7265E750879DEAF0053EDB8 /* IOSetupDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IOSetupDialog.h; path = ../../include/IOSetupDialog.h; sourceTree = SOURCE_ROOT; };
+		D7D7B3A90876FBB300F7554C /* io_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = io_plugin.h; path = ../../plugins/include/io_plugin.h; sourceTree = SOURCE_ROOT; };
+		D7D7B3B0087713C100F7554C /* mini_dmx_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mini_dmx_plugin.h; path = ../../plugins/mini_dmx/mini_dmx_plugin.h; sourceTree = SOURCE_ROOT; };
+		D7D7B3B1087713C100F7554C /* mini_dmx_plugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mini_dmx_plugin.cpp; path = ../../plugins/mini_dmx/mini_dmx_plugin.cpp; sourceTree = SOURCE_ROOT; };
+		D7D7B3B4087716AE00F7554C /* patgen_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = patgen_plugin.h; path = ../../plugins/include/patgen_plugin.h; sourceTree = SOURCE_ROOT; };
+		D7D7B3F708772DF800F7554C /* MainThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainThread.h; path = ../../plugins/mini_dmx/MainThread.h; sourceTree = SOURCE_ROOT; };
+		D7D7B3F808772DF800F7554C /* MainThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainThread.cpp; path = ../../plugins/mini_dmx/MainThread.cpp; sourceTree = SOURCE_ROOT; };
+		D7D7B415087756A600F7554C /* ConfigDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigDialog.cpp; path = ../../plugins/mini_dmx/ConfigDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D7D7B416087756A600F7554C /* ConfigDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ConfigDialog.h; path = ../../plugins/mini_dmx/ConfigDialog.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */ = {
+			isa = PBXGroup;
+			children = (
+				D7D7B3BD08771FAC00F7554C /* plugins */,
+				D70033BE08549AF100DFE3A3 /* Dialogs */,
+				D70033C008549B1E00DFE3A3 /* Windows */,
+				D70033BF08549AFC00DFE3A3 /* storage_items */,
+				D70033EF08549CB000DFE3A3 /* mywxGrid */,
+				D7003374085496CA00DFE3A3 /* prec.h */,
+				D7003364085496CA00DFE3A3 /* FunctionThread.h */,
+				D7003386085496CA00DFE3A3 /* FunctionThread.cpp */,
+				D7003378085496CA00DFE3A3 /* storage_item.h */,
+				D700339A085496CA00DFE3A3 /* storage_item.cpp */,
+				D7003379085496CA00DFE3A3 /* storage.h */,
+				D700339B085496CA00DFE3A3 /* storage.cpp */,
+				D724C8E508AE071D00B9ABFF /* plugin_interface.h */,
+				D724C8E208AE070300B9ABFF /* plugin_interface.cpp */,
+			);
+			name = "¬´PROJECTNAME¬ª";
+			sourceTree = "<group>";
+		};
+		D70033BE08549AF100DFE3A3 /* Dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				D7003359085496CA00DFE3A3 /* ChannelDialog.h */,
+				D700337B085496CA00DFE3A3 /* ChannelDialog.cpp */,
+				D700335F085496CA00DFE3A3 /* DMXPatchDialog.h */,
+				D7003381085496CA00DFE3A3 /* DMXPatchDialog.cpp */,
+				D7003360085496CA00DFE3A3 /* FaderDialog.h */,
+				D7003382085496CA00DFE3A3 /* FaderDialog.cpp */,
+				D7003362085496CA00DFE3A3 /* FunctionDialog.h */,
+				D7003384085496CA00DFE3A3 /* FunctionDialog.cpp */,
+				D7003365085496CA00DFE3A3 /* GroupDialog.h */,
+				D7003387085496CA00DFE3A3 /* GroupDialog.cpp */,
+				D7003367085496CA00DFE3A3 /* GroupSelectDialog.h */,
+				D7003389085496CA00DFE3A3 /* GroupSelectDialog.cpp */,
+				D7265E750879DEAF0053EDB8 /* IOSetupDialog.h */,
+				D7265E740879DEA20053EDB8 /* IOSetupDialog.cpp */,
+				D7003369085496CA00DFE3A3 /* LibraryDialog.h */,
+				D700338B085496CA00DFE3A3 /* LibraryDialog.cpp */,
+			);
+			name = Dialogs;
+			sourceTree = "<group>";
+		};
+		D70033BF08549AFC00DFE3A3 /* storage_items */ = {
+			isa = PBXGroup;
+			children = (
+				D700335A085496CA00DFE3A3 /* channelitem.h */,
+				D700337C085496CA00DFE3A3 /* channelitem.cpp */,
+				D700335B085496CA00DFE3A3 /* configitem.h */,
+				D700337D085496CA00DFE3A3 /* configitem.cpp */,
+				D700335C085496CA00DFE3A3 /* dataitem.h */,
+				D700337E085496CA00DFE3A3 /* dataitem.cpp */,
+				D700335D085496CA00DFE3A3 /* deskitem.h */,
+				D700337F085496CA00DFE3A3 /* deskitem.cpp */,
+				D7003361085496CA00DFE3A3 /* faderitem.h */,
+				D7003383085496CA00DFE3A3 /* faderitem.cpp */,
+				D7003363085496CA00DFE3A3 /* functionitem.h */,
+				D7003385085496CA00DFE3A3 /* functionitem.cpp */,
+				D7003366085496CA00DFE3A3 /* groupitem.h */,
+				D7003388085496CA00DFE3A3 /* groupitem.cpp */,
+				D7003368085496CA00DFE3A3 /* groupselectitem.h */,
+				D700338A085496CA00DFE3A3 /* groupselectitem.cpp */,
+				D7003372085496CA00DFE3A3 /* patchitem.h */,
+				D7003395085496CA00DFE3A3 /* patchitem.cpp */,
+				D7003376085496CA00DFE3A3 /* projectoritem.h */,
+				D7003398085496CA00DFE3A3 /* projectoritem.cpp */,
+				D7003375085496CA00DFE3A3 /* projectorchannelitem.h */,
+				D7003397085496CA00DFE3A3 /* projectorchannelitem.cpp */,
+				D7003377085496CA00DFE3A3 /* stateitem.h */,
+				D7003399085496CA00DFE3A3 /* stateitem.cpp */,
+				D700337A085496CA00DFE3A3 /* valueitem.h */,
+				D700339C085496CA00DFE3A3 /* valueitem.cpp */,
+			);
+			name = storage_items;
+			sourceTree = "<group>";
+		};
+		D70033C008549B1E00DFE3A3 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				D700338C085496CA00DFE3A3 /* main.cpp */,
+				D724C92908AE118E00B9ABFF /* main.h */,
+				D700336B085496CA00DFE3A3 /* MainFrame.h */,
+				D700338E085496CA00DFE3A3 /* MainFrame.cpp */,
+				D700336A085496CA00DFE3A3 /* MainDrawWindow.h */,
+				D700338D085496CA00DFE3A3 /* MainDrawWindow.cpp */,
+				D7003371085496CA00DFE3A3 /* OutputDrawWindow.h */,
+				D7003394085496CA00DFE3A3 /* OutputDrawWindow.cpp */,
+				D7003373085496CA00DFE3A3 /* PosSelectWidget.h */,
+				D7003396085496CA00DFE3A3 /* PosSelectWidget.cpp */,
+				D700336C085496CA00DFE3A3 /* MainToolBar.h */,
+				D700338F085496CA00DFE3A3 /* MainToolBar.cpp */,
+				D700335E085496CA00DFE3A3 /* DeskSetupToolBar.h */,
+				D7003380085496CA00DFE3A3 /* DeskSetupToolBar.cpp */,
+			);
+			name = Windows;
+			sourceTree = "<group>";
+		};
+		D70033EF08549CB000DFE3A3 /* mywxGrid */ = {
+			isa = PBXGroup;
+			children = (
+				D700336D085496CA00DFE3A3 /* mywxGrid.h */,
+				D7003390085496CA00DFE3A3 /* mywxGrid.cpp */,
+				D700336E085496CA00DFE3A3 /* mywxGridCellAttrProvider.h */,
+				D7003391085496CA00DFE3A3 /* mywxGridCellAttrProvider.cpp */,
+				D700336F085496CA00DFE3A3 /* mywxGridCellEditors.h */,
+				D7003392085496CA00DFE3A3 /* mywxGridCellEditors.cpp */,
+				D7003370085496CA00DFE3A3 /* mywxGridTableBase.h */,
+				D7003393085496CA00DFE3A3 /* mywxGridTableBase.cpp */,
+			);
+			name = mywxGrid;
+			sourceTree = "<group>";
+		};
+		D7D7B3BD08771FAC00F7554C /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				D7D7B3D808772CA300F7554C /* inc */,
+				D7D7B3D908772CB000F7554C /* miniDMX */,
+			);
+			name = plugins;
+			sourceTree = "<group>";
+		};
+		D7D7B3D808772CA300F7554C /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				D7D7B3A90876FBB300F7554C /* io_plugin.h */,
+				D7D7B3B4087716AE00F7554C /* patgen_plugin.h */,
+			);
+			name = inc;
+			sourceTree = "<group>";
+		};
+		D7D7B3D908772CB000F7554C /* miniDMX */ = {
+			isa = PBXGroup;
+			children = (
+				D7D7B416087756A600F7554C /* ConfigDialog.h */,
+				D7D7B415087756A600F7554C /* ConfigDialog.cpp */,
+				D7D7B3F708772DF800F7554C /* MainThread.h */,
+				D7D7B3F808772DF800F7554C /* MainThread.cpp */,
+				D7D7B3B0087713C100F7554C /* mini_dmx_plugin.h */,
+				D7D7B3B1087713C100F7554C /* mini_dmx_plugin.cpp */,
+			);
+			name = miniDMX;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		D700339D0854970700DFE3A3 /* app */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = D7AEEC9108D9EE8600D357CC /* Build configuration list for PBXLegacyTarget "app" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lightshow;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/baumi/Projects/Progs/independend/LightShow/build/osx;
+			dependencies = (
+			);
+			name = app;
+			passBuildSettingsInEnvironment = 1;
+			productName = app;
+		};
+		D7D7B41E08775DA400F7554C /* mini_dmx_plugin */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = D7AEEC9508D9EE8600D357CC /* Build configuration list for PBXLegacyTarget "mini_dmx_plugin" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mini_dmx_plugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/baumi/Projects/Progs/independend/LightShow/plugins/mini_dmx/build/osx;
+			dependencies = (
+			);
+			name = mini_dmx_plugin;
+			passBuildSettingsInEnvironment = 1;
+			productName = mini_dmx_plugin;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		20286C28FDCF999611CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = D7AEEC9908D9EE8600D357CC /* Build configuration list for PBXProject "LightShow" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				05952DFCFFF02D1B11CA0E50 /* Development */,
+				05952DFDFFF02D1B11CA0E50 /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */;
+			projectDirPath = "";
+			targets = (
+				D700339D0854970700DFE3A3 /* app */,
+				D7D7B41E08775DA400F7554C /* mini_dmx_plugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		D7AEEC9208D9EE8600D357CC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lightshow;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		D7AEEC9308D9EE8600D357CC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lightshow;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		D7AEEC9408D9EE8600D357CC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lightshow;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		D7AEEC9608D9EE8600D357CC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mini_dmx_plugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		D7AEEC9708D9EE8600D357CC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mini_dmx_plugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		D7AEEC9808D9EE8600D357CC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mini_dmx_plugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		D7AEEC9A08D9EE8600D357CC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		D7AEEC9B08D9EE8600D357CC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		D7AEEC9C08D9EE8600D357CC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D7AEEC9108D9EE8600D357CC /* Build configuration list for PBXLegacyTarget "app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D7AEEC9208D9EE8600D357CC /* Development */,
+				D7AEEC9308D9EE8600D357CC /* Deployment */,
+				D7AEEC9408D9EE8600D357CC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		D7AEEC9508D9EE8600D357CC /* Build configuration list for PBXLegacyTarget "mini_dmx_plugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D7AEEC9608D9EE8600D357CC /* Development */,
+				D7AEEC9708D9EE8600D357CC /* Deployment */,
+				D7AEEC9808D9EE8600D357CC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		D7AEEC9908D9EE8600D357CC /* Build configuration list for PBXProject "LightShow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D7AEEC9A08D9EE8600D357CC /* Development */,
+				D7AEEC9B08D9EE8600D357CC /* Deployment */,
+				D7AEEC9C08D9EE8600D357CC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20286C28FDCF999611CA2CEA /* Project object */;
+}

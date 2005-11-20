@@ -1,0 +1,87 @@
+/***************************************************************************
+ *  LightShow - control software for DMX512 lighting fixtures
+ *
+ *  Copyright (C) 2005  Thorsten Baumhoefer
+ *  totob(at)totosoft.de
+ *
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ ***************************************************************************/
+
+#ifndef _MAINDRAWWINDOW_H_
+#define _MAINDRAWWINDOW_H_
+
+#include "prec.h"
+#include "storage.h"
+
+enum
+{
+	STATE_DESK,
+	STATE_DESK_SETUP,
+	STATE_FUNCTION_SETUP
+};
+
+enum
+{
+	DESKSETUP_ADD_FKT,
+	DESKSETUP_ADD_FADER,
+	DESKSETUP_ADD_PAGE,
+	DESKSETUP_ADD_GROUP,
+	DESKSETUP_MOVE,
+	DESKSETUP_CHANGE_NUM,
+	DESKSETUP_DELETE,
+};
+
+class MainDrawWindow : public wxWindow
+{
+
+public:
+	MainDrawWindow(wxWindow* parent, wxWindowID id);
+	 ~MainDrawWindow();
+
+	void OnMainToolBar(wxCommandEvent& event);
+	void OnDeskSetupToolBar(wxCommandEvent& event);
+
+	void RefreshDesk();
+
+protected:
+	void DrawDesk(wxDC& dc);
+	
+	void OnPaint(wxPaintEvent& event);
+	void OnKeyDown(wxKeyEvent& event);
+	void OnMouseEvent(wxMouseEvent& event);
+	void OnEraseBackground(wxEraseEvent& event);
+	
+	DECLARE_EVENT_TABLE()	
+		
+	bool p_refresh_pending;
+	int p_state;
+	int p_desksetup_state;
+	deskitem* p_selected_item;
+	deskitem* p_hover_item;
+	functionitem* p_floating_item;
+	faderitem* p_floating_fader;
+	wxPoint p_floating_pos;
+	int p_change_num;
+
+	wxBrush p_dgreen_brush;
+	wxBrush p_dblue_brush;
+	wxBrush p_dred_brush;
+
+
+};
+
+
+#endif	//_MAINDRAWWINDOW_H_
