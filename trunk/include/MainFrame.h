@@ -30,6 +30,40 @@
 #include "MainToolBar.h"
 #include "DeskSetupToolBar.h"
 
+//---- Event Class -------------------------------------
+DECLARE_EVENT_TYPE(mywxMAINFRAME_REFRESH_EVENT, 7778)
+
+#define EVT_MF_REFRESH(fn) \
+DECLARE_EVENT_TABLE_ENTRY( \
+						   mywxMAINFRAME_REFRESH_EVENT, wxID_ANY, wxID_ANY, \
+						   (wxObjectEventFunction)(wxEventFunction)&fn, \
+						   (wxObject *) NULL \
+						   ),
+
+class MainFrameRefreshEvent : public wxCommandEvent 
+{
+public:
+	enum
+	{
+		DESK,
+		OUTPUT
+	};
+	
+    MainFrameRefreshEvent(int id = 0, int what = OUTPUT);
+    MainFrameRefreshEvent(const MainFrameRefreshEvent &event);
+	
+    virtual wxEvent *Clone() const {return new MainFrameRefreshEvent(*this);};
+	
+    DECLARE_DYNAMIC_CLASS(MainFrameRefreshEvent)
+		
+	int GetWhat() const { return p_what; };
+
+private:
+	int p_what;
+};
+//---- Event Class END-----------------------------------
+
+
 enum
 {
 	IDS_OUTPUTDRAW_SCROLLBAR = 300
@@ -40,26 +74,30 @@ public:
     MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize, long style=wxDEFAULT_FRAME_STYLE);
 
 	void ShowDeskSetupToolBar(bool show = true);
-	void RefreshOutput();
-	void RefreshDesk();
+	void SetStatusText(wxString& text);
+
 private:
     void set_properties();
     void do_layout();
 
 	void OnMainToolBar(wxCommandEvent& event);
 	void OnDeskSetupToolBar(wxCommandEvent& event);
-
+	
+	void RefreshEvent(MainFrameRefreshEvent& event);
+	
 	DECLARE_EVENT_TABLE()
 
 protected:
     MainDrawWindow* main_draw_window;
     OutputDrawWindow* output_draw_window;
-    wxSplitterWindow* window_1;
+	wxSplitterWindow* window_1;
 	wxBoxSizer* sizer_1;
 	
 	MainToolBar* main_tool_bar;
 	DeskSetupToolBar* desk_setup_tool_bar;
 
+	wxStatusBar* status_bar;
+	
 	int p_prev_size;
 };
 

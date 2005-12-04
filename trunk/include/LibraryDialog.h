@@ -47,6 +47,7 @@ private:
 	void OnClick(wxGridEvent& event);
 	void OnChange(mywxGridChangeEvent& event);
 	void OnClose(wxCommandEvent& event);
+	void OnCmd(wxCommandEvent& event);
 	DECLARE_EVENT_TABLE()
 
 	projectoritem* p_proj_item;
@@ -68,6 +69,14 @@ protected:
     wxStaticLine* static_line_6;
     wxStaticText* label_3;
     mywxGrid* grid_values;
+	
+	wxButton* button_value_add;
+    wxButton* button_value_delete;
+	wxButton* button_device_add;
+    wxButton* button_device_delete;
+	wxButton* button_channel_add;
+    wxButton* button_channel_delete;
+
 };
 
 

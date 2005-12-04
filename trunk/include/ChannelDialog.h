@@ -37,11 +37,18 @@ private:
     void do_layout();
 
 	void OnClose(wxCommandEvent& event);
+	void OnNew(wxCommandEvent& event);
+	void OnDelete(wxCommandEvent& event);
+	
 	DECLARE_EVENT_TABLE()
 
 protected:
     mywxGrid* grid_channels;
-    wxButton* button_properties;
+    
+	wxButton* button_add;
+	wxButton* button_delete;
+		
+	wxButton* button_properties;
     wxButton* button_close;
 };
 

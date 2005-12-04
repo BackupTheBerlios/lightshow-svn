@@ -58,9 +58,11 @@ public:
 
 protected:
 	void DrawDesk(wxDC& dc);
+	void SetStatusText(wxString text);
 	
 	void OnPaint(wxPaintEvent& event);
 	void OnKeyDown(wxKeyEvent& event);
+	void OnKeyUp(wxKeyEvent& event);
 	void OnMouseEvent(wxMouseEvent& event);
 	void OnEraseBackground(wxEraseEvent& event);
 	
@@ -73,13 +75,32 @@ protected:
 	deskitem* p_hover_item;
 	functionitem* p_floating_item;
 	faderitem* p_floating_fader;
-	wxPoint p_floating_pos;
 	int p_change_num;
 
-	wxBrush p_dgreen_brush;
-	wxBrush p_dblue_brush;
-	wxBrush p_dred_brush;
-
+	wxBrush p_page_brush;
+	wxBrush p_function_brush;
+	wxBrush p_function_otherpage_brush;
+	wxBrush p_function_pb_brush;
+	wxBrush p_function_pb_otherpage_brush;
+	wxBrush p_group_brush;
+	wxBrush p_fader_brush;
+	wxBrush p_fader_button_brush;
+	wxBrush p_fader_active_brush;
+	
+	wxBrush p_led_on_brush;
+	wxBrush p_led_off_brush;
+	
+	wxPen p_border_pen;
+	wxPen p_border_highlite_pen;
+	
+	wxBrush p_background_brush;
+	wxColor p_text_color;
+	wxColor p_text_infader_color;
+	
+	wxCursor* p_delete_cursor;
+	wxCursor* p_move_cursor;
+	wxCursor* p_copy_cursor;
+	wxCursor* p_hand_cursor;
 
 };
 

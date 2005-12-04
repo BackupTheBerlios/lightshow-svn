@@ -43,7 +43,7 @@ FunctionThread::ExitCode FunctionThread::Entry()
 		//Wait for 20ms to elapse
 		do
 		{
-			Sleep(1000);
+			Sleep(1);
 			time_now = ::wxGetLocalTimeMillis();
 			elapsed = time_now - time_old;
 		}while(elapsed < 20);
@@ -102,7 +102,6 @@ void FunctionThread::Output()
 {
 	if(TestDestroy()) return;
 
-	//TODO patch
 	unsigned int i;
 	for(i = 0;i < DMX_CHNLS;i++)
 	{
@@ -116,7 +115,7 @@ void FunctionThread::Output()
 	
 	if(TestDestroy()) return;
 
-	//TODO send msg rather than direct call
 	MainFrame* mfr = (MainFrame*)p_app->GetTopWindow();
-	if(mfr) mfr->RefreshOutput();
+	MainFrameRefreshEvent evt(-1);
+	if(mfr) mfr->AddPendingEvent(evt);
 }

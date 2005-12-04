@@ -177,10 +177,11 @@ int storage_item::real_id_for_virtual_id(int id)
 	do
 	{
 		i++;
-		if(i == 2048) break; // To Prevent endless loops (lousy) //TODO better
+		if(i == get_num_all_params()) break;
 		if(should_show(i))
 			id--;
 	} while (id != 0);
+	
 	return i;
 }
 

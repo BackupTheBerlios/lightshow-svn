@@ -69,12 +69,12 @@ groupselectitem::~groupselectitem()
 	storage::list_groupselectitem.remove(this);
 }
 
-bool groupselectitem::should_show(int id)
+bool groupselectitem::should_show(unsigned int id)
 {
 	if(id < 5)
 		return !p_dont_show_map[id];
 	else
-		return (id % 2 == 1);
+		return ((id % 2) == 1);
 }
 
 bool groupselectitem::can_edit(int id)
@@ -82,7 +82,7 @@ bool groupselectitem::can_edit(int id)
 	if(id < 5)
 		return p_editable_map[id];
 	else
-		return (id % 2 == 1);
+		return ((id % 2) == 1);
 }
 
 bool groupselectitem::should_save(int id)
@@ -90,7 +90,7 @@ bool groupselectitem::should_save(int id)
 	if(id < 5)
 		return !p_dont_save_map[id];
 	else
-		return (id % 2 == 0);
+		return ((id % 2) == 0);
 }
 
 wxString groupselectitem::get_param_name(int id)
@@ -139,7 +139,7 @@ void groupselectitem::delete_param(int id)
 wxString groupselectitem::get_param_map(int id)
 {
 	//View
-	if(id >= 5 && id % 2 == 1)
+	if(id >= 5 && ((id % 2) == 1))
 	{
 		return storage::list_to_string_compare(storage::list_channelitem,wxT("name"),wxT("type_int"),storage::int_to_str(channelitem::T_PROJ));
 	}
@@ -162,13 +162,13 @@ wxString groupselectitem::get_s_param(int id)
 	}
 	
 	//View
-	if(id >= 5 && id % 2 == 1)
+	if(id >= 5 && ((id % 2) == 1))
 	{
 		return storage::list_lookup(storage::list_channelitem,wxT("start_channel_int"),storage::int_to_str(group_list[(id-5)/2]),wxT("name"));
 	}
 	
 	//Save
-	if(id >= 5 && id % 2 == 0)
+	if(id >= 5 && ((id % 2) == 0))
 	{
 		return storage::int_to_str(group_list[(id-5)/2]);
 	}
@@ -178,7 +178,7 @@ wxString groupselectitem::get_s_param(int id)
 	
 bool groupselectitem::set_param(int id,wxString value)
 {
-//	printf("%d %w\n",id,value.c_str());
+	//printf("%d %w\n",id,value.c_str());
 	switch(id)
 	{
 		case 1:
@@ -221,6 +221,7 @@ void groupselectitem::activate(bool down)
 {
 	if(down) 
 	{
+		//deactivate all channelitems that are controlled by groupselectitems 
 		storage::update_channelitems_active();
 	}
 	else
@@ -238,6 +239,20 @@ void groupselectitem::activate(bool down)
 	}
 }
 
+void groupselectitem::toggle()
+{
+	active = !active;
+	
+	for(unsigned int i = 0; i < group_list.size();i++)
+	{
+		channelitem* citem = storage::channelitem_for_channel(group_list[i]);
+		if(citem)
+			citem->activate(active);
+	}
+	
+	storage::update_groupselectitems_active();	
+}
+
 bool groupselectitem::get_active()
 {
 	return active;
@@ -246,7 +261,7 @@ bool groupselectitem::get_active()
 void groupselectitem::update_active(bool act)
 {
 	if(act)
-	{
+	{	//called from storage::update_groupselectitems_active to update our state
 		for(unsigned int i = 0; i < group_list.size();i++)
 		{
 			channelitem* citem = storage::channelitem_for_channel(group_list[i]);
@@ -262,7 +277,7 @@ void groupselectitem::update_active(bool act)
 		active = true;
 	}
 	else
-	{
+	{	//called from storage::update_channelitems_active to deactivate all channelitems that are controlled by us
 		for(unsigned int i = 0; i < group_list.size();i++)
 		{
 			channelitem* citem = storage::channelitem_for_channel(group_list[i]);

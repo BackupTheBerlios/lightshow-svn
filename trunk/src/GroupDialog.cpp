@@ -29,7 +29,9 @@ GroupDialog::GroupDialog(wxWindow* parent, int id, const wxString& title, const 
 {
     grid_group = new mywxGrid(this, -1);
     button_close = new wxButton(this, wxID_CLOSE, wxT("&Close"));
-
+    button_add = new wxButton(this, wxID_NEW, wxT("&Add"));
+    button_delete = new wxButton(this, wxID_DELETE, wxT("&Delete"));
+	
     set_properties();
     do_layout();
 
@@ -47,8 +49,12 @@ void GroupDialog::set_properties()
 void GroupDialog::do_layout()
 {
     wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
+	sizer_2->Add(button_add, 0, 0, 0);
+	sizer_2->Add(button_delete, 0, 0, 0);
+    sizer_2->Add(button_close, 0, 0, 0);
     sizer_1->Add(grid_group, 1, wxEXPAND, 0);
-    sizer_1->Add(button_close, 0, wxALIGN_RIGHT, 0);
+    sizer_1->Add(sizer_2, 0, wxALIGN_RIGHT, 0);
     SetAutoLayout(true);
     SetSizer(sizer_1);
     Layout();
@@ -56,9 +62,21 @@ void GroupDialog::do_layout()
 
 BEGIN_EVENT_TABLE(GroupDialog, wxDialog)
 	EVT_BUTTON(wxID_CLOSE, GroupDialog::OnClose)
+	EVT_BUTTON(wxID_NEW, GroupDialog::OnNew)
+	EVT_BUTTON(wxID_DELETE, GroupDialog::OnDelete)
 END_EVENT_TABLE()
 
 void GroupDialog::OnClose(wxCommandEvent& event)
 {
 	Close();
+}
+
+void GroupDialog::OnNew(wxCommandEvent& event)
+{
+	grid_group->append();
+}
+
+void GroupDialog::OnDelete(wxCommandEvent& event)
+{
+	grid_group->delete_selected();
 }

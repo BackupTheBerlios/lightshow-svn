@@ -82,8 +82,8 @@ void IOSetupDialog::do_layout()
     wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
     sizer_1->Add(list_ctrl_plugins, 1, wxEXPAND, 0);
-    sizer_2->Add(button_config, 0, wxFIXED_MINSIZE, 0);
-    sizer_2->Add(button_close, 0, wxFIXED_MINSIZE, 0);
+    sizer_2->Add(button_config, 0, 0, 0);
+    sizer_2->Add(button_close, 0, 0, 0);
     sizer_1->Add(sizer_2, 0, wxALIGN_RIGHT, 0);
     SetAutoLayout(true);
     SetSizer(sizer_1);

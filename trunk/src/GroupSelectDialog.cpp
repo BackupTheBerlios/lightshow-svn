@@ -50,7 +50,7 @@ void GroupSelectDialog::do_layout()
     sizer_1->Add(grid_groupselect, 1, wxEXPAND, 0);
 	sizer_2->Add(button_add, 0, 0, 0);
 	sizer_2->Add(button_delete, 0, 0, 0);
-    sizer_2->Add(button_close, 0, 0, 1);
+    sizer_2->Add(button_close, 0, 0, 0);
 	sizer_1->Add(sizer_2, 0, wxALIGN_RIGHT, 0);
     SetAutoLayout(true);
     SetSizer(sizer_1);

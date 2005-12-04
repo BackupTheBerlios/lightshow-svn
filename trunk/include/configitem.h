@@ -43,6 +43,32 @@ public:
 	int get_fader_button_height() { return p_fader_button_height; };
 	bool get_translucent_buttons() { return p_translucent_buttons; };
 	bool get_translucent_fader() { return p_translucent_fader; };
+	enum
+	{
+		RED,
+		GREEN,
+		BLUE
+	};
+	enum
+	{
+		PAGE,
+		FUNCTION,
+		FUNCTION_OTHERPAGE,
+		FUNCTION_PB,
+		FUNCTION_PB_OTHERPAGE,
+		GROUP,
+		FADER,
+		FADER_BUTTON,
+		FADER_ACTIVE,
+		LED_ON,
+		LED_OFF,
+		BORDER,
+		BORDER_HIGHLITE,
+		BACKGROUND,
+		TEXT,
+		TEXT_FADER
+	};
+	unsigned char* get_color(int index) { return p_color[index]; }; 
 
 private:
 	double p_draw_scale;
@@ -53,6 +79,7 @@ private:
 	int p_fader_button_height;
 	bool p_translucent_buttons;
 	bool p_translucent_fader;
+	unsigned char p_color[16][3];
 };
 
 #endif //__CONFIGITEM_HH

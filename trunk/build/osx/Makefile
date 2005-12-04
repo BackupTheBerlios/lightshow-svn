@@ -1,10 +1,10 @@
-CXX = $(shell /usr/bin/wx-config --cxx)
+CXX = $(shell wx-config --cxx) -g
 PROGRAM = lightshow
 VERSION = 0.8
 # wx-config --libs
-WX_LIBS = $(shell /usr/bin/wx-config --libs)
+WX_LIBS = $(shell wx-config --libs) -lwxjpeg-2.6 -lwxpng-2.6 -lwxtiff-2.6
 # wx-config --cxxflags
-WX_CXXFLAGS = -I../../include $(shell /usr/bin/wx-config --cxxflags)
+WX_CXXFLAGS = -I../../include $(shell wx-config --cxxflags)
 
 OBJECTS := $(patsubst ../../src/%.cpp,%.o,$(wildcard ../../src/*.cpp))
 

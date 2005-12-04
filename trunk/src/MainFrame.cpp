@@ -28,6 +28,26 @@
 #include "IOSetupDialog.h"
 
 
+//---- Event Class -------------------------------------
+DEFINE_EVENT_TYPE(mywxMAINFRAME_REFRESH_EVENT);
+
+IMPLEMENT_DYNAMIC_CLASS(MainFrameRefreshEvent, wxCommandEvent)
+
+MainFrameRefreshEvent::MainFrameRefreshEvent(int id, int what) : 
+wxCommandEvent(mywxMAINFRAME_REFRESH_EVENT, id), p_what(what)
+{
+	
+}
+
+MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event) 
+{
+	this->m_eventType = event.m_eventType;
+	this->m_id = event.GetId();
+	this->p_what = event.GetWhat();
+}
+//---- Event Class END-------------------------------------
+
+
 MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE)
 {
@@ -38,6 +58,8 @@ MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPo
 
 	main_tool_bar = new MainToolBar(this,-1);
 	desk_setup_tool_bar = new DeskSetupToolBar(this,-1);
+	
+	status_bar = new wxStatusBar(this,-1);
 
     set_properties();
     do_layout();
@@ -46,6 +68,7 @@ MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPo
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_TOOL_RANGE(IDM_SHOW_DESK,IDM_SETUP_OUTPUT,MainFrame::OnMainToolBar)
 	EVT_TOOL_RANGE(IDDS_ADD_GROUP,IDDS_DELETE,MainFrame::OnDeskSetupToolBar)
+	EVT_MF_REFRESH(MainFrame::RefreshEvent)
 END_EVENT_TABLE()
 
 void MainFrame::set_properties()
@@ -64,6 +87,7 @@ void MainFrame::do_layout()
     window_1->SplitHorizontally(main_draw_window, output_draw_window, 442);
 	window_1->SetMinimumPaneSize(50);
     sizer_1->Add(window_1, 1, wxEXPAND, 0);
+	sizer_1->Add(status_bar, 0, wxEXPAND, 0);
     SetSizer(sizer_1);
 	Layout();
 }
@@ -74,14 +98,12 @@ void MainFrame::ShowDeskSetupToolBar(bool show)
 	Layout();
 }
 
-void MainFrame::RefreshOutput()
+void MainFrame::RefreshEvent(MainFrameRefreshEvent& event)
 {
-	output_draw_window->RefreshOutput();
-}
-
-void MainFrame::RefreshDesk()
-{
-	main_draw_window->RefreshDesk();
+	if(event.GetWhat() == MainFrameRefreshEvent::OUTPUT)
+		output_draw_window->RefreshOutput();
+	else if(event.GetWhat() == MainFrameRefreshEvent::DESK)
+		main_draw_window->RefreshDesk();
 }
 
 void MainFrame::OnMainToolBar(wxCommandEvent& event)
@@ -121,4 +143,9 @@ void MainFrame::OnMainToolBar(wxCommandEvent& event)
 void MainFrame::OnDeskSetupToolBar(wxCommandEvent& event)
 {
 	main_draw_window->OnDeskSetupToolBar(event);
+}
+
+void MainFrame::SetStatusText(wxString& text)
+{
+	status_bar->SetStatusText(text);
 }

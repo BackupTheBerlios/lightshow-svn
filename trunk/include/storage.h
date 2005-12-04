@@ -130,11 +130,11 @@ public:
 	static int str_to_int(wxString s);
 	static bool str_to_bool(wxString s);
 	static double str_to_double(wxString s);
-//	static void str_to_list(wxString s,list<int>& l);
+	static bool str_to_rgb(wxString s,unsigned char* rgb);
 	static wxString int_to_str(int i);
 	static wxString bool_to_str(bool b);
 	static wxString double_to_str(double d);
-//	static wxString list_to_str(list<int>& l);
+	static wxString rgb_to_str(unsigned char* rgb);
 	
 	static storage_item* storage_item_for_row(storageitemlist* slist,int row);
 	

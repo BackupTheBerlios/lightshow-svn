@@ -34,7 +34,7 @@ public:
 	void init(int button_id, int page);
 	virtual ~groupselectitem();
 		
-	bool should_show(int id);
+	bool should_show(unsigned int id);
 	bool can_edit(int id);
 	bool should_save(int id);
 	wxString get_param_name(int id);
@@ -56,7 +56,8 @@ public:
 	
 	vector<int> group_list;
 	
-	void activate(bool down = true);	
+	void activate(bool down = true);
+	void toggle();
 	bool get_active();
 	
 	void update_active(bool act = true);

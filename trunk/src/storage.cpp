@@ -368,6 +368,21 @@ double storage::str_to_double(wxString s)
 	return d;
 }
 
+bool storage::str_to_rgb(wxString s,unsigned char* rgb)
+{
+	if(s.Length() != 6 || !rgb)
+		return false;
+	
+	for(int i = 0;i < 3;i++)
+	{
+		long l;
+		if(! s.Mid(i*2,2).ToLong(&l,16))
+			return false;
+		rgb[i] = (unsigned char)l;
+	}
+	return true;
+}
+
 /*
 void storage::str_to_list(wxString s,list<int>& l)
 {
@@ -394,6 +409,14 @@ wxString storage::bool_to_str(bool b)
 wxString storage::double_to_str(double d)
 {
 	return wxString::Format(wxT("%.2f"),d);
+}
+
+wxString storage::rgb_to_str(unsigned char* rgb)
+{
+	if(!rgb)
+		return wxT("");
+	
+	return wxString::Format(wxT("%02X%02X%02X"),rgb[0],rgb[1],rgb[2]);
 }
 
 /*wxString storage::list_to_str(list<int>& l)

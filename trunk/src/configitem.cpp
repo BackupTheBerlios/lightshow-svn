@@ -35,6 +35,23 @@ configitem::configitem()
 	p_id_map[wxT("fader_button_height")] = 6;
 	p_id_map[wxT("translucent_buttons")] = 7;
 	p_id_map[wxT("translucent_fader")] = 8;
+	p_id_map[wxT("page_color")] = 9;
+	p_id_map[wxT("function_color")] = 10;
+	p_id_map[wxT("function_otherpage_color")] = 11;
+	p_id_map[wxT("function_pb_color")] = 12;
+	p_id_map[wxT("function_pb_otherpage_color")] = 13;
+	p_id_map[wxT("group_color")] = 14;
+	p_id_map[wxT("fade_color")] = 15;
+	p_id_map[wxT("fader_button_color")] = 16;
+	p_id_map[wxT("fader_active_color")] = 17;
+	p_id_map[wxT("led_on_color")] = 18;
+	p_id_map[wxT("led_off_color")] = 19;
+	p_id_map[wxT("border_color")] = 20;
+	p_id_map[wxT("border_highlite_color")] = 21;
+	p_id_map[wxT("background_color")] = 22;
+	p_id_map[wxT("text_color")] = 23;
+	p_id_map[wxT("text_fader_color")] = 24;
+	
 	
 	p_draw_scale = 1.0;
 	p_button_height = 55;
@@ -44,6 +61,17 @@ configitem::configitem()
 	p_fader_button_height = 55;
 	p_translucent_buttons = false;
 	p_translucent_fader = true;
+	
+	unsigned char color[16][3] = {	{149,207,99}, {98,147,147}, {98,147,147},
+									{103,204,204}, {103,204,204}, {98,150,98},
+									{201,207,98}, {150,156,46}, {100,154,101},
+									{255,0,0}, {100,0,0}, {150,150,150},
+									{200,200,200}, {0,0,0}, {0,0,0},
+									{0,0,0} };
+
+	for(int i = 0; i < 16; i++)
+		for(int j = 0; j < 3; j++)
+			p_color[i][j] = color[i][j];
 }
 
 configitem::~configitem()
@@ -52,6 +80,9 @@ configitem::~configitem()
 
 wxString configitem::get_s_param(int id)
 {
+	if(id > 8 && id < 25)
+		return storage::rgb_to_str(p_color[id-9]);
+	
 	switch(id)
 	{
 		case 1:
@@ -77,6 +108,9 @@ wxString configitem::get_s_param(int id)
 
 bool configitem::set_param(int id,wxString value)
 {
+	if(id > 8 && id < 25)
+		return storage::str_to_rgb(value,p_color[id-9]);
+	
 	switch(id)
 	{
 		case 1:

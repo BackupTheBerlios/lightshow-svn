@@ -282,7 +282,7 @@
 				);
 			};
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/baumi/Projects/Progs/independend/LightShow/build/osx;
+			buildWorkingDirectory = ./;
 			dependencies = (
 			);
 			name = app;
@@ -308,7 +308,7 @@
 				);
 			};
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/baumi/Projects/Progs/independend/LightShow/plugins/mini_dmx/build/osx;
+			buildWorkingDirectory = ./;
 			dependencies = (
 			);
 			name = mini_dmx_plugin;
