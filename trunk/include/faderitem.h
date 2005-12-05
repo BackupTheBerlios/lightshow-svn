@@ -65,6 +65,7 @@ public:
 	void changed();
 	void tab();
 	void tab_release();
+	void off_toggle();
 	void run(int what);
 	int get_active_pos();
 	void set_active_pos(int pos);
@@ -74,6 +75,7 @@ private:
 
 	int active_pos;	
 	bool active_tab;
+	bool active_zero;
 	int prev_pos;
 	bool flash;
 	wxLongLong last_tab;

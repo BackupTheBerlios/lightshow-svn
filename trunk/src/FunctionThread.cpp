@@ -115,7 +115,10 @@ void FunctionThread::Output()
 	
 	if(TestDestroy()) return;
 
+//Why does this freak the app on osx up?
+#ifndef __WXOSX__
 	MainFrame* mfr = (MainFrame*)p_app->GetTopWindow();
 	MainFrameRefreshEvent evt(-1);
 	if(mfr) mfr->AddPendingEvent(evt);
+#endif
 }

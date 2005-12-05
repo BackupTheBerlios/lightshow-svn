@@ -187,6 +187,7 @@ void MainDrawWindow::OnMainToolBar(wxCommandEvent& event)
 		if(frm != NULL) frm->ShowDeskSetupToolBar(false);
 		RefreshDesk();
 		SetStatusText(wxString(wxT("")));
+		SetCursor(*p_hand_cursor);
 		break;
 	case IDM_SHOW_DESK_SETUP:
 		p_state = STATE_DESK_SETUP;
@@ -194,12 +195,14 @@ void MainDrawWindow::OnMainToolBar(wxCommandEvent& event)
 		p_selected_item = NULL;
 		RefreshDesk();
 		SetStatusText(wxString(wxT("Select the needed task above.")));
+		SetCursor(wxNullCursor);
 		break;
 	case IDM_SHOW_FUNCTION_SETUP:
 		p_state = STATE_FUNCTION_SETUP;
 		if(frm != NULL) frm->ShowDeskSetupToolBar(false);
 		RefreshDesk();
 		SetStatusText(wxString(wxT("Doubleclick to edit. Drag to move, copy (with Ctrl down) or delete (drag on empty space).")));
+		SetCursor(wxNullCursor);
 		break;
 	}
 }
@@ -446,7 +449,8 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 						groupselectitem* gitem = storage::groupselectitem_for_deskitem(item,storage::page);
 						if(gitem)
 						{
-							gitem->toggle();
+							gitem->activate(true);
+							gitem->activate(false);
 							changed = true;
 						}
 					}
@@ -458,11 +462,17 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 						faderitem* fitem = storage::faderitem_for_deskitem(item,storage::page);
 						if(fitem)
 						{
-							if(fitem->get_active_pos() != 0)
-							{
-								fitem->set_active_pos(0);
-								changed = true;
-							}
+							fitem->off_toggle();
+							changed = true;
+						}
+					}
+					else if(item->get_type() == deskitem::T_GROUP)
+					{
+						groupselectitem* gitem = storage::groupselectitem_for_deskitem(item,storage::page);
+						if(gitem)
+						{
+							gitem->toggle();
+							changed = true;
 						}
 					}
 				}
@@ -484,7 +494,11 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 						{
 							if(position != item->pos)
 							{
-								item->pos = position;
+								if(item->pos != position)
+								{
+									item->pos = position;
+									changed = true;
+								}
 						
 								//software position
 								faderitem* fitem = storage::faderitem_for_deskitem(item,storage::page);
@@ -734,7 +748,7 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 			
 			if(event.LeftUp())
 			{
-				SetCursor(*p_hand_cursor);
+				SetCursor(wxNullCursor);
 
 				//End of movement
 				if(p_floating_item)
@@ -1006,10 +1020,10 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 			else
 			{
 				dc.SetBrush(p_fader_active_brush);
-				dc.DrawRectangle(x + 2, (int)(y + height - height*fader_sw_pos/255.0), width - 4, (int)(height*fader_sw_pos/255.0));
+				dc.DrawRectangle(x + 2, (int)(y + height - (height-4)*fader_sw_pos/255.0), width - 4, (int)((height-4)*fader_sw_pos/255.0));
 
 				dc.SetBrush(*wxBLACK_BRUSH);
-				dc.DrawRectangle(x + 2, (int)(y + height - height*fader_hw_pos/255.0), width - 4, 4);
+				dc.DrawRectangle(x + 2, (int)(y + height - (height-4)*fader_hw_pos/255.0), width - 4, 3);
 				
 				int tw,th;
 				

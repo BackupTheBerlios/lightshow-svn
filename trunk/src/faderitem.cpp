@@ -96,6 +96,7 @@ void faderitem::init(int fader_id,int page)
 	tab_count = 0;
 	tab_pos = 0;
 	active_tab = false;
+	active_zero = false;
 
 	storage::list_faderitem.push_back(this);
 }
@@ -427,6 +428,20 @@ void faderitem::tab_release()
 	active_tab = false;
 }
 
+void faderitem::off_toggle()
+{
+	if(!active_zero)
+	{
+		prev_pos = active_pos;
+		set_active_pos(0);
+	}
+	else
+	{
+		set_active_pos(prev_pos);
+	}
+	active_zero = !active_zero;		
+}
+
 void faderitem::set_active_pos(int pos)
 {
 	if(active_pos == pos) return;
@@ -438,7 +453,6 @@ int faderitem::get_active_pos()
 {
 	return active_pos;
 }
-
 
 void faderitem::run(int what)
 {
