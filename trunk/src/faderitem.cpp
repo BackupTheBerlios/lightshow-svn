@@ -394,13 +394,15 @@ void faderitem::tab()
 					if(tab_count > 10) tab_count = 10;
 					if(tab_pos > 10) tab_pos = 0;
 
-					tab_list[tab_pos-1] = 60000/time;
+					tab_list[tab_pos-1] = 48000/time;
 
 					int speed = 0;
 					for(int i = 0;i < tab_count;i++)
 						speed += tab_list[i];
 
 					speed /= tab_count;
+					
+					//printf("%d %d\n", time, speed);
 
 					prev_pos = speed;
 					set_active_pos(speed);

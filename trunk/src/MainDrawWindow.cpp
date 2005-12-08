@@ -459,11 +459,35 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 				{
 					if(item->get_type() == deskitem::T_FADER)
 					{
-						faderitem* fitem = storage::faderitem_for_deskitem(item,storage::page);
-						if(fitem)
+						int winh, winw;
+						GetClientSize(&winw,&winh);	
+						double facy = winh/(1000.0*storage::config.get_draw_scale());
+						int	height = (int)(storage::config.get_fader_height()*facy);
+						
+						int y = (int)(item->get_pos_y() * facy);
+						
+						int position = (int)255-(255*(pos.y - y)/height);
+												
+						if(position >= 0)
 						{
-							fitem->off_toggle();
-							changed = true;
+							faderitem* fitem = storage::faderitem_for_deskitem(item,storage::page);
+							if(fitem)
+							{
+								fitem->off_toggle();
+								changed = true;
+							}
+						}
+						else //pos < 0 -> fader button
+						{
+							faderitem* fitem = storage::faderitem_for_deskitem(item,storage::page);
+							if(fitem)
+							{
+								if(event.ButtonDown())
+								{
+									fitem->tab();
+									changed = true;
+								}
+							}							
 						}
 					}
 					else if(item->get_type() == deskitem::T_GROUP)
@@ -849,10 +873,11 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 
 					p_floating_fader = NULL;
 				}
-				
-				if(changed)
-					RefreshDesk();
 			}
+			
+			if(changed)
+				RefreshDesk();
+
 			break;//end case STATE_DESK_FUNCTION
 	}	
 }

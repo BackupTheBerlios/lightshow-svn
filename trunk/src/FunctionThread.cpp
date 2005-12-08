@@ -35,20 +35,29 @@ FunctionThread::~FunctionThread()
 
 FunctionThread::ExitCode FunctionThread::Entry()
 {
-	wxLongLong time_now,time_old,elapsed;
+	wxLongLong time_now,time_old,elapsed,wait;
 	storageitemlist::iterator it;
+	
+	wait = 25;
 	
 	while(!TestDestroy())
 	{
-		//Wait for 20ms to elapse
+		//Wait for 25ms to elapse
 		do
 		{
 			Sleep(1);
 			time_now = ::wxGetLocalTimeMillis();
 			elapsed = time_now - time_old;
-		}while(elapsed < 20);
-		
+		}while(elapsed < wait);
+
 		time_old = time_now;
+		
+		//printf("%d\n",elapsed.GetLo());
+		
+		if(elapsed < 50)
+			wait = 25 - (elapsed - wait);
+		else
+			wait = 25;
 		
 		for(int i = 0;i < DMX_CHNLS;i++)
 		{
