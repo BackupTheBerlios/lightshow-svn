@@ -493,18 +493,25 @@ wxString storage::list_to_string_compare(storageitemlist& slist, wxString return
 
 wxString storage::load_get_line(wxFile& file)
 {
-	wxString str = wxT("");
-	char buf;
+	char buf[255];
+	char c;
+	int i = 0;
 
 	while(!file.Eof())
 	{
-		int pos = file.Read(&buf,1);
+		int pos = file.Read(&c,1);
 		if(pos != 1) break;
-		if(buf == '\n') break;
-					
-		str += buf;
+		if(c == '\n') break;
+		
+		buf[i] = c;
+		i++;
 	}
-	return str;
+	
+	buf[i] = 0;
+	
+	wxMBConvUTF8 conf;
+	//convert from UTF8 to Unicode or ANSI string and return
+	return wxString(buf,conf);
 }
 
 int storage::load_parse(wxFile& file, wxString& param, wxString& value)

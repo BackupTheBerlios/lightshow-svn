@@ -167,26 +167,25 @@ void LibraryDialog::OnClick(wxGridEvent& event)
 	{
 	case IDG_DEVICES:
 		p_proj_item = (projectoritem*) storage::storage_item_for_row(&storage::list_projectoritem,row);
+
+		grid_channels->set_list(NULL);
+		grid_states->set_list(NULL);
+		grid_values->set_list(NULL);
+
 		if(p_proj_item != NULL)
 		{
 			grid_channels->set_list(&p_proj_item->list_projectorchannelitem,new_projectorchannelitem,p_proj_item);
 			grid_states->set_list(&p_proj_item->list_stateitem);
 		}
-		else
-		{
-			grid_channels->set_list(NULL);
-			grid_states->set_list(NULL);
-		}
-		grid_values->set_list(NULL);
 		break;
 	case IDG_CHANNELS:
 		if(p_proj_item != NULL)
 		{
 			p_proj_chn_item = (projectorchannelitem*) storage::storage_item_for_row(&p_proj_item->list_projectorchannelitem,row);
+			grid_values->set_list(NULL);
+			
 			if(p_proj_chn_item->get_type() == projectorchannelitem::T_VALUE)
 				grid_values->set_list(&p_proj_chn_item->list_valueitem,new_valueitem,p_proj_chn_item);
-			else
-				grid_values->set_list(NULL);
 		}
 		break;
 	}
