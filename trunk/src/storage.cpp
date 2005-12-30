@@ -968,3 +968,13 @@ void storage::update_key_led_states()
 	
 	delete on;
 }
+
+void storage::send_key_to_plugin(int key, bool down)
+{
+	//Plugin Output
+	for(int i = 0;i < list_io_plugins.size();i++)
+	{
+		list_io_plugins[i]->pc_key_change(key, down);
+	}
+}
+

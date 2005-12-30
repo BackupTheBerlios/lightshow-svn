@@ -77,8 +77,8 @@ public:
 	void SetStatusText(wxString& text);
 
 private:
-    void set_properties();
-    void do_layout();
+	void set_properties();
+	void do_layout();
 
 	void OnMainToolBar(wxCommandEvent& event);
 	void OnDeskSetupToolBar(wxCommandEvent& event);
@@ -88,8 +88,11 @@ private:
 	DECLARE_EVENT_TABLE()
 
 protected:
-    MainDrawWindow* main_draw_window;
-    OutputDrawWindow* output_draw_window;
+	void OnKeyDown(wxKeyEvent& event);
+	void OnKeyUp(wxKeyEvent& event);
+
+	MainDrawWindow* main_draw_window;
+	OutputDrawWindow* output_draw_window;
 	wxSplitterWindow* window_1;
 	wxBoxSizer* sizer_1;
 	

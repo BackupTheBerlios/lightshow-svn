@@ -174,6 +174,7 @@ public:
 	static void update_channelitems_active();
 	
 	static void update_key_led_states();
+	static void send_key_to_plugin(int key, bool down);
 
 private:
 	static io_plugin_interface io_plugin_interf;

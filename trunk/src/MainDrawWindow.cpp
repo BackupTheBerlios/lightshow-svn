@@ -252,6 +252,8 @@ void MainDrawWindow::OnKeyDown(wxKeyEvent& event)
 	switch(p_state)
 	{
 		case STATE_DESK:
+			event.ResumePropagation(2);
+			event.Skip(); //MainFrame Handles This Case
 			break;//end case STATE_DESK
 		case STATE_DESK_SETUP:
 			if(p_desksetup_state == DESKSETUP_CHANGE_NUM)
@@ -381,6 +383,8 @@ void MainDrawWindow::OnKeyUp(wxKeyEvent& event)
 	switch(p_state)
 	{
 		case STATE_DESK:
+			event.ResumePropagation(2);
+			event.Skip(); //MainFrame Handles This Case
 			break;//end case STATE_DESK
 		case STATE_DESK_SETUP:
 			break;//end case STATE_DESK_SETUP

@@ -41,6 +41,8 @@ BEGIN_EVENT_TABLE(OutputDrawWindow, wxScrolledWindow)
 	EVT_PAINT(OutputDrawWindow::OnPaint)
 	EVT_SIZE(OutputDrawWindow::OnSize)
 	EVT_ERASE_BACKGROUND(OutputDrawWindow::OnEraseBackground)
+	EVT_KEY_DOWN(OutputDrawWindow::OnKeyDown)
+	EVT_KEY_UP(OutputDrawWindow::OnKeyUp)
 END_EVENT_TABLE()
 
 void OutputDrawWindow::OnPaint(wxPaintEvent& event)
@@ -73,6 +75,18 @@ void OutputDrawWindow::OnEraseBackground(wxEraseEvent& event)
 	event.Skip(false);
 	//do noting -> windows non flicker
 #endif
+}
+
+void OutputDrawWindow::OnKeyDown(wxKeyEvent& event)
+{
+	event.ResumePropagation(2);
+	event.Skip(); //MainFrame Handles This
+}
+
+void OutputDrawWindow::OnKeyUp(wxKeyEvent& event)
+{
+	event.ResumePropagation(2);
+	event.Skip(); //MainFrame Handles This
 }
 
 void OutputDrawWindow::OnSize(wxSizeEvent& event)

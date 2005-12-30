@@ -38,8 +38,6 @@ bool wxDLLApp::OnInit()
 
 bool lscontrol_plugin::init()
 {
-	::wxInitialize();
-
 	p_thread = new MainThread();
 	p_thread->Create();
 	p_thread->set_interf(p_interf);
@@ -51,8 +49,6 @@ bool lscontrol_plugin::init()
 void lscontrol_plugin::exit()
 {
 	p_thread->Delete();
-
-	::wxUninitialize();
 }
 
 void lscontrol_plugin::config()

@@ -23,11 +23,12 @@
 
 
 #include "../include/io_plugin.h"
-#include "MainThread.h"
-#include "ConfigDialog.h"
-#include "mini_dmx_plugin.h"
+//#include "ConfigDialog.h"
+#include "keyboard_plugin.h"
 
 #include <wx/wx.h>
+#include <wx/config.h>
+
 
 IMPLEMENT_APP_NO_MAIN(wxDLLApp)
 
@@ -36,40 +37,68 @@ bool wxDLLApp::OnInit()
 	return true;
 }
 
-bool mini_dmx_plugin::init()
+bool keyboard_plugin::init()
 {
-	p_thread = new MainThread();
-	p_thread->Create();
-	p_thread->Run();
+	p_state = wxT("Started");
+	
+	wxConfig config(wxT("LightShow"));
+	config.SetPath(wxT("keyboard_plugin"));
+	
+	long b;
+	long k;
+	wxString str;
+	long dummy;
 
+	bool bCont = config.GetFirstEntry(str, dummy);
+	while ( bCont ) 
+	{
+		if(config.Read(str,&k))
+		{
+			if(str.AfterFirst(wxT('_')).ToLong(&b))
+			{
+				p_key_map[k] = b;
+			}
+		}
+ 
+		bCont = config.GetNextEntry(str, dummy);
+  	}
+  	 
 	return true;
 }
 
-void mini_dmx_plugin::exit()
+void keyboard_plugin::exit()
 {
-	p_thread->Delete();
+	wxConfig config(wxT("LightShow"));
+	config.DeleteGroup(wxT("keyboard_plugin"));
+	config.SetPath(wxT("keyboard_plugin"));
+	
+	map<int,int>::iterator it;
+	for(it = p_key_map.begin(); it != p_key_map.end(); it++)
+	{
+		config.Write(wxString::Format(wxT("button_%d"),it->second),it->first);
+	}
 }
 
-void mini_dmx_plugin::config()
+void keyboard_plugin::config()
 {
-	ConfigDialog dlg(NULL,-1,wxT("MiniDMX Configuration"));
+/*	ConfigDialog dlg(NULL,-1,wxT("Keyboard Plugin Configuration"));
 	dlg.ShowModal();
-
-	p_thread->Delete();
-	p_thread = new MainThread();
-	p_thread->Create();
-	p_thread->Run();
+*/
 }
 
-void mini_dmx_plugin::output(int count, unsigned char* channels)
+void keyboard_plugin::pc_key_change(int key, bool down)
 {
-	p_thread->Output(count,channels);
+	if(p_key_map.find(key) != p_key_map.end())
+	{
+		p_interf.key_state_change(p_key_map[key],down);
+	}
 }
+
 	
 extern "C"
 {
 	io_plugin* get_io_plugin()
 	{
-		return (io_plugin*) new mini_dmx_plugin();
+		return (io_plugin*) new keyboard_plugin();
 	}
 }

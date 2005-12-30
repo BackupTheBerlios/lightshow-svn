@@ -34,33 +34,41 @@ public:
 	void (*xy_change)(int x, int y, bool relative);
 };
 
+enum
+{
+	T_PLUGIN_OUTPUT = 1,
+	T_PLUGIN_INPUT = 2
+};
+
 //functionality used from app, supported by the plugin
 class io_plugin
 {
 public:
+	//returns the name of the plugin
 	virtual wxString get_name() = 0;
+	//returns T_PLUGIN_OUTPUT or T_PLUGIN_INPUT or a combination of both
 	virtual int get_type() = 0;
+	//returns a free to choose status text
 	virtual wxString get_state() { return wxT("Started"); };
-	void set_interf(io_app_interface interf) { p_interf = interf; };
 	
+	//called by the GUI:
+	void set_interf(io_app_interface interf) { p_interf = interf; };
 	virtual bool init() = 0;
 	virtual void exit() = 0;
 	virtual void config() {};
 	
 	//output
+	//called 40 times per second to output the DMX data
 	virtual void output(int count, unsigned char* channels) {};
 
 	//input
+	//array of the states of the key-leds, called when the state changes
 	virtual void set_key_leds(int count, bool* state) {};
+	//gets called if a key state at the pc-keyboard has changes 
+	virtual void pc_key_change(int key, bool down) {};
 	
 protected:
 	io_app_interface p_interf;
-};
-
-enum
-{
-	T_PLUGIN_OUTPUT = 1,
-	T_PLUGIN_INPUT = 2
 };
 
 typedef io_plugin* (*getioplugintype)();

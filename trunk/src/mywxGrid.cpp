@@ -202,6 +202,12 @@ void mywxGrid::set_list(storageitemlist* slist,void(*create_new)(void*),void* pa
 			append();
 
 	p_table_base_list.set_list(slist);
+	
+	m_rowHeights.Empty();
+    	m_rowBottoms.Empty();
+	m_colWidths.Empty();
+	m_colRights.Empty();
+    
 	SetTable(&p_table_base_list);
 
 	update();
@@ -219,6 +225,12 @@ void mywxGrid::set_channel_list()
 			append();
 
 	p_table_base_chnl_list.init();
+	
+	m_rowHeights.Empty();
+    	m_rowBottoms.Empty();
+	m_colWidths.Empty();
+	m_colRights.Empty();
+
 	SetTable(&p_table_base_chnl_list);
 
 	update();
@@ -232,6 +244,12 @@ void mywxGrid::set_item(storage_item* sitem,void(*create_new)(void*),void* parm)
 	p_new_param = parm;
 	
 	p_table_base_item.set_item(sitem);
+
+	m_rowHeights.Empty();
+    	m_rowBottoms.Empty();
+	m_colWidths.Empty();
+	m_colRights.Empty();
+
 	SetTable(&p_table_base_item);
 	SetSelectionMode(wxGrid::wxGridSelectRows);
 

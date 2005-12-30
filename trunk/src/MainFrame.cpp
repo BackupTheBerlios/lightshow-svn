@@ -63,12 +63,16 @@ MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPo
 
     set_properties();
     do_layout();
+    
+    main_draw_window->SetFocus();
 }
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_TOOL_RANGE(IDM_SHOW_DESK,IDM_SETUP_OUTPUT,MainFrame::OnMainToolBar)
 	EVT_TOOL_RANGE(IDDS_ADD_GROUP,IDDS_DELETE,MainFrame::OnDeskSetupToolBar)
 	EVT_MF_REFRESH(MainFrame::RefreshEvent)
+	EVT_KEY_DOWN(MainFrame::OnKeyDown)
+	EVT_KEY_UP(MainFrame::OnKeyUp)
 END_EVENT_TABLE()
 
 void MainFrame::set_properties()
@@ -105,6 +109,20 @@ void MainFrame::RefreshEvent(MainFrameRefreshEvent& event)
 	else if(event.GetWhat() == MainFrameRefreshEvent::DESK)
 		main_draw_window->RefreshDesk();
 }
+
+void MainFrame::OnKeyDown(wxKeyEvent& event)
+{
+	//maybe our plugins want to do someting if a key gets pressed
+	if(!storage::setuping)
+		storage::send_key_to_plugin(event.GetKeyCode(), true);		
+}
+
+void MainFrame::OnKeyUp(wxKeyEvent& event)
+{
+	//maybe our plugins want to do someting if a key gets released
+	if(!storage::setuping)
+		storage::send_key_to_plugin(event.GetKeyCode(), false);
+}			
 
 void MainFrame::OnMainToolBar(wxCommandEvent& event)
 {

@@ -20,33 +20,43 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***************************************************************************/
 
-#ifndef _OUTPUTDRAWWINDOW_H_
-#define _OUTPUTDRAWWINDOW_H_
 
-#include "prec.h"
+#ifndef MINIDMXPLUGIN_H
+#define MINIDMXPLUGIN_H
 
-class OutputDrawWindow : public wxScrolledWindow
+#include "wx/wx.h"
+
+#include <map>
+using namespace std;
+
+
+class wxDLLApp : public wxApp
 {
-public:
-	OutputDrawWindow(wxWindow* parent, wxWindowID id);
-	 ~OutputDrawWindow();
-
-	void RefreshOutput();
-
-protected:
-	void DrawOutput(wxDC& dc);
-	
-	void OnPaint(wxPaintEvent& event);
-	void OnSize(wxSizeEvent& event);
-	void OnEraseBackground(wxEraseEvent& event);
-	void OnKeyDown(wxKeyEvent& event);
-	void OnKeyUp(wxKeyEvent& event);
-
-	DECLARE_EVENT_TABLE()
-
-private:
-	bool p_refresh_pending;
+	bool OnInit();
 };
 
+class keyboard_plugin : public io_plugin
+{
+public:
+	wxString get_name() { return wxT("Keyboard"); };
+	int get_type() { return T_PLUGIN_INPUT; };
+	wxString get_state() { return p_state; };
+	
+	bool init();
+	void exit();
+	void config();
+	
+	//gets called if a key state at the pc-keyboard has changes 
+	void pc_key_change(int key, bool down);	
+	
+private:
+	wxString p_state;
+	map<int,int> p_key_map;
+};
 
-#endif	//_OUTPUTDRAWWINDOW_H_
+extern "C"
+{
+	WXEXPORT io_plugin* get_io_plugin();
+}
+
+#endif // MINIDMXPLUGIN_H
