@@ -27,7 +27,11 @@
 #define P_BLKSTART	0x5A
 #define P_BLKEND	0xA5
 #define P_DMXOUT96	0xA0
+#define P_DMXOUT512 0xA2
 #define P_ACK		0xC1
+#define P_ERROR     0xC0
+
+#define USE512 1
 
 MainThread::MainThread() : wxThread()
 {
@@ -130,11 +134,17 @@ void MainThread::MSWLoop()
 
 	SetCommTimeouts(hCom,&cto);
 
+#ifdef USE512
+	unsigned char data[515];
+	data[0] = P_BLKSTART;
+	data[1] = P_DMXOUT512;
+	data[514] = P_BLKEND;
+#else
 	unsigned char data[99];
-	unsigned char ack;
 	data[0] = P_BLKSTART;
 	data[1] = P_DMXOUT96;
 	data[98] = P_BLKEND;
+#endif	unsigned char ack;
 				
 	while(!TestDestroy())
 	{
@@ -142,13 +152,21 @@ void MainThread::MSWLoop()
 
 		if(p_data == NULL) continue;
 
-		for(int i = 0; i < 96;i++)
+#ifdef USE512
+		for(i = 0; i < 512;i++)
+#else
+		for(i = 0; i < 96;i++)
+#endif
 		{
 			if(i < p_count)
 				data[i+2] = p_data[i];
 		}
 		
+#ifdef USE512
+		WriteFile(hCom,data,515,&asd,NULL);
+#else
 		WriteFile(hCom,data,99,&asd,NULL);
+#endif
 		ReadFile(hCom,&ack,1,&asd,NULL);
 		if(asd == 1 && ack == P_BLKSTART)
 		{
@@ -159,6 +177,15 @@ void MainThread::MSWLoop()
 				if(asd == 1 && ack == P_BLKEND)
 				{
 					p_state = wxT("running");
+					continue;
+				}
+			}
+			else if(asd == 1 && ack == P_ERROR)
+			{
+				ReadFile(hCom,&ack,1,&asd,NULL);
+				if(asd == 1 && ack == P_BLKEND)
+				{
+					p_state = wxT("error");
 					continue;
 				}
 			}
@@ -213,11 +240,18 @@ void MainThread::NIXLoop()
 	ioctl(fd, TIOCMBIC, &i);
 	
 	int res;
+#ifdef USE512
+	unsigned char data[515];
+	data[0] = P_BLKSTART;
+	data[1] = P_DMXOUT512;
+	data[514] = P_BLKEND;
+#else
 	unsigned char data[99];
-	unsigned char ack;
 	data[0] = P_BLKSTART;
 	data[1] = P_DMXOUT96;
 	data[98] = P_BLKEND;
+#endif
+	unsigned char ack;
 				
 	while(!TestDestroy())
 	{
@@ -225,13 +259,24 @@ void MainThread::NIXLoop()
 
 		if(p_data == NULL) continue;
 
+#ifdef USE512
+		for(i = 0; i < 512;i++)
+#else
 		for(i = 0; i < 96;i++)
+#endif
 		{
 			if(i < p_count)
 				data[i+2] = p_data[i];
 		}
-		
+
+		tcflush(fd, TCIFLUSH);
+
+#ifdef USE512
+		write(fd,data,515);
+#else
 		write(fd,data,99);
+#endif
+
 		res = read(fd,&ack,1);
 		if(res == 1 && ack == P_BLKSTART)
 		{
@@ -245,6 +290,16 @@ void MainThread::NIXLoop()
 					continue;
 				}
 			}
+			else if(res == 1 && ack == P_ERROR)
+			{
+				res = read(fd,&ack,1);
+				if(res == 1 && ack == P_BLKEND)
+				{
+					p_state = wxT("error");
+					continue;
+				}
+			}
+ 
 		}
 
 		p_state = wxT("failure");

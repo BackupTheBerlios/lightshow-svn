@@ -1,4 +1,4 @@
-CXX = g++-3.4
+CXX = g++
 PROGRAM = mini_dmx_plugin.so
 # wx-config --libs
 WX_LIBS = $(shell /usr/lib/wx/config/gtk2-unicode-debug-2.6 --libs)

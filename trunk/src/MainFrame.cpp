@@ -49,7 +49,7 @@ MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event)
 
 
 MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
-    wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE)
+    wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE | wxMAXIMIZE)
 {
     window_1 = new wxSplitterWindow(this, -1);
     sizer_1 = new wxBoxSizer(wxVERTICAL);
@@ -130,26 +130,31 @@ void MainFrame::OnMainToolBar(wxCommandEvent& event)
 	if(event.GetId() == IDM_IO_SETUP)
 	{
 		IOSetupDialog dlg(this,-1,wxT("IO Setup"));
+		dlg.Centre();
 		dlg.ShowModal();
 	}
 	else if(event.GetId() == IDM_GROUP_SETUP)
 	{
 		GroupDialog dlg(this,-1,wxT("Group Setup"));
+		dlg.Centre();
 		dlg.ShowModal();
 	}
 	else if(event.GetId() == IDM_CHANNEL_SETUP)
 	{
 		ChannelDialog dlg(this,-1,wxT("Channel Setup"));
+		dlg.Centre();
 		dlg.ShowModal();
 	}
 	else if(event.GetId() == IDM_LIBRARY)
 	{
 		LibraryDialog dlg(this,-1,wxT("Library"));
+		dlg.Centre();
 		dlg.ShowModal();
 	}
 	else if(event.GetId() == IDM_DMX_PATCH)
 	{
 		DMXPatchDialog dlg(this,-1,wxT("DMX Patch"));
+		dlg.Centre();
 		dlg.ShowModal();
 	}
 	else if(event.GetId() == IDM_SETUP_OUTPUT)

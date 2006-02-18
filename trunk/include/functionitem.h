@@ -29,6 +29,8 @@
 
 //Speed to Steps: BPM : 60 : 40 = steps per 25ms
 
+class dataitem;
+
 class functionitem : public storage_item
 {
 	friend class dataitem;
