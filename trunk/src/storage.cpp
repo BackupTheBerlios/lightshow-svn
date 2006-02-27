@@ -156,14 +156,16 @@ void storage::exit()
 void storage::unload_plugins()
 {
 	//Stop Plugins
-	unsigned int i;
-	for(i = 0;i < list_io_plugins.size();i++)
-		list_io_plugins[i]->exit();	
-	
 	//UnLoad Plugins
-	//---------------
-	for(i = 0;i < list_io_plugins.size();i++)
-		delete list_io_plugins[i];	
+	while(list_io_plugins.size())
+	{
+		io_plugin* pplug = list_io_plugins[list_io_plugins.size()-1];
+		list_io_plugins.pop_back();
+		pplug->exit();
+		delete pplug;
+	}
+
+	unsigned int i;
 	for(i = 0;i < list_dyn_libs.size();i++)
 		delete list_dyn_libs[i];	
 }

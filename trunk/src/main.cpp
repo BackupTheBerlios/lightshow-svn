@@ -61,13 +61,14 @@ bool LightShowApp::OnInit()
 
 int LightShowApp::OnExit()
 {
-	//delete p_thread;
-	p_thread->Delete();
+	storage::save();
+
+	p_thread->Pause();
 
 	storage::unload_plugins();
 
-	storage::save();
-	
+	p_thread->Delete();
+
 	storage::exit();
 
 	return 0;

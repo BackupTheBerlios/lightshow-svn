@@ -90,6 +90,11 @@ void projectoritem::load(wxFile& file)
 		
 		parm = storage_item::load_main(file);
 	}
+	
+	if(list_stateitem.size() != 3)
+	{
+		//TODO find missing state and add it
+	}
 }
 
 void projectoritem::delete_deps()
@@ -128,6 +133,8 @@ void projectoritem::run(int start_channel, int pos, int what)
 	stateitem *on = storage::stateitem_for_state(this,stateitem::STATE_ON);
 	stateitem *off = storage::stateitem_for_state(this,stateitem::STATE_OFF);
 
+	if(!on || !off) return;
+
 	for(int i = 0; i < get_num_channels(); i++)
 	{
 		if(on->get_mask(i) && off->get_mask(i))
@@ -158,6 +165,9 @@ void projectoritem::run(int start_channel, int pos, int what)
 void projectoritem::highlite(int start_channel)
 {
 	stateitem *hl = storage::stateitem_for_state(this,stateitem::STATE_HIGHLITE);
+
+	if(!hl) return;
+
 	for(int i = 0; i < get_num_channels(); i++)
 	{
 		if(hl->get_mask(i))

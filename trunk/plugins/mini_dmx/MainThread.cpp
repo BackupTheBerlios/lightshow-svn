@@ -162,6 +162,7 @@ void MainThread::MSWLoop()
 				data[i+2] = p_data[i];
 		}
 		
+		PurgeComm(hCom, PURGE_RXCLEAR);
 #ifdef USE512
 		WriteFile(hCom,data,515,&asd,NULL);
 #else

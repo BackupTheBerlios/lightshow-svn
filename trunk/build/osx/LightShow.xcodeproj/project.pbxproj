@@ -100,6 +100,8 @@
 		D700339A085496CA00DFE3A3 /* storage_item.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = storage_item.cpp; path = ../../src/storage_item.cpp; sourceTree = SOURCE_ROOT; };
 		D700339B085496CA00DFE3A3 /* storage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = storage.cpp; path = ../../src/storage.cpp; sourceTree = SOURCE_ROOT; };
 		D700339C085496CA00DFE3A3 /* valueitem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = valueitem.cpp; path = ../../src/valueitem.cpp; sourceTree = SOURCE_ROOT; };
+		D71ED10609B29927000ABEDC /* keyboard_plugin.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = keyboard_plugin.cpp; path = ../../plugins/keyboard/keyboard_plugin.cpp; sourceTree = SOURCE_ROOT; };
+		D71ED10709B29927000ABEDC /* keyboard_plugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = keyboard_plugin.h; path = ../../plugins/keyboard/keyboard_plugin.h; sourceTree = SOURCE_ROOT; };
 		D724C8E208AE070300B9ABFF /* plugin_interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = plugin_interface.cpp; path = ../../src/plugin_interface.cpp; sourceTree = SOURCE_ROOT; };
 		D724C8E508AE071D00B9ABFF /* plugin_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = plugin_interface.h; path = ../../include/plugin_interface.h; sourceTree = SOURCE_ROOT; };
 		D724C92908AE118E00B9ABFF /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../../include/main.h; sourceTree = SOURCE_ROOT; };
@@ -229,11 +231,21 @@
 			name = mywxGrid;
 			sourceTree = "<group>";
 		};
+		D71ED10509B298FE000ABEDC /* keyb */ = {
+			isa = PBXGroup;
+			children = (
+				D71ED10609B29927000ABEDC /* keyboard_plugin.cpp */,
+				D71ED10709B29927000ABEDC /* keyboard_plugin.h */,
+			);
+			name = keyb;
+			sourceTree = "<group>";
+		};
 		D7D7B3BD08771FAC00F7554C /* plugins */ = {
 			isa = PBXGroup;
 			children = (
 				D7D7B3D808772CA300F7554C /* inc */,
 				D7D7B3D908772CB000F7554C /* miniDMX */,
+				D71ED10509B298FE000ABEDC /* keyb */,
 			);
 			name = plugins;
 			sourceTree = "<group>";
@@ -289,6 +301,23 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = app;
 		};
+		D71ED10809B29958000ABEDC /* keyboard_plugin */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = D71ED10B09B29976000ABEDC /* Build configuration list for PBXLegacyTarget "keyboard_plugin" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				PRODUCT_NAME = keyboard_plugin;
+			};
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/baumi/Projects/Progs/lsatberlios/plugins/keyboard/build/osx;
+			dependencies = (
+			);
+			name = keyboard_plugin;
+			passBuildSettingsInEnvironment = 1;
+			productName = keyboard_plugin;
+		};
 		D7D7B41E08775DA400F7554C /* mini_dmx_plugin */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "$(ACTION)";
@@ -308,7 +337,7 @@
 				);
 			};
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = ./;
+			buildWorkingDirectory = /Users/baumi/Projects/Progs/lsatberlios/plugins/mini_dmx/build/osx;
 			dependencies = (
 			);
 			name = mini_dmx_plugin;
@@ -333,11 +362,41 @@
 			targets = (
 				D700339D0854970700DFE3A3 /* app */,
 				D7D7B41E08775DA400F7554C /* mini_dmx_plugin */,
+				D71ED10809B29958000ABEDC /* keyboard_plugin */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin XCBuildConfiguration section */
+		D71ED10C09B29976000ABEDC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = keyboard_plugin;
+			};
+			name = Development;
+		};
+		D71ED10D09B29976000ABEDC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = keyboard_plugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		D71ED10E09B29976000ABEDC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = keyboard_plugin;
+			};
+			name = Default;
+		};
 		D7AEEC9208D9EE8600D357CC /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -475,6 +534,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D71ED10B09B29976000ABEDC /* Build configuration list for PBXLegacyTarget "keyboard_plugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D71ED10C09B29976000ABEDC /* Development */,
+				D71ED10D09B29976000ABEDC /* Deployment */,
+				D71ED10E09B29976000ABEDC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
 		D7AEEC9108D9EE8600D357CC /* Build configuration list for PBXLegacyTarget "app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

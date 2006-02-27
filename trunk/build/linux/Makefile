@@ -1,4 +1,4 @@
-CXX = g++
+CXX = g++ -g
 PROGRAM = yourproject
 # wx-config --libs
 WX_LIBS = $(shell /usr/lib/wx/config/gtk2-unicode-debug-2.6 --libs)
