@@ -54,7 +54,7 @@ void groupselectitem::init(int button_id, int page)
 	
 	p_editable_map[4] = true;	
 	
-	active = false;
+	active = true;
 
 	p_id = get_max_id(storage::list_groupselectitem,wxT("id")) + 1;
 	

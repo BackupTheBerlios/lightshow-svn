@@ -51,6 +51,7 @@ configitem::configitem()
 	p_id_map[wxT("background_color")] = 22;
 	p_id_map[wxT("text_color")] = 23;
 	p_id_map[wxT("text_fader_color")] = 24;
+	p_id_map[wxT("text_font_size")] = 25;
 	
 	
 	p_draw_scale = 1.0;
@@ -61,6 +62,7 @@ configitem::configitem()
 	p_fader_button_height = 55;
 	p_translucent_buttons = false;
 	p_translucent_fader = true;
+	p_font_size = 10;
 	
 	unsigned char color[16][3] = {	{149,207,99}, {98,147,147}, {98,147,147},
 									{103,204,204}, {103,204,204}, {98,150,98},
@@ -101,6 +103,8 @@ wxString configitem::get_s_param(int id)
 			return storage::bool_to_str(p_translucent_buttons);
 		case 8:
 			return storage::bool_to_str(p_translucent_fader);
+		case 25:
+			return storage::int_to_str(p_font_size);
 		default:
 			return wxT("");
 	}
@@ -136,6 +140,9 @@ bool configitem::set_param(int id,wxString value)
 			return true;
 		case 8:
 			p_translucent_fader = storage::str_to_bool(value);
+			return true;
+		case 25:
+			p_font_size = storage::str_to_int(value);
 			return true;
 		default:
 			return false;

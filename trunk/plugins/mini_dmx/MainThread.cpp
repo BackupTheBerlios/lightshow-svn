@@ -31,7 +31,7 @@
 #define P_ACK		0xC1
 #define P_ERROR     0xC0
 
-#define USE512 1
+#define USE512 0
 
 MainThread::MainThread() : wxThread()
 {
@@ -80,6 +80,8 @@ void MainThread::MSWLoop()
 	DWORD asd;
 	int fSuccess;
 	HANDLE hCom;
+	int i;
+	unsigned char ack;
 
 	hCom = CreateFile(port.fn_str(),GENERIC_READ | GENERIC_WRITE,0,NULL,OPEN_EXISTING,0,NULL);
 
@@ -127,9 +129,9 @@ void MainThread::MSWLoop()
 	COMMTIMEOUTS cto;
 
 	cto.ReadIntervalTimeout = 100;
-	cto.ReadTotalTimeoutConstant = 0;
+	cto.ReadTotalTimeoutConstant = 100;
 	cto.ReadTotalTimeoutMultiplier = 100;
-	cto.WriteTotalTimeoutConstant = 0;
+	cto.WriteTotalTimeoutConstant = 100;
 	cto.WriteTotalTimeoutMultiplier = 100;
 
 	SetCommTimeouts(hCom,&cto);
@@ -144,7 +146,7 @@ void MainThread::MSWLoop()
 	data[0] = P_BLKSTART;
 	data[1] = P_DMXOUT96;
 	data[98] = P_BLKEND;
-#endif	unsigned char ack;
+#endif	
 				
 	while(!TestDestroy())
 	{

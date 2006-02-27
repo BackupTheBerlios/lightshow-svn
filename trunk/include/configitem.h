@@ -68,6 +68,7 @@ public:
 		TEXT,
 		TEXT_FADER
 	};
+	int get_font_size() { return p_font_size; };
 	unsigned char* get_color(int index) { return p_color[index]; }; 
 
 private:
@@ -80,6 +81,7 @@ private:
 	bool p_translucent_buttons;
 	bool p_translucent_fader;
 	unsigned char p_color[16][3];
+	int p_font_size;
 };
 
 #endif //__CONFIGITEM_HH

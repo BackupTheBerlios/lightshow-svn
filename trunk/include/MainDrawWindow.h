@@ -96,6 +96,7 @@ protected:
 	wxBrush p_background_brush;
 	wxColor p_text_color;
 	wxColor p_text_infader_color;
+	wxFont* p_text_font;
 	
 	wxCursor* p_delete_cursor;
 	wxCursor* p_move_cursor;

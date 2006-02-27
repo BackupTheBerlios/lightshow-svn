@@ -28,7 +28,7 @@ IMPLEMENT_APP(LightShowApp)
 
 bool LightShowApp::OnInit()
 {
-//	_CrtSetBreakAlloc(100896);
+//	_CrtSetBreakAlloc(330609);
 
 	wxLog *logger = new wxLogStderr();
 	logger->SetVerbose();
@@ -38,9 +38,6 @@ bool LightShowApp::OnInit()
 	
 	storage::init();
 	storage::load();
-
-	storage::update_channelitems_active();
-	storage::update_groupselectitems_active();
 	
 	p_thread = new FunctionThread(this);
 	p_thread->Create();

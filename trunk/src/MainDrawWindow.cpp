@@ -77,6 +77,8 @@ MainDrawWindow::MainDrawWindow(wxWindow* parent, wxWindowID id) : wxWindow(paren
 	rgb = storage::config.get_color(configitem::TEXT_FADER);
 	p_text_infader_color.Set(rgb[0],rgb[1],rgb[2]);
 
+	p_text_font = new wxFont(storage::config.get_font_size(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+
 	
 /*	p_page_brush.SetColour(149,207,99);
 	p_function_brush.SetColour(98,147,147);
@@ -129,6 +131,7 @@ MainDrawWindow::~MainDrawWindow()
 	delete p_move_cursor;
 	delete p_copy_cursor;
 	delete p_hand_cursor;
+	delete p_text_font;
 }
 
 BEGIN_EVENT_TABLE(MainDrawWindow, wxWindow)
@@ -890,6 +893,7 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 {
 	dc.BeginDrawing();
 
+	dc.SetFont(*p_text_font);
 	dc.SetBackground(p_background_brush);
 	dc.SetPen(p_border_pen);
 	dc.SetTextForeground(p_text_color);
