@@ -23,44 +23,6 @@
 
 #include "mywxGridCellEditors.h"
 
-void mywxGridCellBoolEditor::BeginEdit(int row, int col, wxGrid* grid)
-{
-	p_sel_single = grid->GetSelectedCells();
-	p_sel_topleft = grid->GetSelectionBlockTopLeft();
-	p_sel_bottomright = grid->GetSelectionBlockBottomRight();
-	
-	wxGridCellBoolEditor::BeginEdit(row,col,grid);
-}
-
-bool mywxGridCellBoolEditor::EndEdit(int row, int col, wxGrid* grid)
-{
-	if(wxGridCellBoolEditor::EndEdit(row,col,grid))
-	{
-		if(grid->GetSelectionMode() == wxGrid::wxGridSelectRows) return true;
-
-		wxString newtext = grid->GetCellValue(row,col);
-		
-		unsigned int i;		
-		for(i = 0;i < p_sel_single.GetCount();i++)
-		{
-			grid->SetCellValue(p_sel_single[i].GetRow(),p_sel_single[i].GetCol(),newtext);
-		}
-
-		for(i = 0;i < p_sel_topleft.GetCount();i++)
-		{
-			for(int j = p_sel_topleft[i].GetRow();j <= p_sel_bottomright[i].GetRow();j++)
-			{
-				for(int k = p_sel_topleft[i].GetCol();k <= p_sel_bottomright[i].GetCol();k++)
-				{
-					grid->SetCellValue(j,k,newtext);
-				}
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
 //---------------------------------------------------------
 mywxGridCellChoiceEditor::mywxGridCellChoiceEditor() : 
 									wxGridCellChoiceEditor(0,NULL,true)

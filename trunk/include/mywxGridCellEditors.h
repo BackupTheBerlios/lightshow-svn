@@ -30,18 +30,6 @@
 *  are using the 'Space' Key to begin the editing
 ******************************************************************************/
 
-class mywxGridCellBoolEditor : public wxGridCellBoolEditor
-{
-public:
-	virtual void BeginEdit(int row, int col, wxGrid* grid);
-	virtual bool EndEdit(int row, int col, wxGrid* grid);
-	
-private:
-	wxGridCellCoordsArray p_sel_single;
-	wxGridCellCoordsArray p_sel_topleft;
-	wxGridCellCoordsArray p_sel_bottomright;
-};
-
 class mywxGridCellChoiceEditor : public wxGridCellChoiceEditor
 {
 public:

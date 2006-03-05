@@ -1,0 +1,4 @@
+./createbuildfiles
+
+tar -czf lightshow-src.tar.gz --exclude=tools --exclude=.svn ../*
+

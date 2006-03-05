@@ -1,0 +1,2 @@
+Please change to the 'build' directory, then use the usual
+./configure && make chain.

@@ -1,0 +1,34 @@
+cd ../build
+bakefile -f autoconf lightshow.bkl
+bakefile -f msvc6prj lightshow.bkl
+aclocal -I ./autoconf/
+autoconf
+bakefilize --copy
+
+cd ../plugins
+
+cd keyboard/build
+
+bakefile -f autoconf keyboard_plugin.bkl
+bakefile -f msvc6prj keyboard_plugin.bkl
+aclocal -I ../../../build/autoconf/
+autoconf
+bakefilize --copy
+
+cd ../../
+cd lscontrol/build
+
+bakefile -f autoconf lscontrol_plugin.bkl
+bakefile -f msvc6prj lscontrol_plugin.bkl
+aclocal -I ../../../build/autoconf/
+autoconf
+bakefilize --copy
+
+cd ../../
+cd mini_dmx/build
+
+bakefile -f autoconf mini_dmx_plugin.bkl
+bakefile -f msvc6prj mini_dmx_plugin.bkl
+aclocal -I ../../../build/autoconf/
+autoconf
+bakefilize --copy

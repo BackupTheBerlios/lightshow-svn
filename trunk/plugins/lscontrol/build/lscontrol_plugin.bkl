@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <include file="../../../build/presets/wx.bkl"/>
+
+    <module id="lscontrol_plugin" template="wx">
+        <debug-info>on</debug-info>        
+
+		<sources>../ConfigDialog.cpp ../lscontrol_plugin.cpp ../MainThread.cpp</sources>
+
+		<install-to>$(DATADIR)/lightshow/plugins</install-to>
+
+		<wx-lib>core</wx-lib>
+        <wx-lib>base</wx-lib>
+    </module>
+
+</makefile>
+

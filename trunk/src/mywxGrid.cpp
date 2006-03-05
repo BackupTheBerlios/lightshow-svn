@@ -74,7 +74,6 @@ wxGrid(parent, id, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS, wxPanelNameS
 	
 	RegisterDataType(mywxGRID_VALUE_STRING, new wxGridCellStringRenderer, new mywxGridCellTextEditor);
 	RegisterDataType(mywxGRID_VALUE_CHOICE, new wxGridCellStringRenderer, new mywxGridCellChoiceEditor);
-	RegisterDataType(mywxGRID_VALUE_BOOL, new wxGridCellBoolRenderer, new mywxGridCellBoolEditor);
 }
 
 mywxGrid::~mywxGrid()

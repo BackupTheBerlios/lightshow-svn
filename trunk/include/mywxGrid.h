@@ -26,7 +26,6 @@
 
 #define mywxGRID_VALUE_STRING wxT("MYSTRING")
 #define mywxGRID_VALUE_CHOICE wxT("MYCHOICE")
-#define mywxGRID_VALUE_BOOL wxT("MYBOOL")
 
 #include "mywxGridTableBase.h"
 
