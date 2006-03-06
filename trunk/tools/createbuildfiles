@@ -1,6 +1,8 @@
 cd ../build
 bakefile -f autoconf lightshow.bkl
 bakefile -f msvc6prj lightshow.bkl
+recode ..pc lightshow.dsp
+recode ..pc lightshow.dsw
 aclocal -I ./autoconf/
 autoconf
 bakefilize --copy
@@ -11,6 +13,8 @@ cd keyboard/build
 
 bakefile -f autoconf keyboard_plugin.bkl
 bakefile -f msvc6prj keyboard_plugin.bkl
+recode ..pc keyboard_plugin.dsp
+recode ..pc keyboard_plugin.dsw
 aclocal -I ../../../build/autoconf/
 autoconf
 bakefilize --copy
@@ -20,6 +24,8 @@ cd lscontrol/build
 
 bakefile -f autoconf lscontrol_plugin.bkl
 bakefile -f msvc6prj lscontrol_plugin.bkl
+recode ..pc lscontrol_plugin.dsp
+recode ..pc lscontrol_plugin.dsw
 aclocal -I ../../../build/autoconf/
 autoconf
 bakefilize --copy
@@ -29,6 +35,8 @@ cd mini_dmx/build
 
 bakefile -f autoconf mini_dmx_plugin.bkl
 bakefile -f msvc6prj mini_dmx_plugin.bkl
+recode ..pc mini_dmx_plugin.dsp
+recode ..pc mini_dmx_plugin.dsw
 aclocal -I ../../../build/autoconf/
 autoconf
 bakefilize --copy

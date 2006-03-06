@@ -139,6 +139,10 @@ FIXME: this template has (at least) the following bugs:
         <if cond="WX_DEBUG=='1'">__WXDEBUG__</if>
     </set>
 
+    <set var="WXSHARED_DEFINE">
+        <if cond="WX_SHARED=='1'">WXUSINGDLL</if>
+    </set>
+
     <!--    These are handy ways of dealing with the                -->
     <!--    extensions in the library names of the                  -->
     <!--    wxWindows library.                                      -->
@@ -219,6 +223,7 @@ FIXME: this template has (at least) the following bugs:
 
         <define>$(WXUNICODE_DEFINE)</define>
         <define>$(WXDEBUG_DEFINE)</define>
+        <define>$(WXSHARED_DEFINE)</define>
         <define>__WXMSW__</define>
 
         <include>$(WX_DIR)$(WXLIBINCLUDE)</include>

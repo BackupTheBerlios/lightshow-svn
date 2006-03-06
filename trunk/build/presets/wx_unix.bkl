@@ -25,6 +25,7 @@ Format-specific notes:
     <!-- ============================================================== -->
     
     <if cond="FORMAT=='autoconf'">
+        <include file="mac_bundles.bkl"/>
         <!-- Autoconf backend is simplicity itself thanks to wx-config... -->
         <option name="WX_CFLAGS"/>
         <option name="WX_CXXFLAGS"/>

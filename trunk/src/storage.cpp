@@ -25,6 +25,7 @@
 #include <wx/tokenzr.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
+#include <wx/fileconf.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Static Declarations
@@ -71,16 +72,25 @@ void storage::load_plugins()
 	wxString filename;
 	wxString ext = wxDynamicLibrary::CanonicalizeName(wxT("*"),wxDL_MODULE);
 
-	//TODO /usr/share/etc on linux?
-	wxString path = wxGetCwd() + wxT("/Plugins");
+	wxString path = wxFileConfig::GetLocalFileName(wxT("lightshow"));
+
+#ifdef __WXMSW__
+	//strip .ini
+	path = path.BeforeLast(wxT('.'));
+#endif	
+
+	path += wxT("/plugins");
+
+	if(!wxDirExists(path))
+	{
+		wxLogWarning(wxT("Plugin Directory [ %s ] not found!"),path.c_str());
+		return;
+	}
 	
 	wxDir dir(path);
 	
 	if(!dir.IsOpened())
-	{
-		wxLogError(wxT("Plugin Directory [ %s ] not found!"),path.c_str());
 		return;
-	}
 	
 	wxString file;
 	
@@ -176,9 +186,22 @@ void storage::unload_plugins()
 
 void storage::load()
 {
-	load_single_files(wxT("Library"));
+	load_single_files(wxT("library"));
 
-	wxFile file(wxT("data.ls"));
+	wxString filen = wxFileConfig::GetLocalFileName(wxT("lightshow"));
+
+#ifdef __WXMSW__
+	//strip .ini
+	filen = filen.BeforeLast(wxT('.'));
+#endif	
+	
+	if(!wxDirExists(filen))
+	{
+		wxLogWarning(wxT("No default data.ls found [ %s ]."),filen.c_str());
+		return;
+	}
+
+	wxFile file(filen + wxT("/data.ls"));
 	if(!file.IsOpened()) return;
 		
 	load(file);
@@ -188,9 +211,22 @@ void storage::load()
 
 void storage::save()
 {
-	save_single_files(list_projectoritem, wxT("Library"));
+	wxString filen = wxFileConfig::GetLocalFileName(wxT("lightshow"));
 
-	wxFile file(wxT("data.ls"),wxFile::write);
+#ifdef __WXMSW__
+	//strip .ini
+	filen = filen.BeforeLast(wxT('.'));
+#endif	
+
+	if(!wxDirExists(filen))
+	{
+		wxMkdir(filen);
+		wxLogVerbose(wxT("Directory [ %s ] created."),filen.c_str());
+	}
+
+	save_single_files(list_projectoritem, wxT("library"));
+
+	wxFile file(filen + wxT("/data.ls"), wxFile::write);
 	if(!file.IsOpened()) return;
 		
 	save(file);
@@ -262,14 +298,26 @@ void storage::load_single_files(wxString path)
 	wxString filename;
 	wxString ext = wxT("*.ls");
 
-	//TODO /usr/share/etc on linux?
-	wxString cpath = wxGetCwd() + wxT("/") + path;
+	wxString cpath = wxFileConfig::GetLocalFileName(wxT("lightshow"));
+
+#ifdef __WXMSW__
+	//strip .ini
+	cpath = cpath.BeforeLast(wxT('.'));
+#endif	
+
+	cpath += wxT("/") + path;
+	
+	if(!wxDirExists(cpath))
+	{
+		wxLogWarning(wxT("Load: Directory [ %s ] not found!"),cpath.c_str());
+		return;
+	}
 	
 	wxDir dir(cpath);
 	
 	if(!dir.IsOpened())
 	{
-		wxLogError(wxT("Load: Directory [ %s ] not found!"),cpath.c_str());
+		wxLogError(wxT("Load: Couldn't open directory [ %s ]!"),cpath.c_str());
 		return;
 	}
 	
@@ -328,16 +376,31 @@ void storage::save(wxFile& file, storageitemlist& slist)
 
 void storage::save_single_files(storageitemlist& slist, wxString path)
 {
-	path += wxT("/");
+	wxString cpath = wxFileConfig::GetLocalFileName(wxT("lightshow"));
+
+#ifdef __WXMSW__
+	//strip .ini
+	cpath = cpath.BeforeLast(wxT('.'));
+#endif	
+
+	cpath += wxT("/") + path;
+	
+	if(!wxDirExists(cpath))
+	{
+		wxMkdir(cpath);
+		wxLogVerbose(wxT("Directory [ %s ] created."),cpath.c_str());
+	}
+	
+	cpath += wxT("/");
 
 	storageitemlist::iterator it;
 	for(it = slist.begin();it != slist.end();it++)
 	{
 		wxString name = (*it)->get_s_param(wxT("name"));
-		wxFile file(path + name + wxT(".ls"),wxFile::write);
+		wxFile file(cpath + name + wxT(".ls"),wxFile::write);
 		if(!file.IsOpened())
 		{
-			wxLogError(wxT("Could not save Library item: ") + name + wxT("."));
+			wxLogError(wxT("Could not save item: ") + name + wxT("."));
 			continue;
 		}
 		

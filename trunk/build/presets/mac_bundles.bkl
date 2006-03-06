@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<!-- $Id: mac_bundles.bkl,v 1.8 2005/04/14 22:11:51 RD Exp $ -->
+
+<makefile>
+
+    <!--
+    Support for application bundles, for wxWidgets samples.
+    -->
+   
+    <define-tag name="wx-mac-app-bundle" rules="exe">
+
+	    <set var="BUNDLE_PLIST">$(SRCDIR)/../build/Info.plist.in</set>
+	    <set var="BUNDLE_ICNS">$(SRCDIR)/../build/$(id).icns</set>
+
+        <!-- bundle directory: -->
+        <set var="BUNDLE">$(id).app/Contents</set>
+        <set var="BUNDLE_TGT">$(BUNDLE)/PkgInfo</set>
+        <set var="BUNDLE_TGT_REF">$(BUNDLE)/PkgInfo</set>
+        
+        <add-target target="$(BUNDLE_TGT)" type="action"/>
+        <modify-target target="$(BUNDLE_TGT)">
+            <!-- required data: -->
+            <depends>$(id)</depends>
+            <depends-on-file>$(BUNDLE_PLIST)</depends-on-file>
+            <depends-on-file>$(BUNDLE_ICNS)</depends-on-file>
+
+            <command>
+                <!-- create the directories: -->
+                mkdir -p $(BUNDLE)
+                mkdir -p $(BUNDLE)/MacOS
+                mkdir -p $(BUNDLE)/Resources
+
+                <!-- Info.plist: -->
+                sed -e "s/EXECUTABLE/$(id)/" \
+                    -e "s/VERSION/$(BUNDLE_VERSION)/" \
+                    $(BUNDLE_PLIST) >$(BUNDLE)/Info.plist
+
+                <!-- PkgInfo: -->
+                echo -n "APPL????" >$(BUNDLE)/PkgInfo
+
+                <!-- make a hardlink to the binary: -->
+                cp -f $(ref("__targetdir",id))$(ref("__targetname",id)) $(BUNDLE)/MacOS/$(id)
+
+                <!-- ditto wxWidgets resources and icons: -->
+                cp -f $(BUNDLE_ICNS) $(BUNDLE)/Resources/$(id).icns
+            </command>            
+        </modify-target>
+        
+        <!-- add pseudo target id_bundle: -->
+        <add-target target="$(id)_bundle" type="phony"
+                    cond="PLATFORM_MACOSX=='1'"/>
+
+        <modify-target target="$(id)_bundle">
+            <dependency-of>all</dependency-of>
+            <depends>$(BUNDLE_TGT_REF)</depends>
+        </modify-target>
+
+        <!-- "make clean" should delete the bundle: -->
+        <modify-target target="clean">
+            <command>rm -rf $(id).app</command>
+        </modify-target>
+        
+    </define-tag>
+
+</makefile>
