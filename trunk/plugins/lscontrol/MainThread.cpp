@@ -188,7 +188,7 @@ void MainThread::calc_parity()
 
 void MainThread::MSWLoop()
 {
-	wxConfig* config = new wxConfig(wxT("LightShow"));
+	wxConfig* config = new wxConfig(wxT("LightShowPlugins"));
 
 	wxString port = config->Read(wxT("lscontrol_plugin/serial_port"),wxT("COM1"));
 
@@ -285,7 +285,7 @@ void MainThread::MSWLoop()
 
 void MainThread::NIXLoop()
 {
-	wxConfig config(wxT("LightShow"));
+	wxConfig config(wxT("LightShowPlugins"));
 
 	wxString port = config.Read(wxT("lscontrol_plugin/serial_port"),wxT("/dev/ttyS1"));	
 

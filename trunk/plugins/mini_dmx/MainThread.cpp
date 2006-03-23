@@ -72,7 +72,7 @@ MainThread::ExitCode MainThread::Entry()
 
 void MainThread::MSWLoop()
 {
-	wxConfig config(wxT("LightShow"));
+	wxConfig config(wxT("LightShowPlugins"));
 
 	wxString port = config.Read(wxT("mini_dmx_plugin/serial_port"),wxT("COM1"));
 
@@ -212,7 +212,7 @@ void MainThread::MSWLoop()
 
 void MainThread::NIXLoop()
 {
-	wxConfig config(wxT("LightShow"));
+	wxConfig config(wxT("LightShowPlugins"));
 
 	wxString port = config.Read(wxT("mini_dmx_plugin/serial_port"),wxT("/dev/ttyS1"));	
 

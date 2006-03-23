@@ -31,6 +31,7 @@
 OutputDrawWindow::OutputDrawWindow(wxWindow* parent, wxWindowID id) : wxScrolledWindow(parent, id)
 {	
 	p_refresh_pending = false;
+	p_page = 1;
 }
 
 OutputDrawWindow::~OutputDrawWindow()
@@ -47,11 +48,7 @@ END_EVENT_TABLE()
 
 void OutputDrawWindow::OnPaint(wxPaintEvent& event)
 {
-#ifdef __WXMSW__
 	wxBufferedPaintDC dc(this);
-#else
-	wxPaintDC dc(this);
-#endif
 	
 	DoPrepareDC(dc);
 	DrawOutput(dc);
@@ -68,13 +65,9 @@ void OutputDrawWindow::RefreshOutput()
 	}
 }
 
-
 void OutputDrawWindow::OnEraseBackground(wxEraseEvent& event)
 {
-#ifdef __WXMSW__
-	event.Skip(false);
-	//do noting -> windows non flicker
-#endif
+	//do noting -> no flicker
 }
 
 void OutputDrawWindow::OnKeyDown(wxKeyEvent& event)
@@ -92,67 +85,87 @@ void OutputDrawWindow::OnKeyUp(wxKeyEvent& event)
 void OutputDrawWindow::OnSize(wxSizeEvent& event)
 {
 	int winh, winw;
-	GetClientSize(&winw,&winh);	
+	GetClientSize(&winw,&winh);
+	
+	//prevent error at initial sizeing
+	if((winw <= 0) || (winh <= 0))
+		return;
 
-	int page = ((winw - 30) / 25) + 1;
-	if(page) // prevent null division at initial sizing
-	{
-		int x,y;
-		GetViewStart(&x,&y);
-		SetScrollbars(0, winh, 0, DMX_CHNLS / page + 1, 0, y);
-	}
+	p_page = ((winw - 30) / 25) + 1;
 
+	int x,y;
+	GetViewStart(&x,&y);
+	SetScrollbars(0, winh, 0, DMX_CHNLS / p_page + 1, 0, y);
+
+	DrawInitialOutput();
 	Refresh();
 
 	event.Skip();
 }
 
-void OutputDrawWindow::DrawOutput(wxDC& dc)
+void OutputDrawWindow::DrawInitialOutput()
 {
-	dc.BeginDrawing();
-
-//	dc.SetBackground(*wxBLACK_BRUSH);
-	dc.SetPen(*wxGREY_PEN);
-	dc.SetTextForeground(*wxWHITE);
-	dc.SetBrush(*wxBLACK_BRUSH);
-//	dc.Clear();
-	
 	int winh, winw;
-
-	//Because Clear isnt working on full area
-	GetVirtualSize(&winw,&winh);
-	dc.DrawRectangle(-1,-1,winw+2,winh+2);
 
 	GetClientSize(&winw,&winh);
 
-	int page = ((winw - 30) / 25) + 1;
+	wxBitmap memory_dc_bitmap(winw, winh * (DMX_CHNLS / p_page + 1));
+	wxMemoryDC memory_dc;
+	
+	memory_dc.SelectObject(memory_dc_bitmap);
+	
+	memory_dc.SetBackground(*wxBLACK_BRUSH);
+	memory_dc.SetTextForeground(*wxWHITE);
+	memory_dc.Clear();
+	
+	
+	int x = 0;
+	int y = 0;
+	
+	for(int i = 0;i < DMX_CHNLS;i++)
+	{
+		y = i / p_page * winh;
+		x = (i % p_page * 25) + 5;
+		
+		//Channel text      
+		wxString channel = storage::int_to_str(i+1);
+		
+		if ((i % 2) == 0)
+			memory_dc.DrawText(channel, x - 2, y + winh - 20);
+		else
+			memory_dc.DrawText(channel,x - 2, y + winh - 15);
+	}
+	
+	memory_dc.SelectObject(wxNullBitmap);
+	
+	p_background = memory_dc_bitmap;
+	
+}
+
+void OutputDrawWindow::DrawOutput(wxDC& dc)
+{
+	dc.BeginDrawing();
+	
+	int winh, winw;
+	GetClientSize(&winw,&winh);
+	
+	dc.DrawBitmap(p_background, 0, 0);
+
+	dc.SetPen(*wxGREY_PEN);
+	dc.SetBrush(*wxBLUE_BRUSH);
 
 	int x = 0;
 	int y = 0;
 
 	for(int i = 0;i < DMX_CHNLS;i++)
 	{
-		y = i / page * winh;
-		x = (i%page * 25) + 5;
+		y = i / p_page * winh;
+		x = (i % p_page * 25) + 5;
 
 		//DMX data bar
-		dc.SetBrush(*wxBLUE_BRUSH);
-
 		int height = (int) (((winh - 25) / 255.0) * storage::DMX[i]);
 		if(height != 0)
 			dc.DrawRectangle(x, y + winh - 20 - height, 20, height);
-
-		//Channel text      
-		wxString channel = storage::int_to_str(i+1);
-
-		if ((i % 2) == 0)
-		{
-			dc.DrawText(channel, x - 2, y + winh - 20);
-		}
-		else
-		{
-			dc.DrawText(channel,x - 2, y + winh - 15);
-		}
 	}
 
 	dc.EndDrawing();

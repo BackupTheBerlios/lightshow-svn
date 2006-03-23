@@ -57,9 +57,12 @@ public:
     DECLARE_DYNAMIC_CLASS(MainFrameRefreshEvent)
 		
 	int GetWhat() const { return p_what; };
+	void SetForceCommon(bool force_common) { p_force_common = force_common; };
+	bool GetForceCommon() const { return p_force_common; };
 
 private:
 	int p_what;
+	bool p_force_common;
 };
 //---- Event Class END-----------------------------------
 

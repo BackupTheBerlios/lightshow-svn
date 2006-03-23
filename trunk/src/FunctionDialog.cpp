@@ -28,6 +28,10 @@ FunctionDialog::FunctionDialog(wxWindow* parent, int id, const wxString& title, 
 {
 	p_fitem = NULL;
 	storage::setuping = true;
+
+	//first create these to get correct Z-order
+	staticbox_1 = new wxStaticBoxSizer(wxHORIZONTAL, this, wxT("Value/Position"));
+	staticbox_2 = new wxStaticBoxSizer(wxHORIZONTAL, this, wxT("Properties"));
 	
     grid_data = new mywxGrid(this, wxID_MYGRID);
     text_channel_name = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
@@ -38,6 +42,9 @@ FunctionDialog::FunctionDialog(wxWindow* parent, int id, const wxString& title, 
     label_2 = new wxStaticText(this, -1, wxT(""));
     grid_properties = new mywxGrid(this, -1);
     static_line_2 = new wxStaticLine(this, -1);
+	
+	button_add = new wxButton(this, 7040, wxT("Add"));
+    button_delete = new wxButton(this, 7041, wxT("Delete"));
 
     set_properties();
     do_layout();
@@ -63,12 +70,14 @@ void FunctionDialog::do_layout()
 {
     wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
-
-	wxStaticBoxSizer* staticbox_1 = new wxStaticBoxSizer(wxHORIZONTAL, this, wxT("Value/Position"));
-	wxStaticBoxSizer* staticbox_2 = new wxStaticBoxSizer(wxHORIZONTAL, this, wxT("Properties"));
-
+    wxBoxSizer* sizer_3 = new wxBoxSizer(wxHORIZONTAL);
+	
     sizer_1->Add(grid_data, 1, wxEXPAND, 0);
-    sizer_1->Add(text_channel_name, 0, wxEXPAND, 0);
+	
+	sizer_3->Add(text_channel_name, 1, wxEXPAND, 0);
+	sizer_3->Add(button_add, 0, 0, 0);
+	sizer_3->Add(button_delete, 0, 0, 0);
+    sizer_1->Add(sizer_3, 0, wxEXPAND, 0);
 
     staticbox_1->Add(slider_pos, 0, wxEXPAND, 0);
     staticbox_1->Add(static_line_3, 0, wxEXPAND, 0);
@@ -92,11 +101,28 @@ BEGIN_EVENT_TABLE(FunctionDialog, wxDialog)
 	EVT_BUTTON(wxID_CLOSE, FunctionDialog::OnClose)
 	EVT_GRID_CMD_SELECT_CELL(wxID_MYGRID, FunctionDialog::OnGridSelect)
 	EVT_COMMAND_SCROLL(wxID_MYSLIDER, FunctionDialog::OnScroll)
+	EVT_BUTTON(7040, FunctionDialog::OnCmd)
+	EVT_BUTTON(7041, FunctionDialog::OnCmd)
 END_EVENT_TABLE()
 
 void FunctionDialog::OnClose(wxCommandEvent& event)
 {
 	Close();
+}
+
+void FunctionDialog::OnCmd(wxCommandEvent& event)
+{
+	switch(event.GetId())
+	{
+		case 7040:
+			grid_data->append();
+			break;
+		case 7041:
+			grid_data->delete_selected();
+			break;
+		default:
+			event.Skip();
+	}
 }
 
 void FunctionDialog::OnGridSelect(wxGridEvent& event)

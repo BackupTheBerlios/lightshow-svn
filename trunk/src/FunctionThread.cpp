@@ -42,6 +42,8 @@ FunctionThread::ExitCode FunctionThread::Entry()
 	
 	while(!TestDestroy())
 	{
+		if(TestDestroy())
+			return 0;
 		//Wait for 25ms to elapse
 		do
 		{
@@ -109,8 +111,10 @@ FunctionThread::ExitCode FunctionThread::Entry()
 
 void FunctionThread::Output()
 {
+	//call twice to get killed after pause without calling (unloaded) plugins
 	if(TestDestroy()) return;
-
+	if(TestDestroy()) return;
+	
 	unsigned int i;
 	for(i = 0;i < DMX_CHNLS;i++)
 	{
@@ -122,12 +126,7 @@ void FunctionThread::Output()
 	for(i = 0;i < storage::list_io_plugins.size();i++)
 		storage::list_io_plugins[i]->output(DMX_CHNLS,DMXout);
 	
-	if(TestDestroy()) return;
-
-//Why does this freak the app on osx up?
-#ifndef __WXOSX__
 	MainFrame* mfr = (MainFrame*)p_app->GetTopWindow();
 	MainFrameRefreshEvent evt(-1);
 	if(mfr) mfr->AddPendingEvent(evt);
-#endif
 }

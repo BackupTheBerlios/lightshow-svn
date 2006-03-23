@@ -41,7 +41,7 @@ ConfigDialog::ConfigDialog(wxWindow* parent, int id, const wxString& title, cons
 
 ConfigDialog::~ConfigDialog()
 {
-	wxConfig config(wxT("LightShow"));
+	wxConfig config(wxT("LightShowPlugins"));
 	config.Write(wxT("lscontrol_plugin/serial_port"),choice_1->GetValue());	
 }
 

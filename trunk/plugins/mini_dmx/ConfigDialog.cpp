@@ -42,7 +42,7 @@ ConfigDialog::ConfigDialog(wxWindow* parent, int id, const wxString& title, cons
 
 ConfigDialog::~ConfigDialog()
 {
-	wxConfig config(wxT("LightShow"));
+	wxConfig config(wxT("LightShowPlugins"));
 	config.Write(wxT("mini_dmx_plugin/serial_port"),choice_1->GetValue());	
 }
 

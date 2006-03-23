@@ -48,10 +48,14 @@ private:
 	void OnClose(wxCommandEvent& event);
 	void OnGridSelect(wxGridEvent& event);
 	void OnScroll(wxScrollEvent& event);
+	void OnCmd(wxCommandEvent& event);
+
 
 	DECLARE_EVENT_TABLE()
 
 protected:
+	wxStaticBoxSizer* staticbox_1;
+	wxStaticBoxSizer* staticbox_2;
     mywxGrid* grid_data;
     wxTextCtrl* text_channel_name;
     wxButton* button_close;
@@ -61,6 +65,9 @@ protected:
     mywxGrid* grid_properties;
     wxStaticLine* static_line_2;
     wxStaticLine* static_line_3;
+	wxButton* button_add;
+    wxButton* button_delete;
+
 
 	functionitem* p_fitem;
 };

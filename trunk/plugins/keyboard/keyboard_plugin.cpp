@@ -41,7 +41,7 @@ bool keyboard_plugin::init()
 {
 	p_state = wxT("Started");
 	
-	wxConfig config(wxT("LightShow"));
+	wxConfig config(wxT("LightShowPlugins"));
 	config.SetPath(wxT("keyboard_plugin"));
 	
 	long b;
@@ -68,7 +68,7 @@ bool keyboard_plugin::init()
 
 void keyboard_plugin::exit()
 {
-	wxConfig config(wxT("LightShow"));
+	wxConfig config(wxT("LightShowPlugins"));
 	config.DeleteGroup(wxT("keyboard_plugin"));
 	config.SetPath(wxT("keyboard_plugin"));
 	

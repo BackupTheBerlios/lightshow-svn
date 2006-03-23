@@ -54,13 +54,16 @@ public:
 	void OnMainToolBar(wxCommandEvent& event);
 	void OnDeskSetupToolBar(wxCommandEvent& event);
 
-	void RefreshDesk();
+	void RefreshDesk(bool force_common = false);
 
 protected:
 	void DrawDesk(wxDC& dc);
+	void DrawCommon();
+	
 	void SetStatusText(wxString text);
 	
 	void OnPaint(wxPaintEvent& event);
+	void OnSize(wxSizeEvent& event);
 	void OnKeyDown(wxKeyEvent& event);
 	void OnKeyUp(wxKeyEvent& event);
 	void OnMouseEvent(wxMouseEvent& event);
@@ -76,6 +79,8 @@ protected:
 	functionitem* p_floating_item;
 	faderitem* p_floating_fader;
 	int p_change_num;
+	
+	wxBitmap p_draw_common;
 
 	wxBrush p_page_brush;
 	wxBrush p_function_brush;

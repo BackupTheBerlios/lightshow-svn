@@ -38,7 +38,7 @@ public:
 	io_app_interface interf;
 	
 private:
-	static void RefreshDesk();
+	static void RefreshDesk(bool force_common = false);
 };
 
 #endif // __PLUGIN_INTERFACE_HH

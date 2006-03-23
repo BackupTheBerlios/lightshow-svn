@@ -39,9 +39,12 @@ void io_plugin_interface::key_state_change(int id,bool down)
 	deskitem* ditem = storage::deskitem_for_id(id);
 	if(!ditem) return;
 	
+	bool force_draw_common = false;
+	
 	if(ditem->get_type() == deskitem::T_PAGE)
 	{
 		storage::page = ditem->get_page_id();
+		force_draw_common = true;
 	}
 	else if(ditem->get_type() == deskitem::T_FUNCTION)
 	{
@@ -63,7 +66,7 @@ void io_plugin_interface::key_state_change(int id,bool down)
 		}
 	}
 	
-	RefreshDesk();	
+	RefreshDesk(force_draw_common);	
 }
 
 void io_plugin_interface::slider_pos_change(int id, int pos, bool flash)
@@ -100,11 +103,12 @@ void io_plugin_interface::xy_change(int x, int y, bool relative)
 	RefreshDesk();
 }
 
-void io_plugin_interface::RefreshDesk()
+void io_plugin_interface::RefreshDesk(bool force_common)
 {	
 	storage::update_key_led_states();
 	
 	MainFrame* mfr = (MainFrame*)::wxGetApp().GetTopWindow();
 	MainFrameRefreshEvent evt(-1,MainFrameRefreshEvent::DESK);
+	evt.SetForceCommon(force_common);
 	if(mfr) mfr->AddPendingEvent(evt);	
 }

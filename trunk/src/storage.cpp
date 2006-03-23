@@ -323,12 +323,11 @@ void storage::load_single_files(wxString path)
 	
 	wxString fullpath;
 	
-	//TODO implement in wxDynamicLibrary and use Mac-Functions to determine the path out of the Info.plist
 	bool cont = dir.GetFirst(&filename, ext, wxDIR_FILES);
 
 	while(cont)
 	{
-		fullpath = path + wxT("/") + filename;
+		fullpath = cpath + wxT("/") + filename;
 			
 		wxFile file(fullpath);
 		if(!file.IsOpened()) return;

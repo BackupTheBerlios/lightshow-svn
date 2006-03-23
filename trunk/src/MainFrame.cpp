@@ -36,7 +36,7 @@ IMPLEMENT_DYNAMIC_CLASS(MainFrameRefreshEvent, wxCommandEvent)
 MainFrameRefreshEvent::MainFrameRefreshEvent(int id, int what) : 
 wxCommandEvent(mywxMAINFRAME_REFRESH_EVENT, id), p_what(what)
 {
-	
+	p_force_common = false;
 }
 
 MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event) 
@@ -44,6 +44,7 @@ MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event)
 	this->m_eventType = event.m_eventType;
 	this->m_id = event.GetId();
 	this->p_what = event.GetWhat();
+	this->p_force_common = event.GetForceCommon();
 }
 //---- Event Class END-------------------------------------
 
@@ -51,6 +52,8 @@ MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event)
 MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE | wxMAXIMIZE)
 {
+	
+
     window_1 = new wxSplitterWindow(this, -1);
     sizer_1 = new wxBoxSizer(wxVERTICAL);
     main_draw_window = new MainDrawWindow(window_1, -1);
@@ -107,7 +110,7 @@ void MainFrame::RefreshEvent(MainFrameRefreshEvent& event)
 	if(event.GetWhat() == MainFrameRefreshEvent::OUTPUT)
 		output_draw_window->RefreshOutput();
 	else if(event.GetWhat() == MainFrameRefreshEvent::DESK)
-		main_draw_window->RefreshDesk();
+		main_draw_window->RefreshDesk(event.GetForceCommon());
 }
 
 void MainFrame::OnKeyDown(wxKeyEvent& event)

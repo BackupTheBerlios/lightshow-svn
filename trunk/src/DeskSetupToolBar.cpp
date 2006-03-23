@@ -56,7 +56,7 @@ void DeskSetupToolBar::set_properties()
     AddTool(IDDS_ADD_FUNCTION, wxT("Function"), wxBitmap(add_function_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
     AddTool(IDDS_ADD_FADER, wxT("Fader"), wxBitmap(add_fader_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
 #else
-	SetToolBitmapSize(wxSize(24, 24));
+	SetToolBitmapSize(wxSize(32, 32));
     AddTool(IDDS_ADD_GROUP, wxT("Group"), wxBitmap(add_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
     AddTool(IDDS_ADD_PAGE, wxT("Page"), wxBitmap(add_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
     AddTool(IDDS_ADD_FUNCTION, wxT("Function"), wxBitmap(add_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));

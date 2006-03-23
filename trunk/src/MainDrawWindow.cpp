@@ -78,28 +78,6 @@ MainDrawWindow::MainDrawWindow(wxWindow* parent, wxWindowID id) : wxWindow(paren
 	p_text_infader_color.Set(rgb[0],rgb[1],rgb[2]);
 
 	p_text_font = new wxFont(storage::config.get_font_size(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-
-	
-/*	p_page_brush.SetColour(149,207,99);
-	p_function_brush.SetColour(98,147,147);
-	p_function_otherpage_brush.SetColour(98,147,147);
-	p_function_pb_brush.SetColour(103,204,204);
-	p_function_pb_otherpage_brush.SetColour(103,204,204);
-    p_group_brush.SetColour(98,150,98);
-	p_fader_brush.SetColour(201,207,98);
-	p_fader_button_brush.SetColour(150,156,46);
-	p_fader_active_brush.SetColour(100,154,101);
-	
-	p_led_on_brush.SetColour(255,0,0);
-	p_led_off_brush.SetColour(100,0,0);
-	
-	p_border_pen.SetColour(150,150,150);
-	p_border_highlite_pen.SetColour(200,200,200);
-	
-	p_background_brush.SetColour(0,0,0);
-	p_text_color.Set(0,0,0);
-	p_text_infader_color.Set(0,0,0);
-*/	
 	
 	wxBitmap cursor_delete_bitmap(cursor_delete_xpm);
 	wxImage cursor_delete_image = cursor_delete_bitmap.ConvertToImage();
@@ -136,6 +114,7 @@ MainDrawWindow::~MainDrawWindow()
 
 BEGIN_EVENT_TABLE(MainDrawWindow, wxWindow)
 	EVT_PAINT(MainDrawWindow::OnPaint)
+	EVT_SIZE(MainDrawWindow::OnSize)
 	EVT_KEY_DOWN(MainDrawWindow::OnKeyDown)
 	EVT_KEY_UP(MainDrawWindow::OnKeyUp)
 	EVT_MOUSE_EVENTS(MainDrawWindow::OnMouseEvent)
@@ -155,16 +134,23 @@ void MainDrawWindow::OnPaint(wxPaintEvent& event)
 	DrawDesk(dc);
 }
 
-void MainDrawWindow::OnEraseBackground(wxEraseEvent& event)
+void MainDrawWindow::OnSize(wxSizeEvent& event)
 {
-#ifdef __WXMSW__
-	event.Skip(false);
-	//do noting -> windows non flicker
-#endif
+	DrawCommon();
+	event.Skip();
 }
 
-void MainDrawWindow::RefreshDesk()
+
+void MainDrawWindow::OnEraseBackground(wxEraseEvent& event)
 {
+	//do noting -> no flicker
+}
+
+void MainDrawWindow::RefreshDesk(bool force_common)
+{
+	//Refresh Button Outlines only in states they can change
+	if((p_state != STATE_DESK) || force_common) DrawCommon();
+	
 	Refresh();
 }
 
@@ -188,7 +174,7 @@ void MainDrawWindow::OnMainToolBar(wxCommandEvent& event)
 	case IDM_SHOW_DESK:
 		p_state = STATE_DESK;
 		if(frm != NULL) frm->ShowDeskSetupToolBar(false);
-		RefreshDesk();
+		RefreshDesk(true);
 		SetStatusText(wxString(wxT("")));
 		SetCursor(*p_hand_cursor);
 		break;
@@ -416,7 +402,8 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 	deskitem* item = NULL;
 	functionitem* fitem = NULL;
 	faderitem* fditem = NULL;
-	bool  changed = false;
+	bool changed = false;
+	bool force_draw_common = false;
 	
 	//for highlighting
 	item = storage::deskitem_for_position(pos.x,pos.y,ww,wh);
@@ -440,6 +427,7 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 						{
 							storage::page = item->get_page_id();
 							changed = true;
+							force_draw_common = true;
 						}
 					}
 					else if(item->get_type() == deskitem::T_FUNCTION)
@@ -582,7 +570,7 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 				if(changed)
 				{
 					storage::update_key_led_states();
-					RefreshDesk();
+					RefreshDesk(force_draw_common);
 				}
 			}
 			break;//end case STATE_DESK
@@ -889,15 +877,171 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 	}	
 }
 
-void MainDrawWindow::DrawDesk(wxDC& dc)
+void MainDrawWindow::DrawCommon()
 {
-	dc.BeginDrawing();
+	int winh, winw;
+	GetClientSize(&winw,&winh);	
+	
+	//prevent error at initial sizeing
+	if((winw <= 0) || (winh <= 0))
+		return;
 
+	wxMemoryDC dc;
+	wxBitmap dc_bitmap(winw, winh);
+	dc.SelectObject(dc_bitmap);
+	
+	//Draw Common Elements
 	dc.SetFont(*p_text_font);
 	dc.SetBackground(p_background_brush);
 	dc.SetPen(p_border_pen);
 	dc.SetTextForeground(p_text_color);
 	dc.Clear();
+
+	double facx = winw/(1000.0*storage::config.get_draw_scale());
+	double facy = winh/(1000.0*storage::config.get_draw_scale());
+	int rounds_size = (int)(5*facx);
+		
+	int x = 0;
+	int y = 0;
+	int width = 0;
+	int height = 0;
+	int height_sb = 0;
+	
+	storageitemlist::iterator it;
+	for(it = storage::list_deskitem.begin();it != storage::list_deskitem.end();it++)
+	{
+		deskitem* item = (deskitem*)(*it); //static_cast because can't be anything else
+		
+		x = (int)(item->get_pos_x() * facx);
+		y = (int)(item->get_pos_y() * facy);
+		if(item->get_type() != deskitem::T_FADER)
+		{
+			width = (int)(storage::config.get_button_width()*facx);
+			height = (int)(storage::config.get_button_height()*facy);
+		}
+		else
+		{
+			width = (int)(storage::config.get_fader_width()*facx);
+			height = (int)(storage::config.get_fader_height()*facy);
+			height_sb = (int)(storage::config.get_fader_button_height()*facy);
+		}
+
+		bool switching = TRUE;
+		bool setup = (p_state == STATE_FUNCTION_SETUP);
+		wxString name = wxT("----");
+		wxString name2 = wxT("");
+		functionitem* function_item = NULL;
+		faderitem* fader_item = NULL;
+		groupselectitem* group_item = NULL;
+
+		int funcdesk = 1;
+
+		if(p_state != STATE_DESK_SETUP)
+		{
+			switch(item->get_type())
+			{
+			case deskitem::T_GROUP:
+				name = wxT("Group");
+				group_item = storage::groupselectitem_for_deskitem(item,storage::page,setup);
+				if(group_item != NULL)
+				{
+					name2 = group_item->get_name();
+				}
+				break;
+			case deskitem::T_PAGE:
+				name = wxT("Page");
+				name2 = (wxChar) ('A' - 1 + item->get_page_id());
+				break;
+			case deskitem::T_FUNCTION:
+				function_item = storage::functionitem_for_deskitem(item,storage::page,setup);
+				if(function_item != NULL)
+				{
+					switching = function_item->get_switching();
+					name = function_item->get_name();
+					name2 = function_item->get_name2();
+					funcdesk = function_item->get_page();
+				}
+				break;
+			case deskitem::T_FADER:
+				fader_item = storage::faderitem_for_deskitem(item,storage::page,setup);
+				if(fader_item != NULL)
+				{
+					name = fader_item->get_name();
+					name2 = fader_item->get_name2();
+				}
+				break;
+			}
+		}
+
+		switch(item->get_type())
+		{
+		case deskitem::T_GROUP:
+			dc.SetBrush(p_group_brush);
+			dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
+			break;
+		case deskitem::T_PAGE:
+			dc.SetBrush(p_page_brush);
+			dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
+			break;
+		case deskitem::T_FUNCTION:
+			if(switching)
+			{
+				if(funcdesk != 1) dc.SetBrush(p_function_brush);
+				else dc.SetBrush(p_function_otherpage_brush);
+				dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
+			}
+			else
+			{
+				if(funcdesk != 1) dc.SetBrush(p_function_pb_brush);
+				else dc.SetBrush(p_function_pb_otherpage_brush);
+				dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
+			}
+			break;
+		case deskitem::T_FADER:
+			dc.SetBrush(p_fader_brush);
+			dc.DrawRoundedRectangle(x, y, width, height+3, rounds_size);
+
+			dc.SetBrush(p_fader_button_brush);
+			dc.DrawRoundedRectangle(x, y+height+6, width, height_sb, rounds_size);
+			break;
+		}
+		
+		if(p_state != STATE_DESK_SETUP)
+		{
+			if(item->get_type() != deskitem::T_FADER)
+			{
+				int tw,th;
+				
+				dc.GetTextExtent(name,&tw,&th);
+				dc.DrawText(name, x + width/2 - tw/2, y);
+				dc.GetTextExtent(name2,&tw,&th);
+				dc.DrawText(name2, x + width/2 - tw/2, y + height/2);
+			}
+			else
+			{
+				int tw,th;
+				
+				dc.GetTextExtent(name,&tw,&th);
+				dc.DrawText(name, x + width/2 - tw/2, y + height + 5);
+				dc.GetTextExtent(name2,&tw,&th);
+				dc.DrawText(name2, x + width/2 - tw/2, y + height + 5 + height_sb/2);
+			}
+		}
+	}
+	
+	dc.SelectObject(wxNullBitmap);
+	p_draw_common = dc_bitmap;
+
+}
+
+void MainDrawWindow::DrawDesk(wxDC& dc)
+{
+	dc.BeginDrawing();
+
+	dc.SetFont(*p_text_font);
+	dc.SetPen(p_border_pen);
+	dc.SetTextForeground(p_text_color);
+	dc.DrawBitmap(p_draw_common, 0, 0);
 
 	int winh, winw;
 	GetClientSize(&winw,&winh);	
@@ -932,10 +1076,7 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 		}
 
 		bool act = FALSE;
-		bool switching = TRUE;
 		bool setup = (p_state == STATE_FUNCTION_SETUP);
-		wxString name = wxT("----");
-		wxString name2 = wxT("");
 		functionitem* function_item = NULL;
 		faderitem* fader_item = NULL;
 		groupselectitem* group_item = NULL;
@@ -943,24 +1084,18 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 		int fader_hw_pos = 0;
 		double fader_speed = -1;
 
-		int funcdesk = 1;
-
 		if(p_state != STATE_DESK_SETUP)
 		{
 			switch(item->get_type())
 			{
 			case deskitem::T_GROUP:
-				name = wxT("Group");
 				group_item = storage::groupselectitem_for_deskitem(item,storage::page,setup);
 				if(group_item != NULL)
 				{
 					act = group_item->get_active();
-					name2 = group_item->get_name();
 				}
 				break;
 			case deskitem::T_PAGE:
-				name = wxT("Page");
-				name2 = (wxChar) ('A' - 1 + item->get_page_id());
 				if(item->get_page_id() == storage::page)
 					act = true;
 				break;
@@ -969,18 +1104,12 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 				if(function_item != NULL)
 				{
 					act = function_item->get_active();
-					switching = function_item->get_switching();
-					name = function_item->get_name();
-					name2 = function_item->get_name2();
-					funcdesk = function_item->get_page();
 				}
 				break;
 			case deskitem::T_FADER:
 				fader_item = storage::faderitem_for_deskitem(item,storage::page,setup);
 				if(fader_item != NULL)
 				{
-					name = fader_item->get_name();
-					name2 = fader_item->get_name2();
 					fader_sw_pos = fader_item->get_active_pos();
 					if(fader_item->get_type() & faderitem::T_SPEED)
 					{
@@ -993,44 +1122,6 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 			}
 		}
 
-		if(item == p_hover_item)
-			dc.SetPen(p_border_highlite_pen);
-		
-		switch(item->get_type())
-		{
-		case deskitem::T_GROUP:
-			dc.SetBrush(p_group_brush);
-			dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
-			break;
-		case deskitem::T_PAGE:
-			dc.SetBrush(p_page_brush);
-			dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
-			break;
-		case deskitem::T_FUNCTION:
-			if(switching)
-			{
-				if(funcdesk != 1) dc.SetBrush(p_function_brush);
-				else dc.SetBrush(p_function_otherpage_brush);
-				dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
-			}
-			else
-			{
-				if(funcdesk != 1) dc.SetBrush(p_function_pb_brush);
-				else dc.SetBrush(p_function_pb_otherpage_brush);
-				dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
-			}
-			break;
-		case deskitem::T_FADER:
-			dc.SetBrush(p_fader_brush);
-			dc.DrawRoundedRectangle(x, y, width, height+3, rounds_size);
-
-			dc.SetBrush(p_fader_button_brush);
-			dc.DrawRoundedRectangle(x, y+height+6, width, height_sb, rounds_size);
-			break;
-		}
-		
-		if(item == p_hover_item)
-			dc.SetPen(p_border_pen);
 
 		if(p_state != STATE_DESK_SETUP)
 		{
@@ -1042,13 +1133,6 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 					dc.SetBrush(p_led_off_brush);
 	
 				dc.DrawCircle(x + width/2,y - 8, 4);
-				
-				int tw,th;
-				
-				dc.GetTextExtent(name,&tw,&th);
-				dc.DrawText(name, x + width/2 - tw/2, y);
-				dc.GetTextExtent(name2,&tw,&th);
-				dc.DrawText(name2, x + width/2 - tw/2, y + height/2);
 			}
 			else
 			{
@@ -1058,21 +1142,15 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 				dc.SetBrush(*wxBLACK_BRUSH);
 				dc.DrawRectangle(x + 2, (int)(y + height - (height-4)*fader_hw_pos/255.0), width - 4, 3);
 				
-				int tw,th;
-				
 				if(fader_speed != -1)
 				{
+					int tw,th;
 					dc.SetTextForeground(p_text_infader_color);
 					wxString speed = storage::double_to_str(fader_speed);
 					dc.GetTextExtent(speed,&tw,&th);
 					dc.DrawText(speed, x + width/2 - tw/2, y + 17);
 					dc.SetTextForeground(p_text_color);
 				}
-				
-				dc.GetTextExtent(name,&tw,&th);
-				dc.DrawText(name, x + width/2 - tw/2, y + height + 5);
-				dc.GetTextExtent(name2,&tw,&th);
-				dc.DrawText(name2, x + width/2 - tw/2, y + height + 5 + height_sb/2);
 			}
 		}
 	

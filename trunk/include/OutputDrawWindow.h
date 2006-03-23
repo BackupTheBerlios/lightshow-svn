@@ -35,6 +35,7 @@ public:
 
 protected:
 	void DrawOutput(wxDC& dc);
+	void DrawInitialOutput();
 	
 	void OnPaint(wxPaintEvent& event);
 	void OnSize(wxSizeEvent& event);
@@ -45,6 +46,8 @@ protected:
 	DECLARE_EVENT_TABLE()
 
 private:
+	wxBitmap p_background;
+	int p_page;
 	bool p_refresh_pending;
 };
 
