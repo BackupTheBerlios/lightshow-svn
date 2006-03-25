@@ -142,27 +142,6 @@ void storage::load_plugins()
 	}
 }
 
-void storage::exit()
-{
-	//delete data
-	while(!list_faderitem.empty())
-		delete *list_faderitem.begin();
-	while(!list_functionitem.empty())
-		delete *list_functionitem.begin();
-	while(!list_groupitem.empty())
-		delete *list_groupitem.begin();
-	while(!list_patchitem.empty())
-		delete *list_patchitem.begin();
-	while(!list_deskitem.empty())
-		delete *list_deskitem.begin();
-	while(!list_groupselectitem.empty())
-		delete *list_groupselectitem.begin();
-	while(!list_channelitem.empty())
-		delete *list_channelitem.begin();
-	while(!list_projectoritem.empty())
-		delete *list_projectoritem.begin();
-}
-
 void storage::unload_plugins()
 {
 	//Stop Plugins
@@ -193,20 +172,15 @@ void storage::load()
 #ifdef __WXMSW__
 	//strip .ini
 	filen = filen.BeforeLast(wxT('.'));
-#endif	
+#endif
 	
 	if(!wxDirExists(filen))
 	{
 		wxLogWarning(wxT("No default data.ls found [ %s ]."),filen.c_str());
 		return;
 	}
-
-	wxFile file(filen + wxT("/data.ls"));
-	if(!file.IsOpened()) return;
 		
-	load(file);
-
-	file.Close();
+	load(filen + wxT("/data.ls"));
 }
 
 void storage::save()
@@ -225,28 +199,60 @@ void storage::save()
 	}
 
 	save_single_files(list_projectoritem, wxT("library"));
-
-	wxFile file(filen + wxT("/data.ls"), wxFile::write);
-	if(!file.IsOpened()) return;
 		
-	save(file);
-
-	file.Close();
+	save(filen + wxT("/data.ls"));
 }
-	
-void storage::load(wxFile& file, int what)
+
+void storage::clear(int what)
 {
+	if(what & LOADSAVE_DESK)
+	{
+		while(!list_deskitem.empty())
+			delete *list_deskitem.begin();
+	}
+	if(what & LOADSAVE_LIBRARY)
+	{
+		while(!list_projectoritem.empty())
+			delete *list_projectoritem.begin();
+	}
+	if(what & LOADSAVE_CHANNEL)
+	{
+		while(!list_groupitem.empty())
+			delete *list_groupitem.begin();
+		while(!list_patchitem.empty())
+			delete *list_patchitem.begin();
+		while(!list_groupselectitem.empty())
+			delete *list_groupselectitem.begin();
+		while(!list_channelitem.empty())
+			delete *list_channelitem.begin();
+	}
+	if(what & LOADSAVE_FUNKTION)
+	{
+		while(!list_faderitem.empty())
+			delete *list_faderitem.begin();
+		while(!list_functionitem.empty())
+			delete *list_functionitem.begin();
+	}
+}
+
+void storage::load(wxString filestr, int what)
+{
+	wxFile file(filestr);
+	if(!file.IsOpened()) return;
+
 	wxString parm,val;
-	int stat = load_parse(file,parm,val);
-	while(stat != LOADPARSE_EOF)
+	int stat;
+	while(true)
 	{
 		storage_item* item = NULL;
+		stat = load_parse(file,parm,val);
+		if(stat == LOADPARSE_EOF) break;
 		
 		if(stat != LOADPARSE_START)
 		{
 			wxString msg = wxT("Ignored ") + parm + wxT(" while loading.");
 			wxLogVerbose(msg);
-			break;
+			continue;
 		}
 
 		if(what & LOADSAVE_DESK)
@@ -255,7 +261,10 @@ void storage::load(wxFile& file, int what)
 				config.load(file);
 			else if(parm == wxT("deskitem"))
 				item = new deskitem();
-			else if(parm == wxT("projectoritem"))
+		}
+		if(what & LOADSAVE_LIBRARY)
+		{
+			if(parm == wxT("projectoritem"))
 				item = new projectoritem();
 		}
 		if(what & LOADSAVE_CHANNEL)
@@ -285,12 +294,12 @@ void storage::load(wxFile& file, int what)
 				wxString msg = wxT("Ignored ") + parm + wxT(" while loading.");
 				wxLogVerbose(msg);
 			}
-
-		stat = load_parse(file,parm,val);
 	}
 
 	while( list_patchitem.size() < DMX_CHNLS)
 		patchitem* p = new patchitem();
+
+	file.Close();
 }
 
 void storage::load_single_files(wxString path)
@@ -329,26 +338,27 @@ void storage::load_single_files(wxString path)
 	{
 		fullpath = cpath + wxT("/") + filename;
 			
-		wxFile file(fullpath);
-		if(!file.IsOpened()) return;
-			
-		load(file);
-
-		file.Close();
+		load(fullpath, LOADSAVE_LIBRARY);
 
 		cont = dir.GetNext(&filename);
 	}
 	
 }
 
-void storage::save(wxFile& file, int what)
+void storage::save(wxString filestr, int what)
 {
+	wxFile file(filestr, wxFile::write);
+	if(!file.IsOpened()) return;
+	
 	if(what & LOADSAVE_DESK)
 	{
 		config.save(file);
 		save(file, list_deskitem);
 	}
-	
+	if(what & LOADSAVE_LIBRARY)
+	{
+		save(file, list_projectoritem);
+	}
 	if(what & LOADSAVE_CHANNEL)
 	{
 		save(file, list_groupitem);
@@ -356,12 +366,13 @@ void storage::save(wxFile& file, int what)
 		save(file, list_groupselectitem);
 		save(file, list_channelitem);
 	}
-
 	if(what & LOADSAVE_FUNKTION)
 	{
 		save(file, list_functionitem);
 		save(file, list_faderitem);
 	}
+
+	file.Close();
 }
 
 void storage::save(wxFile& file, storageitemlist& slist)

@@ -26,6 +26,8 @@
 #include "GroupDialog.h"
 #include "ChannelDialog.h"
 #include "IOSetupDialog.h"
+#include "SaveTypeDialog.h"
+#include "LoadTypeDialog.h"
 
 
 //---- Event Class -------------------------------------
@@ -52,8 +54,6 @@ MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event)
 MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE | wxMAXIMIZE)
 {
-	
-
     window_1 = new wxSplitterWindow(this, -1);
     sizer_1 = new wxBoxSizer(wxVERTICAL);
     main_draw_window = new MainDrawWindow(window_1, -1);
@@ -71,11 +71,15 @@ MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPo
 }
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-	EVT_TOOL_RANGE(IDM_SHOW_DESK,IDM_SETUP_OUTPUT,MainFrame::OnMainToolBar)
+	EVT_TOOL_RANGE(IDM_MENU,IDM_SETUP_OUTPUT,MainFrame::OnMainToolBar)
 	EVT_TOOL_RANGE(IDDS_ADD_GROUP,IDDS_DELETE,MainFrame::OnDeskSetupToolBar)
 	EVT_MF_REFRESH(MainFrame::RefreshEvent)
 	EVT_KEY_DOWN(MainFrame::OnKeyDown)
 	EVT_KEY_UP(MainFrame::OnKeyUp)
+	EVT_MENU(wxID_EXIT,MainFrame::OnQuit)
+	EVT_MENU(IDM_FILE_LOAD,MainFrame::OnLoad)
+	EVT_MENU(IDM_FILE_SAVE,MainFrame::OnSave)
+	EVT_MENU(IDM_FILE_ADD_LIBRARY,MainFrame::OnAddLibrary)
 END_EVENT_TABLE()
 
 void MainFrame::set_properties()
@@ -84,6 +88,14 @@ void MainFrame::set_properties()
     SetSize(wxSize(800, 600));
 	window_1->SetSashGravity(1.0);
 	p_prev_size = -1;
+
+    // create the menu
+    file_menu.Append(IDM_FILE_LOAD, wxT("&Load\tCtrl-L"), wxT("Load"));
+    file_menu.Append(IDM_FILE_SAVE, wxT("&Save\tCtrl-S"), wxT("Save"));
+	file_menu.AppendSeparator();
+	file_menu.Append(IDM_FILE_ADD_LIBRARY, wxT("&Add Library File\tCtrl-A"), wxT("Open a File and add the Contents to the Library"));
+	file_menu.AppendSeparator();
+    file_menu.Append(wxID_EXIT, wxT("&Quit\tCtrl-Q"), wxT("Quit"));
 }
 
 void MainFrame::do_layout()
@@ -113,6 +125,62 @@ void MainFrame::RefreshEvent(MainFrameRefreshEvent& event)
 		main_draw_window->RefreshDesk(event.GetForceCommon());
 }
 
+void MainFrame::OnQuit(wxCommandEvent& event)
+{
+	Close();
+}
+
+void MainFrame::OnLoad(wxCommandEvent& event)
+{
+	wxMessageDialog mdlg(this,wxT("Do you want to Save your data before loading?"),wxT("Save?"),wxCANCEL|wxYES_NO);
+	int ret = mdlg.ShowModal();
+
+	if(ret == wxID_CANCEL) return;
+	if(ret == wxID_YES)
+	{
+		wxFileDialog dlg(this,wxT("Choose File to save to"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxSAVE);
+		if(dlg.ShowModal() == wxID_OK)
+			storage::save(dlg.GetPath());	
+	}
+
+	LoadTypeDialog tdlg(this,-1,wxT("Choose what to load"));
+	if(tdlg.ShowModal() == wxID_OK)
+	{
+		storage::clear(tdlg.GetClear() | tdlg.GetLoad());
+		//check if we need to load anything
+		if(tdlg.GetLoad())
+		{
+			wxFileDialog dlg(this,wxT("Choose File to load"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxOPEN | wxFILE_MUST_EXIST);
+			if(dlg.ShowModal() == wxID_OK)
+				storage::load(dlg.GetPath(),tdlg.GetLoad());	
+		}
+	}
+
+
+	main_draw_window->RefreshDesk(true);
+}
+
+void MainFrame::OnSave(wxCommandEvent& event)
+{
+	SaveTypeDialog tdlg(this,-1,wxT("Choose what to save"));
+	if(tdlg.ShowModal() == wxID_OK)
+	{
+		//check if we need to save anything
+		if(!tdlg.GetSave()) return;
+
+		wxFileDialog dlg(this,wxT("Choose File to save to"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxSAVE);
+		if(dlg.ShowModal() == wxID_OK)
+			storage::save(dlg.GetPath(),tdlg.GetSave());	
+	}
+}
+
+void MainFrame::OnAddLibrary(wxCommandEvent& event)
+{
+	wxFileDialog dlg(this,wxT("Choose File to add to Library"),wxT(""),wxT(""),wxT("Library File (*.ls)|*.ls"),wxOPEN | wxFILE_MUST_EXIST);
+	if(dlg.ShowModal() == wxID_OK)
+		storage::load(dlg.GetPath(),LOADSAVE_LIBRARY);		
+}
+
 void MainFrame::OnKeyDown(wxKeyEvent& event)
 {
 	//maybe our plugins want to do someting if a key gets pressed
@@ -129,8 +197,11 @@ void MainFrame::OnKeyUp(wxKeyEvent& event)
 
 void MainFrame::OnMainToolBar(wxCommandEvent& event)
 {
-	main_draw_window->OnMainToolBar(event);
-	if(event.GetId() == IDM_IO_SETUP)
+	if(event.GetId() == IDM_MENU)
+	{
+		PopupMenu(&file_menu);
+	}
+	else if(event.GetId() == IDM_IO_SETUP)
 	{
 		IOSetupDialog dlg(this,-1,wxT("IO Setup"));
 		dlg.Centre();
@@ -164,6 +235,8 @@ void MainFrame::OnMainToolBar(wxCommandEvent& event)
 	{
 		storage::setup = event.IsChecked();
 	}
+	else
+		main_draw_window->OnMainToolBar(event);
 }
 
 void MainFrame::OnDeskSetupToolBar(wxCommandEvent& event)

@@ -72,6 +72,13 @@ enum
 	IDS_OUTPUTDRAW_SCROLLBAR = 300
 };
 
+enum
+{
+	IDM_FILE_LOAD = 400,
+	IDM_FILE_SAVE,
+	IDM_FILE_ADD_LIBRARY
+};
+
 class MainFrame: public wxFrame {
 public:
     MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize, long style=wxDEFAULT_FRAME_STYLE);
@@ -94,11 +101,17 @@ protected:
 	void OnKeyDown(wxKeyEvent& event);
 	void OnKeyUp(wxKeyEvent& event);
 
+	void OnQuit(wxCommandEvent& event);
+	void OnSave(wxCommandEvent& event);
+	void OnLoad(wxCommandEvent& event);
+	void OnAddLibrary(wxCommandEvent& event);
+
 	MainDrawWindow* main_draw_window;
 	OutputDrawWindow* output_draw_window;
 	wxSplitterWindow* window_1;
 	wxBoxSizer* sizer_1;
 	
+	wxMenu file_menu;
 	MainToolBar* main_tool_bar;
 	DeskSetupToolBar* desk_setup_tool_bar;
 

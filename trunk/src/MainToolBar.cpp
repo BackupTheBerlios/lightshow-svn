@@ -25,6 +25,7 @@
 #include "MainToolBar.h"
 
 #ifdef __WXMAC__
+#  include "../bitmaps/text/menu.xpm"
 #  include "../bitmaps/text/desk.xpm"
 #  include "../bitmaps/text/desk_setup.xpm"
 #  include "../bitmaps/text/function_setup.xpm"
@@ -48,6 +49,8 @@ void MainToolBar::set_properties()
 {
 #ifdef __WXMAC__
 	SetToolBitmapSize(wxSize(96, 24));
+    AddTool(IDM_MENU, wxT("Menu"), wxBitmap(menu_xpm), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""));
+	AddSeparator();
     AddTool(IDM_SHOW_DESK, wxT("Desk"), wxBitmap(desk_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
     AddTool(IDM_SHOW_DESK_SETUP, wxT("Desk Setup"), wxBitmap(desk_setup_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
     AddTool(IDM_SHOW_FUNCTION_SETUP, wxT("Function Setup"), wxBitmap(function_setup_xpm), wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
@@ -60,6 +63,8 @@ void MainToolBar::set_properties()
     AddSeparator();
     AddTool(IDM_SETUP_OUTPUT, wxT("Setup Output"), wxBitmap(setup_output_xpm), wxNullBitmap, wxITEM_CHECK, wxT(""), wxT(""));
 #else
+    AddTool(IDM_MENU, wxT("Menu"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""));
+	AddSeparator();
     AddTool(IDM_SHOW_DESK, wxT("Desk"), wxNullBitmap, wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
     AddTool(IDM_SHOW_DESK_SETUP, wxT("Desk Setup"), wxNullBitmap, wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));
     AddTool(IDM_SHOW_FUNCTION_SETUP, wxT("Function Setup"), wxNullBitmap, wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));

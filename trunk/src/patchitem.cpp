@@ -61,13 +61,18 @@ patchitem::patchitem()
 		p_patch[p_programm_channel-1] = p_output_channel;
 	
 		storage::list_patchitem.push_back(this);
-
+	}
+	else
+	{
 		//TODO delete this ?? any problems?
+		wxLogError(wxT("THIS MAY NOT HAPPEN until there is a solution (patchitem > 512)"));
+		exit(0);
 	}
 }
 
 patchitem::~patchitem()
 {
+	p_patch[p_programm_channel-1] = -1;
 	storage::list_patchitem.remove(this);
 }
 

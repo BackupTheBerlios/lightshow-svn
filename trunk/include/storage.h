@@ -55,7 +55,8 @@ enum
 {
 	LOADSAVE_DESK = 1,
 	LOADSAVE_CHANNEL = 2,
-	LOADSAVE_FUNKTION = 4
+	LOADSAVE_FUNKTION = 4,
+	LOADSAVE_LIBRARY = 8
 };
 
 enum
@@ -86,16 +87,19 @@ public:
 	static void load_plugins();
 	static void unload_plugins();
 	
-	static void load(wxFile& file, int what = LOADSAVE_DESK | LOADSAVE_CHANNEL | LOADSAVE_FUNKTION);
-	static void save(wxFile& file, int what = LOADSAVE_DESK | LOADSAVE_CHANNEL | LOADSAVE_FUNKTION);
-
+	static void load(wxString filestr, int what = LOADSAVE_DESK | LOADSAVE_CHANNEL | LOADSAVE_FUNKTION);
+	static void save(wxString filestr, int what = LOADSAVE_DESK | LOADSAVE_CHANNEL | LOADSAVE_FUNKTION);
 	static void save(wxFile& file, storageitemlist& slist);
+
 	static void save_single_files(storageitemlist& slist, wxString path);
 	static void load_single_files(wxString path);
 
-
 	static void init();
-	static void exit();
+	static void clear(int what = LOADSAVE_DESK | LOADSAVE_CHANNEL | LOADSAVE_FUNKTION | LOADSAVE_LIBRARY);
+
+	//mutexes
+	static void lock() {};
+	static void unlock() {};
 
 	//active
 	static int DMX[DMX_CHNLS];

@@ -20,53 +20,38 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***************************************************************************/
 
-#include "prec.h"
-#include "main.h"
-#include "MainFrame.h"
+#include <wx/wx.h>
+#include <wx/image.h>
 
-IMPLEMENT_APP(LightShowApp)
+#ifndef SAVETYPEDIALOG_H
+#define SAVETYPEDIALOG_H
 
-bool LightShowApp::OnInit()
-{
-//	_CrtSetBreakAlloc(330609);
+class SaveTypeDialog: public wxDialog {
+public:
+    SaveTypeDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize, long style=wxDEFAULT_DIALOG_STYLE);
 
-	wxLog *logger = new wxLogStderr();
-	logger->SetVerbose();
-	wxLog *old_log = wxLog::SetActiveTarget( logger );
-	if(old_log) 
-		delete old_log;
-	
-	storage::init();
-	storage::load();
-	
-	p_thread = new FunctionThread(this);
-	p_thread->Create();
-	p_thread->SetPriority(WXTHREAD_MAX_PRIORITY);
-	
-    wxInitAllImageHandlers();
-	
-    MainFrame* main_frame = new MainFrame(0, -1, wxT(""));
-    SetTopWindow(main_frame);
+	int GetSave() { return p_save; };
 
-	storage::load_plugins();
+private:
+    void set_properties();
+    void do_layout();
 
-	p_thread->Run();
-    main_frame->Show();
+	int p_save;
 
-    return true;
-}
+protected:
+    wxStaticText* label_7;
+    wxCheckBox* checkbox_desk_save;
+    wxStaticText* label_8;
+    wxCheckBox* checkbox_channels_save;
+    wxStaticText* label_9;
+    wxCheckBox* checkbox_functions_save;
+    wxButton* button_close;
+    wxButton* button_ok;
 
-int LightShowApp::OnExit()
-{
-	storage::save();
+    DECLARE_EVENT_TABLE();
 
-	p_thread->Pause();
+    void OnClose(wxCommandEvent &event);
+    void OnOK(wxCommandEvent &event);
+};
 
-	storage::unload_plugins();
-
-	p_thread->Delete();
-
-	storage::clear();
-
-	return 0;
-}
+#endif // SAVETYPEDIALOG_H

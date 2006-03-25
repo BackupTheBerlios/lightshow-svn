@@ -9,7 +9,7 @@
         <debug-info>on</debug-info>        
 
 		<sources>../src/main.cpp</sources>
-		<sources>../src/ChannelDialog.cpp ../src/DMXPatchDialog.cpp ../src/FaderDialog.cpp ../src/FunctionDialog.cpp ../src/GroupDialog.cpp ../src/GroupSelectDialog.cpp ../src/IOSetupDialog.cpp ../src/LibraryDialog.cpp</sources>
+		<sources>../src/ChannelDialog.cpp ../src/DMXPatchDialog.cpp ../src/FaderDialog.cpp ../src/FunctionDialog.cpp ../src/GroupDialog.cpp ../src/GroupSelectDialog.cpp ../src/IOSetupDialog.cpp ../src/LibraryDialog.cpp ../src/SaveTypeDialog.cpp ../src/LoadTypeDialog.cpp</sources>
 		<sources>../src/DeskSetupToolBar.cpp ../src/FunctionThread.cpp ../src/MainDrawWindow.cpp ../src/MainFrame.cpp ../src/MainToolBar.cpp ../src/OutputDrawWindow.cpp ../src/plugin_interface.cpp ../src/PosSelectWidget.cpp</sources>
 		<sources>../src/mywxGridCellAttrProvider.cpp ../src/mywxGridCellEditors.cpp ../src/mywxGrid.cpp ../src/mywxGridTableBase.cpp</sources>
 		<sources>../src/channelitem.cpp ../src/configitem.cpp ../src/dataitem.cpp ../src/deskitem.cpp ../src/faderitem.cpp ../src/functionitem.cpp ../src/groupitem.cpp ../src/groupselectitem.cpp ../src/patchitem.cpp ../src/projectorchannelitem.cpp ../src/projectoritem.cpp ../src/stateitem.cpp ../src/storage.cpp ../src/storage_item.cpp ../src/valueitem.cpp</sources>
