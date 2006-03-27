@@ -71,7 +71,6 @@ protected:
 	
 	DECLARE_EVENT_TABLE()	
 		
-	bool p_refresh_pending;
 	int p_state;
 	int p_desksetup_state;
 	deskitem* p_selected_item;

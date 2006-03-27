@@ -40,7 +40,6 @@ MainDrawWindow::MainDrawWindow(wxWindow* parent, wxWindowID id) : wxWindow(paren
 	p_hover_item = NULL;
 	p_floating_item = NULL;
 	p_floating_fader = NULL;
-	p_refresh_pending = false;
 	
 	unsigned char* rgb;
 	
@@ -123,13 +122,11 @@ END_EVENT_TABLE()
 
 void MainDrawWindow::OnPaint(wxPaintEvent& event)
 {
-#ifdef __WXMSW__
-	wxBufferedPaintDC dc(this);
-#else
+#ifdef __WXGTK__
 	wxPaintDC dc(this);
+#else
+	wxBufferedPaintDC dc(this);
 #endif
-
-	p_refresh_pending = false;
 	
 	DrawDesk(dc);
 }
@@ -405,13 +402,10 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 	bool changed = false;
 	bool force_draw_common = false;
 	
-	//for highlighting
+	//for moveing
 	item = storage::deskitem_for_position(pos.x,pos.y,ww,wh);
 	if(item != p_hover_item)
-	{
 		p_hover_item = item;
-		changed = true;
-	}
 	
 	switch(p_state)	
 	{
@@ -491,6 +485,19 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 						if(gitem)
 						{
 							gitem->toggle();
+							changed = true;
+						}
+					}
+					else if(item->get_type() == deskitem::T_FUNCTION)
+					{
+						functionitem* fitem = storage::functionitem_for_deskitem(item,storage::page);
+						if(fitem)
+						{
+							if(fitem->get_active())
+								fitem->deactivate(true);
+							else
+								fitem->activate(true);
+
 							changed = true;
 						}
 					}

@@ -208,7 +208,7 @@ void LoadTypeDialog::do_layout()
     sizer_1->Add(grid_sizer_1, 1, wxEXPAND, 0);
     sizer_2->Add(button_close, 0, wxADJUST_MINSIZE, 0);
     sizer_2->Add(button_ok, 0, wxADJUST_MINSIZE, 0);
-    sizer_1->Add(sizer_2, 0, wxEXPAND|wxALIGN_RIGHT, 0);
+    sizer_1->Add(sizer_2, 0, wxALIGN_RIGHT, 0);
     SetAutoLayout(true);
     SetSizer(sizer_1);
     Layout();

@@ -20,11 +20,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***************************************************************************/
 
-//
-// File: OutputDrawWindow.cpp
-// Created by: User <Email>
-// Created on: Sun Sep  5 17:01:44 2004
-//
 #include "OutputDrawWindow.h"
 #include "storage.h"
 
@@ -48,8 +43,14 @@ END_EVENT_TABLE()
 
 void OutputDrawWindow::OnPaint(wxPaintEvent& event)
 {
+	p_refresh_pending = true;
+
+#ifdef __WXGTK__
+	wxPaintDC dc(this);
+#else
 	wxBufferedPaintDC dc(this);
-	
+#endif
+
 	DoPrepareDC(dc);
 	DrawOutput(dc);
 	
@@ -98,7 +99,7 @@ void OutputDrawWindow::OnSize(wxSizeEvent& event)
 	SetScrollbars(0, winh, 0, DMX_CHNLS / p_page + 1, 0, y);
 
 	DrawInitialOutput();
-	Refresh();
+	RefreshOutput();
 
 	event.Skip();
 }

@@ -29,6 +29,10 @@
 #include "SaveTypeDialog.h"
 #include "LoadTypeDialog.h"
 
+#include "../bitmaps/logo_48.xpm"
+#include "../bitmaps/logo_32.xpm"
+#include "../bitmaps/logo_16.xpm"
+
 
 //---- Event Class -------------------------------------
 DEFINE_EVENT_TYPE(mywxMAINFRAME_REFRESH_EVENT);
@@ -96,6 +100,16 @@ void MainFrame::set_properties()
 	file_menu.Append(IDM_FILE_ADD_LIBRARY, wxT("&Add Library File\tCtrl-A"), wxT("Open a File and add the Contents to the Library"));
 	file_menu.AppendSeparator();
     file_menu.Append(wxID_EXIT, wxT("&Quit\tCtrl-Q"), wxT("Quit"));
+
+	// add the frame icon
+	wxIcon icon_48(logo_48_xpm);
+	wxIcon icon_32(logo_32_xpm);
+	wxIcon icon_16(logo_16_xpm);
+	wxIconBundle icon_bundle;
+	icon_bundle.AddIcon(icon_48);
+	icon_bundle.AddIcon(icon_32);
+	icon_bundle.AddIcon(icon_16);
+	SetIcons(icon_bundle);
 }
 
 void MainFrame::do_layout()

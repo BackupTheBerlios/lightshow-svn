@@ -66,8 +66,6 @@ FunctionThread::ExitCode FunctionThread::Entry()
 			storage::DMX[i] = 0;
 		}
 		
-		storage::lock();		
-
 		//If setuping - run only prewiews of functions
 		if(storage::setup && storage::setuping)
 		{
@@ -105,8 +103,6 @@ FunctionThread::ExitCode FunctionThread::Entry()
 		}
 
 		Output();
-
-		storage::unlock();
 
 	} // while(!TestDestroy())
 
