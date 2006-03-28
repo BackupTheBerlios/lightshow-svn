@@ -41,6 +41,7 @@ public:
 	int get_fader_width() { return p_fader_width; };
 	int get_fader_height() { return p_fader_height; };
 	int get_fader_button_height() { return p_fader_button_height; };
+	int get_rounds_size() { return p_rounds_size; };
 	bool get_translucent_buttons() { return p_translucent_buttons; };
 	bool get_translucent_fader() { return p_translucent_fader; };
 	enum
@@ -78,6 +79,7 @@ private:
 	int p_fader_width;
 	int p_fader_height;
 	int p_fader_button_height;
+	int p_rounds_size;
 	bool p_translucent_buttons;
 	bool p_translucent_fader;
 	unsigned char p_color[16][3];

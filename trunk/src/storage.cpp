@@ -296,8 +296,10 @@ void storage::load(wxString filestr, int what)
 			}
 	}
 
-	while( list_patchitem.size() < DMX_CHNLS)
-		patchitem* p = new patchitem();
+	if(what & LOADSAVE_CHANNEL)
+		while( list_patchitem.size() < DMX_CHNLS)
+			patchitem* p = new patchitem();
+
 
 	file.Close();
 }
@@ -720,7 +722,7 @@ deskitem* storage::deskitem_for_position(int x, int y, int w, int h)
 		if(item->get_type() == deskitem::T_FADER)
 		{
 			if((relx > x) && (relx < x+storage::config.get_fader_width()) && (rely > y) && \
-				(rely < y+storage::config.get_fader_height()+storage::config.get_fader_button_height()))
+				(rely < y+storage::config.get_fader_height()+storage::config.get_fader_button_height()+4))
 				return item;
 		}
 		else

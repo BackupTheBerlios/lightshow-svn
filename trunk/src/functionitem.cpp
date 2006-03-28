@@ -111,7 +111,7 @@ void functionitem::init(int button_id, int page)
 		active_mask[i] = false;
 	}
 	
-	speed = 48;
+	speed = (int)(60/SPEED_MULTIPLICATOR);
 	step = 0;
 	preview_step = -1;
 	
@@ -535,7 +535,7 @@ void functionitem::run(int what)
 	//Calculate Next Step Nr.
 	if(p_timer != 0)
 	{
-		step += (96/1920.0)*p_timebase;
+		step += (120/2400.0)*p_timebase;
 		if(step >= list_dataitem.size()-1)
 		{
 			step = list_dataitem.size()-1; //Use last Step
@@ -543,7 +543,7 @@ void functionitem::run(int what)
 			if(active_timer > p_timer) //Just Started
 				active_timer = 0;
 
-			active_timer += speed/1920.0;
+			active_timer += speed/(2400.0/SPEED_MULTIPLICATOR);
 			
 			if(active_timer > p_timer) //Timer is elapsed
 				step = 0;
@@ -551,7 +551,7 @@ void functionitem::run(int what)
 	}
 	else
 	{
-		step += (speed/1920.0)*p_timebase;
+		step += (speed/(2400.0/SPEED_MULTIPLICATOR))*p_timebase;
 		if(step >= list_dataitem.size())
 			step = 0;
 	}

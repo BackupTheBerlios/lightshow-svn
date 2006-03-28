@@ -64,6 +64,8 @@ patchitem::patchitem()
 	}
 	else
 	{
+		for(int i = 0;i < DMX_CHNLS;i++)
+			wxLogVerbose(wxT("%d - %d"),i+1,p_patch[i]);
 		//TODO delete this ?? any problems?
 		wxLogError(wxT("THIS MAY NOT HAPPEN until there is a solution (patchitem > 512)"));
 		exit(0);

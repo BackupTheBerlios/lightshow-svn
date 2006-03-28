@@ -29,11 +29,12 @@ ConfigDialog::ConfigDialog(wxWindow* parent, int id, const wxString& title, cons
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE)
 {
 #ifdef __WXMSW__
-    label_1 = new wxStaticText(this, -1, wxT("\nThe MiniDMX Adapter is connected to:\n(In the form 'COMx', where x is the numbernof the Port)\n"));
+    label_1 = new wxStaticText(this, -1, wxT("\nThe MiniDMX Adapter is connected to:\n"));
+    choice_1 = new wxChoice(this, -1);
 #else
     label_1 = new wxStaticText(this, -1, wxT("\nThe MiniDMX Adapter is connected to:\n(for example '/dev/ttyS1')\n"));
-#endif
     choice_1 = new wxTextCtrl(this, -1);
+#endif
     button_1 = new wxButton(this, wxID_CLOSE, wxT("&Close"));
 
     set_properties();
@@ -43,12 +44,46 @@ ConfigDialog::ConfigDialog(wxWindow* parent, int id, const wxString& title, cons
 ConfigDialog::~ConfigDialog()
 {
 	wxConfig config(wxT("LightShowPlugins"));
+
+#ifdef __WXMSW__
+	config.Write(wxT("mini_dmx_plugin/serial_port"),choice_1->GetStringSelection());	
+#else
 	config.Write(wxT("mini_dmx_plugin/serial_port"),choice_1->GetValue());	
+#endif
 }
 
 void ConfigDialog::set_properties()
 {
 	SetTitle(wxT("MiniDMX Configuration"));
+	wxConfig config(wxT("LightShowPlugins"));
+	
+#ifdef __WXMSW__
+	DWORD cbNeeded = 0;
+	DWORD dwPorts = 0;
+	EnumPorts(NULL, 1, NULL, 0, &cbNeeded, &dwPorts);
+	
+	BYTE* pPorts = (BYTE*) malloc(cbNeeded);
+
+	BOOL bSuccess = EnumPorts(NULL, 1, pPorts, cbNeeded, &cbNeeded, &dwPorts);
+	if (bSuccess)
+	{
+		PORT_INFO_1* pPortInfo = (PORT_INFO_1*) pPorts;
+		for (DWORD i=0; i<dwPorts; i++)
+		{
+			wxString pn(pPortInfo->pName);
+			if(pn.StartsWith(wxT("COM")))
+				choice_1->Append(pn.BeforeFirst(wxT(':')));
+			
+			pPortInfo++;
+		}
+	}
+
+	free(pPorts);
+
+	choice_1->SetStringSelection(config.Read(wxT("mini_dmx_plugin/serial_port")));
+#else
+	choice_1->SetValue(config.Read(wxT("mini_dmx_plugin/serial_port")));	
+#endif
 }
 
 

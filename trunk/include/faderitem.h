@@ -79,7 +79,7 @@ private:
 	int prev_pos;
 	bool flash;
 	wxLongLong last_tab;
-	long tab_list[10];
+	int tab_list[10];
 	int tab_count;
 	int tab_pos;
 

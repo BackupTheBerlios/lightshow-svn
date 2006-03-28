@@ -42,7 +42,12 @@ private:
 
 protected:
     wxStaticText* label_1;
+#ifdef __WXMSW__
+    wxChoice* choice_1;
+#else
     wxTextCtrl* choice_1;
+#endif
+
     wxButton* button_1;
 };
 

@@ -451,13 +451,11 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 						int winh, winw;
 						GetClientSize(&winw,&winh);	
 						double facy = winh/(1000.0*storage::config.get_draw_scale());
+
 						int	height = (int)(storage::config.get_fader_height()*facy);
-						
-						int y = (int)(item->get_pos_y() * facy);
-						
-						int position = (int)255-(255*(pos.y - y)/height);
+						int y = (int)(item->get_pos_y() * facy) + height + 2;
 												
-						if(position >= 0)
+						if(pos.y <= y)
 						{
 							faderitem* fitem = storage::faderitem_for_deskitem(item,storage::page);
 							if(fitem)
@@ -508,16 +506,28 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 					{
 						int winh, winw;
 						GetClientSize(&winw,&winh);	
+						double facx = winw/(1000.0*storage::config.get_draw_scale());
 						double facy = winh/(1000.0*storage::config.get_draw_scale());
-						int	height = (int)(storage::config.get_fader_height()*facy);
 
-						int y = (int)(item->get_pos_y() * facy);
+						int	height = (int)(storage::config.get_fader_height()*facy);
+						int rounds_size = (int)(storage::config.get_rounds_size()*((facy+facx)/2));
+						int y_fader = (int)(item->get_pos_y() * facy);
+
+						int y_fader_button = y_fader + height + 2;
 						
-						int position = (int)255-(255*(pos.y - y)/height);
-						
+				
 						//hardware position
-						if(position >= 0)
+						if(pos.y <= y_fader_button)
 						{
+							int pos_abs = pos.y - (y_fader + rounds_size);
+							int height_abs = height - 2*rounds_size;
+
+							int position = (int)255-(255*pos_abs/height_abs);
+							if(position > 255)
+								position = 255;
+							else if(position < 0)
+								position = 0;
+
 							if(position != item->pos)
 							{
 								if(item->pos != position)
@@ -538,7 +548,7 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 								}
 							}
 						}
-						else //pos < 0 -> fader button
+						else //-> fader button
 						{
 							faderitem* fitem = storage::faderitem_for_deskitem(item,storage::page);
 							if(fitem)
@@ -906,7 +916,7 @@ void MainDrawWindow::DrawCommon()
 
 	double facx = winw/(1000.0*storage::config.get_draw_scale());
 	double facy = winh/(1000.0*storage::config.get_draw_scale());
-	int rounds_size = (int)(5*facx);
+	int rounds_size = (int)(storage::config.get_rounds_size()*((facy+facx)/2));
 		
 	int x = 0;
 	int y = 0;
@@ -1006,10 +1016,10 @@ void MainDrawWindow::DrawCommon()
 			break;
 		case deskitem::T_FADER:
 			dc.SetBrush(p_fader_brush);
-			dc.DrawRoundedRectangle(x, y, width, height+3, rounds_size);
+			dc.DrawRoundedRectangle(x, y, width, height, rounds_size);
 
 			dc.SetBrush(p_fader_button_brush);
-			dc.DrawRoundedRectangle(x, y+height+6, width, height_sb, rounds_size);
+			dc.DrawRoundedRectangle(x, y+height+4, width, height_sb, rounds_size);
 			break;
 		}
 		
@@ -1119,10 +1129,7 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 				{
 					fader_sw_pos = fader_item->get_active_pos();
 					if(fader_item->get_type() & faderitem::T_SPEED)
-					{
-						//TODO herausfinden ob so richtig
-						fader_speed = fader_item->get_active_pos()*1.25;
-					}
+						fader_speed = fader_item->get_active_pos()*SPEED_MULTIPLICATOR;
 				}
 				fader_hw_pos = item->pos;
 				break;
@@ -1144,10 +1151,10 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 			else
 			{
 				dc.SetBrush(p_fader_active_brush);
-				dc.DrawRectangle(x + 2, (int)(y + height - (height-4)*fader_sw_pos/255.0), width - 4, (int)((height-4)*fader_sw_pos/255.0));
+				dc.DrawRectangle(x + 2, (int)(y + height - rounds_size - (height-2*rounds_size)*fader_sw_pos/255.0), width - 4, (int)((height-2*rounds_size)*fader_sw_pos/255.0));
 
 				dc.SetBrush(*wxBLACK_BRUSH);
-				dc.DrawRectangle(x + 2, (int)(y + height - (height-4)*fader_hw_pos/255.0), width - 4, 3);
+				dc.DrawRectangle(x + 2, (int)(y + height - 3 - rounds_size - (height-2*rounds_size-3)*fader_hw_pos/255.0), width - 4, 3);
 				
 				if(fader_speed != -1)
 				{
@@ -1155,7 +1162,7 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 					dc.SetTextForeground(p_text_infader_color);
 					wxString speed = storage::double_to_str(fader_speed);
 					dc.GetTextExtent(speed,&tw,&th);
-					dc.DrawText(speed, x + width/2 - tw/2, y + 17);
+					dc.DrawText(speed, x + width/2 - tw/2, y + 20);
 					dc.SetTextForeground(p_text_color);
 				}
 			}
@@ -1177,7 +1184,7 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 			
 			int tw,th;
 			dc.GetTextExtent(id,&tw,&th);
-			dc.DrawText(id,x + width/2 - tw/2, y + 2);
+			dc.DrawText(id,x + width/2 - tw/2, y + 5);
 			dc.SetTextForeground(p_text_color);
 		}
 	}

@@ -56,7 +56,7 @@ MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event)
 
 
 MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
-    wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE | wxMAXIMIZE)
+    wxFrame(parent, id, title, pos, size, style)
 {
     window_1 = new wxSplitterWindow(this, -1);
     sizer_1 = new wxBoxSizer(wxVERTICAL);
@@ -71,6 +71,7 @@ MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPo
     set_properties();
     do_layout();
     
+	Maximize();
     main_draw_window->SetFocus();
 }
 
