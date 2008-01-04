@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include <wx/wx.h>
+#include <wx/dialog.h>
 #include <wx/image.h>
 
 #ifndef CONFIGDIALOG_H

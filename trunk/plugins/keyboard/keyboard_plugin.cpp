@@ -88,8 +88,10 @@ void keyboard_plugin::config()
 
 void keyboard_plugin::pc_key_change(int key, bool down)
 {
+//	printf("%d\n",key);
 	if(p_key_map.find(key) != p_key_map.end())
 	{
+//		printf("\t%d\n",p_key_map[key]);
 		p_interf.key_state_change(p_key_map[key],down);
 	}
 }

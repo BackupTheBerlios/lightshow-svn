@@ -23,6 +23,7 @@
 #ifndef _MYWXGRIDCELLEDITORS_H_
 #define _MYWXGRIDCELLEDITORS_H_
 
+#include <wx/textctrl.h>
 #include <wx/grid.h>
 
 /*****************************************************************************

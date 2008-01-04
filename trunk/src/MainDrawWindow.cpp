@@ -1053,8 +1053,6 @@ void MainDrawWindow::DrawCommon()
 
 void MainDrawWindow::DrawDesk(wxDC& dc)
 {
-	dc.BeginDrawing();
-
 	dc.SetFont(*p_text_font);
 	dc.SetPen(p_border_pen);
 	dc.SetTextForeground(p_text_color);
@@ -1188,6 +1186,4 @@ void MainDrawWindow::DrawDesk(wxDC& dc)
 			dc.SetTextForeground(p_text_color);
 		}
 	}
-	
-	dc.EndDrawing();
 }

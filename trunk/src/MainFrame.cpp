@@ -58,6 +58,20 @@ MainFrameRefreshEvent::MainFrameRefreshEvent(const MainFrameRefreshEvent &event)
 MainFrame::MainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxFrame(parent, id, title, pos, size, style)
 {
+    wxMenu *fileMenu = new wxMenu;
+
+    fileMenu->Append(wxID_EXIT, _T("E&xit\tAlt-X"), _T("Quit this program"));
+
+    // now append the freshly created menu to the menu bar...
+    wxMenuBar *menuBar = new wxMenuBar();
+    menuBar->Append(fileMenu, _T("&File"));
+
+    // ... and attach this menu bar to the frame
+    SetMenuBar(menuBar);
+
+
+
+
     window_1 = new wxSplitterWindow(this, -1);
     sizer_1 = new wxBoxSizer(wxVERTICAL);
     main_draw_window = new MainDrawWindow(window_1, -1);

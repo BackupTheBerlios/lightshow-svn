@@ -48,7 +48,7 @@ protected:
 private:
 	wxBitmap p_background;
 	int p_page;
-	bool p_refresh_pending;
+	int p_refresh_pending;
 };
 
 

@@ -25,7 +25,7 @@
 
 OutputDrawWindow::OutputDrawWindow(wxWindow* parent, wxWindowID id) : wxScrolledWindow(parent, id)
 {	
-	p_refresh_pending = false;
+	p_refresh_pending = 0;
 	p_page = 1;
 }
 
@@ -43,7 +43,7 @@ END_EVENT_TABLE()
 
 void OutputDrawWindow::OnPaint(wxPaintEvent& event)
 {
-	p_refresh_pending = true;
+	p_refresh_pending = 0;
 
 #ifdef __WXGTK__
 	wxPaintDC dc(this);
@@ -53,17 +53,12 @@ void OutputDrawWindow::OnPaint(wxPaintEvent& event)
 
 	DoPrepareDC(dc);
 	DrawOutput(dc);
-	
-	p_refresh_pending = false;
 }
 
 void OutputDrawWindow::RefreshOutput()
 {
-	if(!p_refresh_pending)
-	{
-		p_refresh_pending = true;
+	if(p_refresh_pending++ == 2)
 		Refresh();
-	}
 }
 
 void OutputDrawWindow::OnEraseBackground(wxEraseEvent& event)
@@ -144,9 +139,7 @@ void OutputDrawWindow::DrawInitialOutput()
 }
 
 void OutputDrawWindow::DrawOutput(wxDC& dc)
-{
-	dc.BeginDrawing();
-	
+{	
 	int winh, winw;
 	GetClientSize(&winw,&winh);
 	
@@ -168,6 +161,4 @@ void OutputDrawWindow::DrawOutput(wxDC& dc)
 		if(height != 0)
 			dc.DrawRectangle(x, y + winh - 20 - height, 20, height);
 	}
-
-	dc.EndDrawing();
 }

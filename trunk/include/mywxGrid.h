@@ -72,7 +72,7 @@ public:
 	void set_list(storageitemlist* slist,void(*create_new)(void*) = NULL,void* parm = NULL);
 	void set_item(storage_item* sitem,void(*create_new)(void*) = NULL,void* parm = NULL);
 	void set_channel_list();
-	void append();
+	void append(bool first = false);
 	void delete_selected();
 	void update();
 

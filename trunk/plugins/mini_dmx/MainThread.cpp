@@ -31,7 +31,7 @@
 #define P_ACK		0xC1
 #define P_ERROR     0xC0
 
-#define USE512 0
+#define USE512 1
 
 MainThread::MainThread() : wxThread()
 {
@@ -215,7 +215,7 @@ void MainThread::NIXLoop()
 	wxConfig config(wxT("LightShowPlugins"));
 
 	wxString port = config.Read(wxT("mini_dmx_plugin/serial_port"),wxT("/dev/ttyS1"));	
-
+	
 	int fd = open(port.fn_str(), O_RDWR | O_NOCTTY);
 	if (fd < 0)
 	{
@@ -224,16 +224,23 @@ void MainThread::NIXLoop()
 			Sleep(1000);
 		return;
 	}
-				
+					
 	struct termios tio;
-	tio.c_cflag = B115200 | CS8 | CLOCAL | CREAD;
+	
+	tcgetattr(fd,&tio);
+
+	tio.c_cflag = CS8 | CLOCAL | CREAD;
 	tio.c_iflag = 0;
 	tio.c_oflag = 0;
 	tio.c_lflag = 0;
 	tio.c_cc[VMIN] = 0;
 	tio.c_cc[VTIME] = 5;
-	tcflush(fd, TCIFLUSH);
-	tcsetattr(fd,TCSANOW,&tio);
+
+	cfsetispeed(&tio,B115200);
+	cfsetospeed(&tio,B115200);
+
+
+	tcsetattr(fd,TCSAFLUSH,&tio);
 	
 	int i;
 	
@@ -241,7 +248,7 @@ void MainThread::NIXLoop()
 	ioctl(fd, TIOCMBIS, &i);
 	i = TIOCM_DTR;
 	ioctl(fd, TIOCMBIC, &i);
-	
+		
 	int res;
 #ifdef USE512
 	unsigned char data[515];
@@ -272,14 +279,13 @@ void MainThread::NIXLoop()
 				data[i+2] = p_data[i];
 		}
 
-		tcflush(fd, TCIFLUSH);
+		tcflush(fd, TCIOFLUSH);
 
 #ifdef USE512
 		write(fd,data,515);
 #else
 		write(fd,data,99);
 #endif
-
 		res = read(fd,&ack,1);
 		if(res == 1 && ack == P_BLKSTART)
 		{

@@ -79,6 +79,8 @@ wxGrid(parent, id, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS, wxPanelNameS
 mywxGrid::~mywxGrid()
 {
 	DisableCellEditControl();
+	SetTable(NULL); // Needed since ~wxGrid calls m_table->SetView(NULL)
+					// but our table base member is destroyed before
 }
 
 BEGIN_EVENT_TABLE(mywxGrid, wxGrid)
@@ -146,12 +148,14 @@ void mywxGrid::update()
 		}
 }
 
-void mywxGrid::append()
+void mywxGrid::append(bool first)
 {
 	if(p_new == NULL) return;
 		
 	p_new(p_new_param);
-	AppendRows(); //does noting but notify the displays
+	
+	if(!first) AppendRows();		// does noting but notify the displays
+	
 	mywxGridChangeEvent event(GetId(), mywxGridChangeEvent::T_APPEND);
 	ProcessEvent(event);
 }
@@ -198,12 +202,12 @@ void mywxGrid::set_list(storageitemlist* slist,void(*create_new)(void*),void* pa
 
 	if(p_list)
 		if(p_list->empty())
-			append();
+			append(true);
 
 	p_table_base_list.set_list(slist);
 	
 	m_rowHeights.Empty();
-    	m_rowBottoms.Empty();
+	m_rowBottoms.Empty();
 	m_colWidths.Empty();
 	m_colRights.Empty();
     
