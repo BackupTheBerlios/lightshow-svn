@@ -47,9 +47,9 @@ void mywxGridCellChoiceEditor::BeginEdit(int row, int col, wxGrid* grid)
 	wxGridCellChoiceEditor::BeginEdit(row,col,grid);
 }
 
-bool mywxGridCellChoiceEditor::EndEdit(int row, int col, wxGrid* grid)
+bool mywxGridCellChoiceEditor::EndEdit(int row, int col, wxGrid* grid, const wxString &oldval, wxString *newval)
 {
-	if(wxGridCellChoiceEditor::EndEdit(row,col,grid))
+	if(wxGridCellChoiceEditor::EndEdit(row,col,grid,oldval,newval))
 	{
 		if(grid->GetSelectionMode() == wxGrid::wxGridSelectRows) return true;
 
@@ -112,9 +112,9 @@ void mywxGridCellTextEditor::BeginEdit(int row, int col, wxGrid* grid)
 	wxGridCellTextEditor::BeginEdit(row,col,grid);
 }
 
-bool mywxGridCellTextEditor::EndEdit(int row, int col, wxGrid* grid)
+bool mywxGridCellTextEditor::EndEdit(int row, int col, wxGrid* grid, const wxString &oldval, wxString *newval)
 {
-	if(wxGridCellTextEditor::EndEdit(row,col,grid))
+	if(wxGridCellTextEditor::EndEdit(row,col,grid,oldval,newval))
 	{
 		if(grid->GetSelectionMode() == wxGrid::wxGridSelectRows) return true;
 

@@ -23,7 +23,7 @@
 #include "LibraryDialog.h"
 
 LibraryDialog::LibraryDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
-    wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTHICK_FRAME)
+    wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
 {
     label_1 = new wxStaticText(this, -1, wxT("Devices"));
     grid_devices = new mywxGrid(this, IDG_DEVICES);

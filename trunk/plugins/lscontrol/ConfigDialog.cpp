@@ -20,9 +20,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***************************************************************************/
 
-#include "ConfigDialog.h"
 #include <wx/config.h>
-
+#include "ConfigDialog.h"
 
 ConfigDialog::ConfigDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE)

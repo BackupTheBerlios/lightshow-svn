@@ -24,7 +24,7 @@
 
 
 GroupSelectDialog::GroupSelectDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
-    wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTHICK_FRAME)
+    wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
 {
     grid_groupselect = new mywxGrid(this, -1);
     button_close = new wxButton(this, wxID_CLOSE, wxT("&Close"));

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!-- $Id: wx_win32.bkl,v 1.16.2.2 2006/01/02 14:52:59 ABX Exp $ -->
+<!-- $Id: wx_win32.bkl 55576 2008-09-12 20:57:41Z VZ $ -->
 
 <!-- Original source: http://wiki.wxwidgets.org/wiki.pl?Bakefile    -->
 <!-- Modified by: Francesco Montorsi <frm@users.sourceforge.net>    -->
@@ -7,24 +7,11 @@
                   into Bakefile's presets                           -->
 <!-- Creation date: 6/9/2004                                        -->
 <!-- Last revision: 22/1/2005 off-CVS                               -->
-<!--                $Id: wx_win32.bkl,v 1.16.2.2 2006/01/02 14:52:59 ABX Exp $ -->
+<!--                $Id: wx_win32.bkl 55576 2008-09-12 20:57:41Z VZ $ -->
 
 
-<!--
-
-FIXME: this template has (at least) the following bugs:
-
- * it's MSW-only, the port is assumed to be wxMSW unconditionally
-
- * multiple wx configurations (CFG variable set when building the
-   library) are not supported
-
--->
-
-<!-- makefile tag signifies the beginning of the bakefile           -->
 <makefile>
 
-    <requires version="0.1.5"/>
 
     <!--                        OPTIONS                             -->
     <!--                                                            -->
@@ -41,85 +28,13 @@ FIXME: this template has (at least) the following bugs:
     <!--    Note that the above only happens if an option           -->
     <!--    is not constant, i.e. if it cannot be determined        -->
     <!--    by bakefile itself.                                     -->
-
-    <!-- this is a temporary variable until there is non general    -->
-    <!-- function in bakefiles for returning native markup for      -->
-    <!-- reading envrionment variables                              -->
-    <set var="ENV_VAR">
-        <if cond="FORMAT=='watcom'">%</if>
-        <if cond="FORMAT!='watcom'"></if>
-    </set>
+    <!--    Also note that for 'autoconf' format these options      -->
+    <!--    are only useful when used together with wxpresets.m4    -->
+    <!--    macro file which contains macros for detecting the      -->
+    <!--    option values for wx-based projects. See wxpresets.m4   -->
+    <!--    comments for more info.    -->
 
 
-    <!-- Presets for limited dmars make.exe format: -->
-    <if cond="FORMAT=='dmars'">
-        <set var="WX_UNICODE">0</set>
-        <set var="WX_DEBUG">1</set>
-        <set var="WX_SHARED">0</set>
-    </if>
-
-
-    <!-- The directory where wxWidgets is installed: -->
-    <if cond="not isdefined('WX_DIR')">
-        <set var="WX_DIR_DEFAULT" overwrite="0">$(DOLLAR)($(ENV_VAR)WXWIN)</set>
-        <option name="WX_DIR" category="path">
-            <default-value>$(WX_DIR_DEFAULT)</default-value>
-            <description>
-                The directory where wxWidgets library is installed
-            </description>
-        </option>
-    </if>
-
-    <!--    This is a standard option that determines               -->
-    <!--    whether the user wants to build this library as         -->
-    <!--    a dll or as a static library.                           -->
-    <if cond="not isdefined('WX_SHARED')">
-        <set var="WX_SHARED_DEFAULT" overwrite="0">0</set>
-        <option name="WX_SHARED">
-            <values>0,1</values>
-            <values-description>,DLL</values-description>
-            <default-value>$(WX_SHARED_DEFAULT)</default-value>
-            <description>
-                Use DLL build of wx library to use?
-            </description>
-        </option>
-    </if>
-
-    <!-- Configuration for building the bakefile with               -->
-    <!-- unicode strings or not (unicode or ansi).                  -->
-    <if cond="not isdefined('WX_UNICODE')">
-        <set var="WX_UNICODE_DEFAULT" overwrite="0">0</set>
-        <option name="WX_UNICODE">
-            <values>0,1</values>
-            <values-description>,Unicode</values-description>
-            <default-value>$(WX_UNICODE_DEFAULT)</default-value>
-            <description>
-                Compile Unicode build of wxWidgets?
-            </description>
-        </option>
-    </if>
-
-    <if cond="not isdefined('WX_DEBUG')">
-        <set var="WX_DEBUG_DEFAULT" overwrite="0">1</set>
-        <option name="WX_DEBUG">
-            <values>0,1</values>
-            <values-description>Release,Debug</values-description>
-            <default-value>$(WX_DEBUG_DEFAULT)</default-value>
-            <description>
-                Use debug build of wxWidgets (define __WXDEBUG__)?
-            </description>
-        </option>
-    </if>
-
-    <if cond="not isdefined('WX_VERSION')">
-        <set var="WX_VERSION_DEFAULT" overwrite="0">26</set>
-        <option name="WX_VERSION">
-            <default-value>$(WX_VERSION_DEFAULT)</default-value>
-            <description>
-                Version of the wx library to build against.
-            </description>
-        </option>
-    </if>
 
     <!--                     HELPER VARIABLES                       -->
     <!--                                                            -->
@@ -139,18 +54,9 @@ FIXME: this template has (at least) the following bugs:
         <if cond="WX_DEBUG=='1'">__WXDEBUG__</if>
     </set>
 
-    <set var="WXSHARED_DEFINE">
-        <if cond="WX_SHARED=='1'">WXUSINGDLL</if>
-    </set>
-
     <!--    These are handy ways of dealing with the                -->
     <!--    extensions in the library names of the                  -->
     <!--    wxWindows library.                                      -->
-    <set var="WXLIBPOSTFIX">
-        <if cond="WX_DEBUG=='1' and WX_UNICODE=='1'">ud</if>
-        <if cond="WX_DEBUG=='1' and WX_UNICODE=='0'">d</if>
-        <if cond="WX_DEBUG=='0' and WX_UNICODE=='1'">u</if>
-    </set>
     <set var="WX3RDPARTYLIBPOSTFIX">
         <if cond="WX_DEBUG=='1'">d</if>
     </set>
@@ -164,11 +70,65 @@ FIXME: this template has (at least) the following bugs:
         <if cond="WX_SHARED=='1'">$(DIRSEP)lib$(DIRSEP)$(COMPILER)$(WXCPU)_dll</if>
     </set>
 
-    <set var="WXPORT">
+    <!-- under Unix this is an option (detected at configure-time);
+         under Windows this is not an user option! -->
+    <set var="WX_PORT">
         <if cond="FORMAT=='msevc4prj'">wince</if>
         <if cond="FORMAT!='msevc4prj'">msw</if>
     </set>
-    <set var="WXLIBINCLUDE">$(WXLIBPATH)$(DIRSEP)$(WXPORT)$(WXLIBPOSTFIX)</set>
+
+    <set var="WXLIBINCLUDE">$(WXLIBPATH)$(DIRSEP)$(WX_PORT)$(WXLIBPOSTFIX)</set>
+
+
+    <!--    All the possible mixes for the wx library names          -->
+    <set var="WXLIB_BASE_NAME">
+        <if cond="WX_MONOLITHIC=='0'">wxbase$(WX_VERSION)$(WXLIBPOSTFIX)</if>
+
+        <!--
+            the trick used to support monolithic builds is here: when the
+            <wx-lib>base</wx-lib> tag is found, and user selected
+            WX_MONOLITHIC=1, then the base library is translated to the
+            monolithic library
+        -->
+        <if cond="WX_MONOLITHIC=='1'">wx$(WX_PORT)$(WX_VERSION)$(WXLIBPOSTFIX)</if>
+    </set>
+
+
+    <!--   Libraries whose name is prefixed with 'wxbase'            -->
+    <define-global-tag name="define-wxbase-lib-name">
+        <set var="WXLIB_$(value.upper())_NAME">
+            <if cond="WX_MONOLITHIC=='0'">
+                wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_$(value)
+            </if>
+    </set>
+    </define-global-tag>
+
+    <define-wxbase-lib-name>net</define-wxbase-lib-name>
+    <define-wxbase-lib-name>xml</define-wxbase-lib-name>
+
+
+    <!--   Libraries whose name is prefixed with 'wx' only          -->
+    <define-global-tag name="define-wxlib-name">
+        <set var="WXLIB_$(value.upper())_NAME">
+            <if cond="WX_MONOLITHIC=='0'">
+                wx$(WX_PORT)$(WX_VERSION)$(WXLIBPOSTFIX)_$(value)
+            </if>
+        </set>
+    </define-global-tag>
+
+    <define-wxlib-name>core</define-wxlib-name>
+    <define-wxlib-name>media</define-wxlib-name>
+    <define-wxlib-name>xrc</define-wxlib-name>
+    <define-wxlib-name>html</define-wxlib-name>
+    <define-wxlib-name>adv</define-wxlib-name>
+    <define-wxlib-name>qa</define-wxlib-name>
+    <define-wxlib-name>aui</define-wxlib-name>
+    <define-wxlib-name>propgrid</define-wxlib-name>
+    <define-wxlib-name>stc</define-wxlib-name>
+    <define-wxlib-name>richtext</define-wxlib-name>
+
+    <!-- NOTE: The GL lib is not part of the monolithic build; treat it as a contrib! -->
+
 
 
     <!--                        WX TEMPLATE                         -->
@@ -189,18 +149,37 @@ FIXME: this template has (at least) the following bugs:
     <!--    libraries required by the platform, the libraries       -->
     <!--    we want for our stuff, and the wxWindows libs.          -->
 
-
-
     <!-- this tag is used to include wx libraries: -->
     <define-tag name="wx-lib" rules="exe,dll,module">
-        <if cond="value=='base'">
-            <sys-lib>wxbase$(WX_VERSION)$(WXLIBPOSTFIX)</sys-lib>
+        <if cond="value=='base'"><sys-lib>$(WXLIB_BASE_NAME)</sys-lib></if>
+        <if cond="value=='core'"><sys-lib>$(WXLIB_CORE_NAME)</sys-lib></if>
+
+        <if cond="value=='net'"><sys-lib>$(WXLIB_NET_NAME)</sys-lib></if>
+        <if cond="value=='xml'"><sys-lib>$(WXLIB_XML_NAME)</sys-lib></if>
+
+        <if cond="value=='media'"><sys-lib>$(WXLIB_MEDIA_NAME)</sys-lib></if>
+        <if cond="value=='xrc'"><sys-lib>$(WXLIB_XRC_NAME)</sys-lib></if>
+        <if cond="value=='html'"><sys-lib>$(WXLIB_HTML_NAME)</sys-lib></if>
+        <if cond="value=='adv'"><sys-lib>$(WXLIB_ADV_NAME)</sys-lib></if>
+        <if cond="value=='qa'"><sys-lib>$(WXLIB_QA_NAME)</sys-lib></if>
+        <if cond="value=='aui'"><sys-lib>$(WXLIB_AUI_NAME)</sys-lib></if>
+        <if cond="value=='propgrid'"><sys-lib>$(WXLIB_PROPGRID_NAME)</sys-lib></if>
+        <if cond="value=='richtext'"><sys-lib>$(WXLIB_RICHTEXT_NAME)</sys-lib></if>
+
+        <!-- The GL lib isn't part of the monolithic build, treat it as a contrib: -->
+        <if cond="value=='gl'">
+            <sys-lib>wx$(WX_PORT)$(WX_VERSION)$(WXLIBPOSTFIX)_$(value)</sys-lib>
         </if>
-        <if cond="value in ['net','xml', 'odbc']">
-            <sys-lib>wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_$(value)</sys-lib>
+
+        <if cond="value=='stc'">
+            <!-- wxSTC requires also the basic scintilla library
+                 which is built as a separate 3rd party library -->
+            <sys-lib>$(WXLIB_STC_NAME)</sys-lib>
+            <sys-lib>wxscintilla$(WX3RDPARTYLIBPOSTFIX)</sys-lib>
         </if>
-        <if cond="value not in ['base','net','xml']">
-            <sys-lib>wx$(WXPORT)$(WX_VERSION)$(WXLIBPOSTFIX)_$(value)</sys-lib>
+
+        <if cond="value not in WX_LIB_LIST.split()">
+            <error>Unknown wxWidgets library given in the wx-lib tag</error>
         </if>
     </define-tag>
 
@@ -221,13 +200,16 @@ FIXME: this template has (at least) the following bugs:
             <ldflags>-mthreads</ldflags>
         </if>
 
+        <define>$(substituteFromDict(WX_SHARED,{'1':'WXUSINGDLL','0':''}))</define>
+
         <define>$(WXUNICODE_DEFINE)</define>
         <define>$(WXDEBUG_DEFINE)</define>
-        <define>$(WXSHARED_DEFINE)</define>
         <define>__WXMSW__</define>
 
-        <include>$(WX_DIR)$(WXLIBINCLUDE)</include>
-        <include>$(WX_DIR)/include</include>
+        <if cond="FORMAT!='xcode2'">
+            <include>$(WX_DIR)$(WXLIBINCLUDE)</include>
+            <include>$(WX_DIR)/include</include>
+        </if>
     </template>
 
 
@@ -250,7 +232,6 @@ FIXME: this template has (at least) the following bugs:
         <!-- If on borland, we don't need to do much            -->
         <if cond="FORMAT=='borland'">
             <sys-lib>ole2w32</sys-lib>
-            <sys-lib>odbc32</sys-lib>
         </if>
 
         <!-- Non-borland, on the other hand...                  -->
@@ -269,7 +250,6 @@ FIXME: this template has (at least) the following bugs:
             <sys-lib>rpcrt4</sys-lib>
             <sys-lib>advapi32</sys-lib>
             <sys-lib>wsock32</sys-lib>
-            <sys-lib>odbc32</sys-lib>
         </if>
 
         <!-- Libs common to both borland and MSVC               -->
@@ -280,12 +260,42 @@ FIXME: this template has (at least) the following bugs:
 
     <!-- template for wx executables/dlls: -->
     <template id="wx" template="wx-lib">
-        <lib-path>$(WX_DIR)$(WXLIBPATH)</lib-path>
+        <if cond="FORMAT!='xcode2'">
+            <lib-path>$(WX_DIR)$(WXLIBPATH)</lib-path>
+        </if>
 
         <!-- wx libs must come before 3rd party and sys libs, this is
              the place where the hack explained above is carried on: -->
         <__wx-libs-point/>
         <__wx-syslibs/>
     </template>
+
+    <if cond="FORMAT_SUPPORTS_ACTIONS=='1' and WX_TEST_FOR_SELECTED_WXBUILD=='1'">
+
+        <!--
+            VERY IMPORTANT: before starting to build all targets of the generated makefile,
+                            we need to check if the selected wxWidgets build exists; we do
+                            that simply creating the following target; if it fails the make
+                            program will halt printing the following nice error message...
+                            (much better than the 'could not find wx/*.h file')
+        -->
+        <action id="test_for_selected_wxbuild">
+            <dependency-of>all</dependency-of>
+
+            <!-- the @ is to hide these actions from the user -->
+            <command>
+                @if not exist $(WX_DIR)$(WXLIBINCLUDE)$(DIRSEP)wx$(DIRSEP)setup.h \
+                    echo ----------------------------------------------------------------------------
+                @if not exist $(WX_DIR)$(WXLIBINCLUDE)$(DIRSEP)wx$(DIRSEP)setup.h \
+                    echo The selected wxWidgets build is not available!
+                @if not exist $(WX_DIR)$(WXLIBINCLUDE)$(DIRSEP)wx$(DIRSEP)setup.h \
+                    echo Please use the options prefixed with WX_ to select another wxWidgets build.
+                @if not exist $(WX_DIR)$(WXLIBINCLUDE)$(DIRSEP)wx$(DIRSEP)setup.h \
+                    echo ----------------------------------------------------------------------------
+                @if not exist $(WX_DIR)$(WXLIBINCLUDE)$(DIRSEP)wx$(DIRSEP)setup.h \
+                    exit 1
+            </command>
+        </action>
+    </if>
 
 </makefile>

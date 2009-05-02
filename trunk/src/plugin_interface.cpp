@@ -108,7 +108,7 @@ void io_plugin_interface::RefreshDesk(bool force_common)
 	storage::update_key_led_states();
 	
 	MainFrame* mfr = (MainFrame*)::wxGetApp().GetTopWindow();
-	MainFrameRefreshEvent evt(-1,MainFrameRefreshEvent::DESK);
-	evt.SetForceCommon(force_common);
-	if(mfr) mfr->AddPendingEvent(evt);	
+	MainFrameRefreshEvent* evt = new MainFrameRefreshEvent(-1,MainFrameRefreshEvent::DESK);
+	evt->SetForceCommon(force_common);
+	if(mfr) mfr->GetEventHandler()->QueueEvent(evt);	
 }

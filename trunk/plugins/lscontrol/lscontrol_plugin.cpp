@@ -76,7 +76,7 @@ void lscontrol_plugin::set_key_leds(int count, bool* state)
 		if(i == 78) break;
 		if(state[i])
 		{
-			p_thread->dataout[(i/6)+1] -= (int)pow(2,i%6);
+			p_thread->dataout[(i/6)+1] -= (int)(1<<i%6);
 		}
 	}
 }

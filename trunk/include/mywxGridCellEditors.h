@@ -38,7 +38,7 @@ public:
 	
 	virtual bool IsAcceptedKey(wxKeyEvent& event);
 	virtual void BeginEdit(int row, int col, wxGrid* grid);
-	virtual bool EndEdit(int row, int col, wxGrid* grid);
+	virtual bool EndEdit(int row, int col, wxGrid* grid, const wxString &oldval, wxString *newval);
 	
 private:
 	wxGridCellCoordsArray p_sel_single;
@@ -54,7 +54,7 @@ public:
 	virtual bool IsAcceptedKey(wxKeyEvent& event);
 	virtual void StartingKey(wxKeyEvent& event);
 	virtual void BeginEdit(int row, int col, wxGrid* grid);
-	virtual bool EndEdit(int row, int col, wxGrid* grid);
+	virtual bool EndEdit(int row, int col, wxGrid* grid, const wxString &oldval, wxString *newval);
 
 private:
 	wxGridCellCoordsArray p_sel_single;

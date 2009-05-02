@@ -167,7 +167,7 @@ void MainFrame::OnLoad(wxCommandEvent& event)
 	if(ret == wxID_CANCEL) return;
 	if(ret == wxID_YES)
 	{
-		wxFileDialog dlg(this,wxT("Choose File to save to"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxSAVE);
+		wxFileDialog dlg(this,wxT("Choose File to save to"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxFD_SAVE);
 		if(dlg.ShowModal() == wxID_OK)
 			storage::save(dlg.GetPath());	
 	}
@@ -179,7 +179,7 @@ void MainFrame::OnLoad(wxCommandEvent& event)
 		//check if we need to load anything
 		if(tdlg.GetLoad())
 		{
-			wxFileDialog dlg(this,wxT("Choose File to load"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxOPEN | wxFILE_MUST_EXIST);
+			wxFileDialog dlg(this,wxT("Choose File to load"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 			if(dlg.ShowModal() == wxID_OK)
 				storage::load(dlg.GetPath(),tdlg.GetLoad());	
 		}
@@ -197,7 +197,7 @@ void MainFrame::OnSave(wxCommandEvent& event)
 		//check if we need to save anything
 		if(!tdlg.GetSave()) return;
 
-		wxFileDialog dlg(this,wxT("Choose File to save to"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxSAVE);
+		wxFileDialog dlg(this,wxT("Choose File to save to"),wxT(""),wxT(""),wxT("LightShow File (*.ls)|*.ls"),wxFD_SAVE);
 		if(dlg.ShowModal() == wxID_OK)
 			storage::save(dlg.GetPath(),tdlg.GetSave());	
 	}
@@ -205,7 +205,7 @@ void MainFrame::OnSave(wxCommandEvent& event)
 
 void MainFrame::OnAddLibrary(wxCommandEvent& event)
 {
-	wxFileDialog dlg(this,wxT("Choose File to add to Library"),wxT(""),wxT(""),wxT("Library File (*.ls)|*.ls"),wxOPEN | wxFILE_MUST_EXIST);
+	wxFileDialog dlg(this,wxT("Choose File to add to Library"),wxT(""),wxT(""),wxT("Library File (*.ls)|*.ls"),wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 	if(dlg.ShowModal() == wxID_OK)
 		storage::load(dlg.GetPath(),LOADSAVE_LIBRARY);		
 }

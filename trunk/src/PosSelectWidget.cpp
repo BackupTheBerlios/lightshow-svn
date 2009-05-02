@@ -118,7 +118,7 @@ void PosSelectWidget::SetItem(functionitem* fitem, int channel, int row)
 
 void PosSelectWidget::Draw(wxDC& dc)
 {
-	dc.BeginDrawing();
+//	dc.BeginDrawing();
 
 	dc.SetBackground(*wxWHITE_BRUSH);
 	dc.Clear();
@@ -162,5 +162,5 @@ void PosSelectWidget::Draw(wxDC& dc)
 		}
 	}	
 	
-	dc.EndDrawing();
+//	dc.EndDrawing();
 }

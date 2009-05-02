@@ -127,6 +127,6 @@ void FunctionThread::Output()
 		storage::list_io_plugins[i]->output(DMX_CHNLS,DMXout);
 	
 	MainFrame* mfr = (MainFrame*)p_app->GetTopWindow();
-	MainFrameRefreshEvent evt(-1);
-	if(mfr) mfr->AddPendingEvent(evt);
+	MainFrameRefreshEvent* evt = new MainFrameRefreshEvent(-1);
+	if(mfr) mfr->GetEventHandler()->QueueEvent(evt);
 }

@@ -115,7 +115,7 @@ void MainThread::process()
 	for(i = 0; i < 78;i++)
 	{
 		bool down = true;
-		if((datain[i/6] & (int)pow(2,i%6)) == pow(2,i%6)) down = false;
+		if((datain[i/6] & (int)(1<<i%6)) == (1<<i%6)) down = false;
 		
 		
 		if(prevstate[i] != down)

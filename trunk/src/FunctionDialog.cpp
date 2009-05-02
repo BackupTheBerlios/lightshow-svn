@@ -24,7 +24,7 @@
 
 
 FunctionDialog::FunctionDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
-    wxDialog(parent, id, title, wxPoint(10,10), size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTHICK_FRAME)
+    wxDialog(parent, id, title, wxPoint(10,10), size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
 {
 	p_fitem = NULL;
 	storage::setuping = true;
