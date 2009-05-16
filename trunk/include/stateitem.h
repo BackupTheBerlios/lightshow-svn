@@ -61,6 +61,9 @@ private:
 	int p_state;
 	unsigned char p_data[MAX_DEV_CHNLS];
 	bool p_mask[MAX_DEV_CHNLS];
+	
+#include "storage_items_common.h"
+
 };
 
 #endif //__STATEITEM_HH

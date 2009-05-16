@@ -23,6 +23,8 @@
 #include "groupitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(groupitem)
+
 void new_groupitem(void* param)
 {
 	groupitem* item = new groupitem();

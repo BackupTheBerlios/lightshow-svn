@@ -23,6 +23,8 @@
 #include "valueitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(valueitem)
+
 void new_valueitem(void* param)
 {
 	valueitem* item = new valueitem((projectorchannelitem*)param);

@@ -44,7 +44,7 @@ void storage_item::load(wxFile& file)
 	wxString parm = load_main(file);
 	if(parm != wxT(""))
 	{
-		wxString msg = wxT("Ignored ") + parm + wxT(" while loading ") + p_stor_name + wxT(".");
+		wxString msg = wxT("Ignored ") + parm + wxT(" while loading ") + *gp_stor_name() + wxT(".");
 		wxLogVerbose(msg);
 	}
 }
@@ -75,7 +75,7 @@ void storage_item::save(wxFile& file)
 
 void storage_item::save_main(wxFile& file)
 {
-	file.Write(wxT("<") + p_stor_name + wxT(">\n"));
+	file.Write(wxT("<") + *gp_stor_name() + wxT(">\n"));
 	
 	for(int i = 1;i <= get_num_all_params();i++)
 	{
@@ -87,7 +87,7 @@ void storage_item::save_main(wxFile& file)
 
 void storage_item::save_end(wxFile& file)
 {
-	file.Write(wxT("</") + p_stor_name + wxT(">\n"));
+	file.Write(wxT("</") + *gp_stor_name() + wxT(">\n"));
 }
 
 wxString storage_item::param_map_lookup(simap* smap,int search)
@@ -125,13 +125,13 @@ int storage_item::get_max_id(storageitemlist& slist,wxString param)
 
 wxString storage_item::get_param_name(int id)
 {
-	return param_map_lookup(&p_id_map,id);
+	return param_map_lookup(gp_id_map(),id);
 }
 
 int storage_item::get_param_id(wxString id)
 {
-	simap::iterator it = p_id_map.find(id);
-	if( it != p_id_map.end() )
+	simap::iterator it = gp_id_map()->find(id);
+	if( it != gp_id_map()->end() )
 		return it->second;
 	else
 		return -1;
@@ -139,8 +139,8 @@ int storage_item::get_param_id(wxString id)
 
 bool storage_item::can_edit(int id)
 {
-	ibmap::iterator it = p_editable_map.find(id);
-	if( it != p_editable_map.end() )
+	ibmap::iterator it = gp_editable_map()->find(id);
+	if( it != gp_editable_map()->end() )
 		return it->second;
 	else
 		return false;
@@ -148,8 +148,8 @@ bool storage_item::can_edit(int id)
 
 bool storage_item::should_save(int id)
 {
-	ibmap::iterator it = p_dont_save_map.find(id);
-	if( it != p_dont_save_map.end() )
+	ibmap::iterator it = gp_dont_save_map()->find(id);
+	if( it != gp_dont_save_map()->end() )
 		return !(it->second);
 	else
 		return true;
@@ -159,11 +159,11 @@ bool storage_item::should_show(unsigned int id)
 {
 	//even not in id map
 //	if(param_map_lookup(&p_id_map,id) == wxT("")) return false;
-	if(id > p_id_map.size()) return false;
+	if(id > gp_id_map()->size()) return false;
 	
 	//should it be shown
-	ibmap::iterator it = p_dont_show_map.find(id);
-	if( it != p_dont_show_map.end() )
+	ibmap::iterator it = gp_dont_show_map()->find(id);
+	if( it != gp_dont_show_map()->end() )
 		return !(it->second);
 	else
 		return true;
@@ -187,9 +187,18 @@ int storage_item::real_id_for_virtual_id(int id)
 
 int storage_item::get_column_width(int id)
 {
-	if(p_column_width[id] < 50) return 50;
-	else return p_column_width[id];
+	iimap::iterator it = gp_column_width()->find(id);
+	if(it != gp_column_width()->end())
+		return it->second;
+	else
+		return 50;
 }
+
+void storage_item::set_column_width(int id, int width)
+{
+	(*gp_column_width())[id] = width;
+}
+
 //-----------------------------------------------------------------------------------------------
 
 bool storage_item::set_param(int id,int value)

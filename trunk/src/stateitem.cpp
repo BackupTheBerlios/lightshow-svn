@@ -23,6 +23,8 @@
 #include "stateitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(stateitem)
+
 stateitem::stateitem(projectoritem* pitem,int state) :
 p_parent(pitem)
 {

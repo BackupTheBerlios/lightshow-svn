@@ -84,6 +84,9 @@ private:
 
 	bool p_invert_pan;
 	bool p_invert_tilt;
+	
+#include "storage_items_common.h"
+
 };
 
 void new_channelitem(void* param);

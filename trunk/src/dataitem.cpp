@@ -23,6 +23,8 @@
 #include "dataitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(dataitem)
+
 void new_dataitem(void* param)
 {
 	dataitem* item = new dataitem((functionitem*)param);

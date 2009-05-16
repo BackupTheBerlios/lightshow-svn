@@ -68,6 +68,9 @@ private:
 
 	simap map_type;
 	projectoritem* p_parent;
+	
+#include "storage_items_common.h"
+
 };
 
 void new_projectorchannelitem(void* param);

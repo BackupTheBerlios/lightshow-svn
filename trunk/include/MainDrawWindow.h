@@ -25,6 +25,8 @@
 
 #include "prec.h"
 #include "storage.h"
+#include "FunctionDialog.h"
+#include "FaderDialog.h"
 
 enum
 {
@@ -78,6 +80,9 @@ protected:
 	functionitem* p_floating_item;
 	faderitem* p_floating_fader;
 	int p_change_num;
+
+	FunctionDialog* dlg_function;
+	FaderDialog* dlg_fader;
 	
 	wxBitmap p_draw_common;
 

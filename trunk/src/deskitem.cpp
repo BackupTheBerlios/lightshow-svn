@@ -23,6 +23,8 @@
 #include "deskitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(deskitem)
+
 deskitem::deskitem()
 {
 	init(T_FUNCTION);

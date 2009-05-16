@@ -50,6 +50,9 @@ public:
 	storageitemlist list_projectorchannelitem;
 private:
 	wxString p_name;
+	
+#include "storage_items_common.h"
+
 };
 
 void new_projectoritem(void* param);

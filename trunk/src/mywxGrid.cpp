@@ -86,6 +86,7 @@ mywxGrid::~mywxGrid()
 BEGIN_EVENT_TABLE(mywxGrid, wxGrid)
 	EVT_KEY_DOWN(mywxGrid::OnKeyDown)
 	EVT_GRID_CELL_LEFT_CLICK(mywxGrid::OnCellLeftClick)
+	EVT_GRID_COL_SIZE(mywxGrid::OnCellColSize)
 END_EVENT_TABLE()
 
 void mywxGrid::OnKeyDown(wxKeyEvent &event)
@@ -122,6 +123,19 @@ void mywxGrid::OnCellLeftClick(wxGridEvent& event)
 		}
 	}
 	event.Skip();
+}
+
+void mywxGrid::OnCellColSize(wxGridSizeEvent& event)
+{
+	if(p_list)
+	{
+		if(!p_list->empty())
+		{
+			storage_item* s = *(p_list->begin());
+			int col = event.GetRowOrCol();
+			s->set_column_width(s->real_id_for_virtual_id(col),GetColSize(col));
+		}
+	}
 }
 
 void mywxGrid::update()

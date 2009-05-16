@@ -84,6 +84,9 @@ private:
 	bool p_translucent_fader;
 	unsigned char p_color[16][3];
 	int p_font_size;
+	
+#include "storage_items_common.h"
+
 };
 
 #endif //__CONFIGITEM_HH

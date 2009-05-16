@@ -69,6 +69,9 @@ private:
 	int p_button_id;
 	int p_fader_id;
 	int p_page_id;
+	
+#include "storage_items_common.h"
+
 };
 
 #endif //__DESKITEM_HH

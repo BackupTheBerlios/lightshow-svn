@@ -57,6 +57,9 @@ private:
 	functionitem* p_parent;
 	unsigned char p_data[DMX_CHNLS];
 	bool p_step[DMX_CHNLS];
+	
+#include "storage_items_common.h"
+
 };
 
 void new_dataitem(void* param);

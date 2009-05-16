@@ -26,6 +26,8 @@
 #include "storage_item.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(projectorchannelitem)
+
 
 void new_projectorchannelitem(void* param)
 {

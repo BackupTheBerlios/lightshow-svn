@@ -24,6 +24,8 @@
 #include "functionitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(functionitem)
+
 functionitem::functionitem()
 {
 	init(-1,-1);

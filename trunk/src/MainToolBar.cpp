@@ -63,6 +63,7 @@ void MainToolBar::set_properties()
     AddSeparator();
     AddTool(IDM_SETUP_OUTPUT, wxT("Setup Output"), wxBitmap(setup_output_xpm), wxNullBitmap, wxITEM_CHECK, wxT(""), wxT(""));
 #else
+ 	SetToolBitmapSize(wxSize(0, 0));
     AddTool(IDM_MENU, wxT("Menu"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""));
 	AddSeparator();
     AddTool(IDM_SHOW_DESK, wxT("Desk"), wxNullBitmap, wxNullBitmap, wxITEM_RADIO, wxT(""), wxT(""));

@@ -23,6 +23,8 @@
 #include "channelitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(channelitem)
+
 simap channelitem::map_type;
 
 void new_channelitem(void* param)

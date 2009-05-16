@@ -31,7 +31,7 @@
 #define P_ACK		0xC1
 #define P_ERROR     0xC0
 
-#define USE512 1
+#define USE512 0
 
 MainThread::MainThread() : wxThread()
 {

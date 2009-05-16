@@ -68,6 +68,9 @@ private:
 	int p_button_id;
 	int p_page;
 	wxString p_name;
+	
+#include "storage_items_common.h"
+
 };
 
 void new_group_in_groupselectitem(void* param);

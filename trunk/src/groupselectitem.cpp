@@ -23,6 +23,8 @@
 #include "groupselectitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(groupselectitem)
+
 void new_group_in_groupselectitem(void* param)
 {
 	groupselectitem* item = (groupselectitem*) param;

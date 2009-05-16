@@ -40,6 +40,9 @@ public:
 private:
 	int p_id;
 	wxString p_name;
+	
+#include "storage_items_common.h"
+
 };
 
 void new_groupitem(void* param);

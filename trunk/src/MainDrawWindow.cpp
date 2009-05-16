@@ -93,6 +93,9 @@ MainDrawWindow::MainDrawWindow(wxWindow* parent, wxWindowID id) : wxWindow(paren
 	cursor_copy_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 12);
 	cursor_copy_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 9);
 	
+	dlg_function = new FunctionDialog(this,-1,wxT("Function Setup"));
+	dlg_fader = new FaderDialog(this,-1,wxT("Fader Setup"));
+
 	
 	p_delete_cursor = new wxCursor(cursor_delete_image);
 	p_move_cursor = new wxCursor(cursor_move_image);
@@ -104,6 +107,9 @@ MainDrawWindow::MainDrawWindow(wxWindow* parent, wxWindowID id) : wxWindow(paren
 
 MainDrawWindow::~MainDrawWindow()
 {
+	delete dlg_fader;
+	delete dlg_function;
+
 	delete p_delete_cursor;
 	delete p_move_cursor;
 	delete p_copy_cursor;
@@ -759,15 +765,13 @@ void MainDrawWindow::OnMouseEvent(wxMouseEvent& event)
 				{
 					if(item->get_type() == deskitem::T_FUNCTION)
 					{
-						FunctionDialog dlg(this,-1,wxT("Function Setup"));
-						dlg.SetItem(item,storage::page);
-						dlg.ShowModal();
+						dlg_function->SetItem(item,storage::page);
+						dlg_function->ShowModal();
 					}
 					else if(item->get_type() == deskitem::T_FADER)
 					{
-						FaderDialog dlg(this,-1,wxT("Fader Setup"));
-						dlg.SetItem(item,storage::page);
-						dlg.ShowModal();
+						dlg_fader->SetItem(item,storage::page);
+						dlg_fader->ShowModal();
 					}
 					else if(item->get_type() == deskitem::T_GROUP)
 					{

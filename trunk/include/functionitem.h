@@ -136,6 +136,9 @@ private:
 
 	simap map_bool;
 	simap map_connection_type;
+	
+#include "storage_items_common.h"
+
 };
 
 #endif //__FUCTIONITEM_HH

@@ -25,6 +25,8 @@
 #include "stateitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(projectoritem)
+
 void new_projectoritem(void* param)
 {
 	projectoritem* pitem = new projectoritem();

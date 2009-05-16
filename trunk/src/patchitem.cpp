@@ -23,6 +23,8 @@
 #include "patchitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(patchitem)
+
 vector<int> patchitem::p_patch(DMX_CHNLS,-1);
 
 patchitem::patchitem()

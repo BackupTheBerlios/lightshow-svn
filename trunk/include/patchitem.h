@@ -48,6 +48,9 @@ private:
 	static vector<int> p_patch;
 	int p_programm_channel;
 	int p_output_channel;
+	
+#include "storage_items_common.h"
+
 };
 
 #endif //__PATCHITEM_HH

@@ -79,6 +79,7 @@ public:
 private:
 	void OnKeyDown(wxKeyEvent& event); 
 	void OnCellLeftClick(wxGridEvent& event);
+	void OnCellColSize(wxGridSizeEvent& event);
 
 	DECLARE_EVENT_TABLE() 
 	mywxGridTableBaseList p_table_base_list;

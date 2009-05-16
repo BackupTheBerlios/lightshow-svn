@@ -23,6 +23,8 @@
 #include "configitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(configitem)
+
 configitem::configitem()
 {
 	p_stor_name = wxT("configitem");

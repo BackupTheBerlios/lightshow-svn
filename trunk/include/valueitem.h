@@ -41,6 +41,9 @@ private:
 	projectorchannelitem* p_parent;
 	wxString p_name;
 	int p_value;
+
+#include "storage_items_common.h"
+
 };
 
 void new_valueitem(void* param);

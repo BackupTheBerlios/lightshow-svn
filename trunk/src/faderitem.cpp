@@ -25,6 +25,8 @@
 #include "faderitem.h"
 #include "storage.h"
 
+DECLARE_STATIC_STC(faderitem)
+
 faderitem::faderitem()
 {
 	init(-1,-1);

@@ -51,8 +51,8 @@ public:
 
 	virtual wxString get_param_name(int id);
 	int get_param_id(wxString id);
-	virtual int get_num_params() { return p_id_map.size()-p_dont_show_map.size(); };
-	virtual int get_num_all_params() { return p_id_map.size(); };
+	virtual int get_num_params() { return gp_id_map()->size()-gp_dont_show_map()->size(); };
+	virtual int get_num_all_params() { return gp_id_map()->size(); };
 	int real_id_for_virtual_id(int id);
 	int real_id_for_virtual_id(wxString id) { return real_id_for_virtual_id(get_param_id(id)); };
 	
@@ -67,6 +67,7 @@ public:
 	
 	int get_column_width(int id);
 	int get_column_width(wxString id) { return get_column_width(get_param_id(id)); };
+	void set_column_width(int id, int width);
 	virtual void delete_param(int id) { };
 	virtual bool single_select() { return false; };
 //	virtual bool can_drag_drop() { return false; };
@@ -98,13 +99,14 @@ public:
 	bool set_param(int id,double value);
 	bool set_param(wxString id,double value) { return set_param(get_param_id(id),value); };
 
-protected:
-	wxString p_stor_name;
-	simap p_id_map;
-	ibmap p_dont_show_map;
-	ibmap p_editable_map;
-	ibmap p_dont_save_map;
-	iimap p_column_width;
+public:
+	virtual wxString* gp_stor_name() = 0;
+	virtual simap* gp_id_map() = 0;
+	virtual ibmap* gp_dont_show_map() = 0;
+	virtual ibmap* gp_editable_map() = 0;
+	virtual ibmap* gp_dont_save_map() = 0;
+	virtual iimap* gp_column_width() = 0;
+
 };
 
 struct storage_item_sort

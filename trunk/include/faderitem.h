@@ -94,6 +94,9 @@ private:
 	int p_group;
 	int p_function;
 	bool p_own_function;
+	
+#include "storage_items_common.h"
+
 };
 
 #endif //__FADERITEM_HH
