@@ -22,6 +22,11 @@
 
 #include "PosSelectWidget.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 PosSelectWidget::PosSelectWidget(wxWindow* parent, wxWindowID id) : wxWindow(parent, id)
 {
 	p_fitem = NULL;

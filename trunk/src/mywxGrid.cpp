@@ -24,6 +24,11 @@
 #include <wx/grid.h>
 #include "mywxGrid.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 //---- Event Class -------------------------------------
 DEFINE_EVENT_TYPE(mywxGRID_CHANGE_EVENT);
 
@@ -239,12 +244,12 @@ void mywxGrid::set_channel_list()
 
 	if(p_list)
 		if(p_list->empty())
-			append();
+			append(true);
 
 	p_table_base_chnl_list.init();
 	
 	m_rowHeights.Empty();
-    	m_rowBottoms.Empty();
+    m_rowBottoms.Empty();
 	m_colWidths.Empty();
 	m_colRights.Empty();
 

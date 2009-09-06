@@ -24,6 +24,11 @@
 #include "functionitem.h"
 #include "storage.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 DECLARE_STATIC_STC(functionitem)
 
 functionitem::functionitem()

@@ -23,6 +23,9 @@
 #include "ChannelDialog.h"
 #include "storage.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
 
 ChannelDialog::ChannelDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
@@ -51,7 +54,7 @@ void ChannelDialog::do_layout()
 {
     wxBoxSizer* sizer_2 = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* sizer_4 = new wxBoxSizer(wxHORIZONTAL);
-    sizer_2->Add(grid_channels, 1, wxEXPAND, 0);
+    sizer_2->Add(grid_channels, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
 	sizer_4->Add(button_add, 0, 0, 0);
 	sizer_4->Add(button_delete, 0, 0, 0);
     sizer_4->Add(button_properties, 0, 0, 0);

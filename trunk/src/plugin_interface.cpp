@@ -27,6 +27,11 @@
 #include "main.h"
 #include "MainFrame.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 io_plugin_interface::io_plugin_interface()
 {
 	interf.key_state_change = &key_state_change;

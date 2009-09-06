@@ -22,6 +22,11 @@
 
 #include "GroupSelectDialog.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 
 GroupSelectDialog::GroupSelectDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
@@ -47,7 +52,7 @@ void GroupSelectDialog::do_layout()
 {
     wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
-    sizer_1->Add(grid_groupselect, 1, wxEXPAND, 0);
+    sizer_1->Add(grid_groupselect, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
 	sizer_2->Add(button_add, 0, 0, 0);
 	sizer_2->Add(button_delete, 0, 0, 0);
     sizer_2->Add(button_close, 0, 0, 0);

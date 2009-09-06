@@ -24,6 +24,11 @@
 
 #include "DeskSetupToolBar.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 #ifdef __WXMAC__
 #  include "../bitmaps/text/add_group.xpm"
 #  include "../bitmaps/text/add_page.xpm"

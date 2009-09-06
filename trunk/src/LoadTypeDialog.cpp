@@ -23,6 +23,11 @@
 #include "LoadTypeDialog.h"
 #include "storage.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 
 LoadTypeDialog::LoadTypeDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE)

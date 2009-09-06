@@ -32,6 +32,8 @@ public:
 	FunctionThread(wxApp* app);
 	~FunctionThread();
 
+	void End();
+
 private:
 	ExitCode Entry();
 
@@ -39,6 +41,8 @@ private:
 
 	wxApp* p_app;
 	void Output();
+
+	bool end;
 };
 
 #endif //FUNCTIONTHREAD_H

@@ -28,6 +28,11 @@
 #include "FaderDialog.h"
 #include "GroupSelectDialog.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 #include "../bitmaps/cursor_move.xpm"
 #include "../bitmaps/cursor_copy.xpm"
 #include "../bitmaps/cursor_delete.xpm"

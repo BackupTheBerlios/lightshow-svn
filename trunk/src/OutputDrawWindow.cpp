@@ -23,6 +23,11 @@
 #include "OutputDrawWindow.h"
 #include "storage.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 OutputDrawWindow::OutputDrawWindow(wxWindow* parent, wxWindowID id) : wxScrolledWindow(parent, id)
 {	
 	p_refresh_pending = 0;

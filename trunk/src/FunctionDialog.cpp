@@ -22,6 +22,11 @@
 
 #include "FunctionDialog.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 
 FunctionDialog::FunctionDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, wxPoint(10,10), size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
@@ -72,7 +77,7 @@ void FunctionDialog::do_layout()
     wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
     wxBoxSizer* sizer_3 = new wxBoxSizer(wxHORIZONTAL);
 	
-    sizer_1->Add(grid_data, 1, wxEXPAND, 0);
+    sizer_1->Add(grid_data, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
 	
 	sizer_3->Add(text_channel_name, 1, wxEXPAND, 0);
 	sizer_3->Add(button_add, 0, 0, 0);
@@ -86,7 +91,7 @@ void FunctionDialog::do_layout()
 	sizer_2->Add(staticbox_1, 0, wxEXPAND, 0);
     sizer_2->Add(label_2, 1, wxEXPAND, 0);
     
-	staticbox_2->Add(grid_properties, 1, wxEXPAND, 0);
+	staticbox_2->Add(grid_properties, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
     sizer_2->Add(staticbox_2, 1, wxEXPAND, 0);
     
 	sizer_1->Add(sizer_2, 0, wxEXPAND, 0);

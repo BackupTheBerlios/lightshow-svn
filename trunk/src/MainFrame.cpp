@@ -29,6 +29,11 @@
 #include "SaveTypeDialog.h"
 #include "LoadTypeDialog.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 #include "../bitmaps/logo_48.xpm"
 #include "../bitmaps/logo_32.xpm"
 #include "../bitmaps/logo_16.xpm"

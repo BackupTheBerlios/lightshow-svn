@@ -24,13 +24,24 @@
 #include "FunctionThread.h"
 #include "MainFrame.h"
 
-FunctionThread::FunctionThread(wxApp* app) : wxThread()
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
+FunctionThread::FunctionThread(wxApp* app) : wxThread(wxTHREAD_JOINABLE)
 {
 	p_app = app;
+	end = false;
 }
 
 FunctionThread::~FunctionThread()
 {
+}
+
+void FunctionThread::End()
+{
+	end = true;
 }
 
 FunctionThread::ExitCode FunctionThread::Entry()
@@ -40,10 +51,8 @@ FunctionThread::ExitCode FunctionThread::Entry()
 	
 	wait = 25;
 	
-	while(!TestDestroy())
+	while(!end)
 	{
-		if(TestDestroy())
-			return 0;
 		//Wait for 25ms to elapse
 		do
 		{
@@ -104,17 +113,13 @@ FunctionThread::ExitCode FunctionThread::Entry()
 
 		Output();
 
-	} // while(!TestDestroy())
+	}
 
 	return 0;
 }
 
 void FunctionThread::Output()
-{
-	//call twice to get killed after pause without calling (unloaded) plugins
-	if(TestDestroy()) return;
-	if(TestDestroy()) return;
-	
+{	
 	unsigned int i;
 	for(i = 0;i < DMX_CHNLS;i++)
 	{
@@ -127,6 +132,9 @@ void FunctionThread::Output()
 		storage::list_io_plugins[i]->output(DMX_CHNLS,DMXout);
 	
 	MainFrame* mfr = (MainFrame*)p_app->GetTopWindow();
-	MainFrameRefreshEvent* evt = new MainFrameRefreshEvent(-1);
-	if(mfr) mfr->GetEventHandler()->QueueEvent(evt);
+	if(mfr) 
+	{
+		MainFrameRefreshEvent* evt = new MainFrameRefreshEvent(-1);
+		mfr->GetEventHandler()->QueueEvent(evt);
+	}
 }

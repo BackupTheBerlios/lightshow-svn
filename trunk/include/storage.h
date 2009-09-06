@@ -25,8 +25,8 @@
 
 #include "prec.h"
 
-#define DMX_CHNLS 70
-#define MAX_GROUPS 25
+#define DMX_CHNLS 512
+#define MAX_GROUPS 50
 #define SPEED_MULTIPLICATOR 0.8125
 
 class deskitem;

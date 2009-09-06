@@ -23,6 +23,11 @@
 #include "GroupDialog.h"
 #include "storage.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 
 GroupDialog::GroupDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
@@ -53,7 +58,7 @@ void GroupDialog::do_layout()
 	sizer_2->Add(button_add, 0, 0, 0);
 	sizer_2->Add(button_delete, 0, 0, 0);
     sizer_2->Add(button_close, 0, 0, 0);
-    sizer_1->Add(grid_group, 1, wxEXPAND, 0);
+    sizer_1->Add(grid_group, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
     sizer_1->Add(sizer_2, 0, wxALIGN_RIGHT, 0);
     SetAutoLayout(true);
     SetSizer(sizer_1);

@@ -25,6 +25,11 @@
 #include "mywxGridCellAttrProvider.h"
 #include "storage.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 
 mywxGridCellAttrProvider::mywxGridCellAttrProvider()
 {
@@ -45,6 +50,10 @@ mywxGridCellAttrProvider::mywxGridCellAttrProvider()
 
 mywxGridCellAttrProvider::~mywxGridCellAttrProvider()
 {
+	m_attrForOddRows->DecRef();
+	m_attrForOddRowsRO->DecRef();
+	m_attr->DecRef();
+	m_attrRO->DecRef();
 }
 
 void mywxGridCellAttrProvider::set_list(storageitemlist* slist)
@@ -114,6 +123,8 @@ mywxGridCellAttrProviderChnl::mywxGridCellAttrProviderChnl() : mywxGridCellAttrP
 
 mywxGridCellAttrProviderChnl::~mywxGridCellAttrProviderChnl()
 {
+	m_attrForEmptyRows->DecRef();
+	m_attrForEmptyRowsRO->DecRef();
 }
 
 wxGridCellAttr *mywxGridCellAttrProviderChnl::GetAttr(int row, int col,

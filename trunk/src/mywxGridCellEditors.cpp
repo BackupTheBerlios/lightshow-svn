@@ -20,7 +20,13 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***************************************************************************/
 
+#include "prec.h"
 #include "mywxGridCellEditors.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
 
 //---------------------------------------------------------
 mywxGridCellChoiceEditor::mywxGridCellChoiceEditor() : 

@@ -22,6 +22,11 @@
 
 #include "FaderDialog.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 
 FaderDialog::FaderDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
@@ -44,7 +49,7 @@ void FaderDialog::set_properties()
 void FaderDialog::do_layout()
 {
     wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
-    sizer_1->Add(grid_fader, 1, wxEXPAND, 0);
+    sizer_1->Add(grid_fader, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
     sizer_1->Add(button_close, 0, wxALIGN_RIGHT, 0);
     SetAutoLayout(true);
     SetSizer(sizer_1);

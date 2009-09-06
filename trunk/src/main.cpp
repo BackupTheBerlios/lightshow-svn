@@ -24,6 +24,11 @@
 #include "main.h"
 #include "MainFrame.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 IMPLEMENT_APP(LightShowApp)
 
 bool LightShowApp::OnInit()
@@ -60,11 +65,12 @@ int LightShowApp::OnExit()
 {
 	storage::save();
 
-	p_thread->Pause();
+	p_thread->End();
+	p_thread->Wait();
 
 	storage::unload_plugins();
 
-	p_thread->Delete();
+	delete p_thread;
 
 	storage::clear();
 

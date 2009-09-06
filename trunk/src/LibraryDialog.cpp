@@ -22,6 +22,11 @@
 
 #include "LibraryDialog.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 LibraryDialog::LibraryDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
 {
@@ -79,7 +84,7 @@ void LibraryDialog::do_layout()
 	wxBoxSizer* sizer_11 = new wxBoxSizer(wxHORIZONTAL);
 			
 	sizer_5->Add(label_1, 0, 0, 0);
-    sizer_5->Add(grid_devices, 1, wxEXPAND, 0);
+    sizer_5->Add(grid_devices, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
 	sizer_9->Add(button_device_add, 0, 0, 0);
 	sizer_9->Add(button_device_delete, 0, 0, 0);
 	sizer_5->Add(sizer_9, 0, wxALIGN_RIGHT, 0);
@@ -90,14 +95,14 @@ void LibraryDialog::do_layout()
     sizer_1->Add(static_line_3, 0, wxEXPAND, 0);
     
 	sizer_6->Add(label_2, 0, 0, 0);
-    sizer_6->Add(grid_channels, 1, wxEXPAND, 0);
+    sizer_6->Add(grid_channels, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
 	sizer_10->Add(button_channel_add, 0, 0, 0);
 	sizer_10->Add(button_channel_delete, 0, 0, 0);
 	sizer_6->Add(sizer_10, 0, wxALIGN_RIGHT, 0);
     sizer_4->Add(sizer_6, 1, wxEXPAND, 0);
     sizer_4->Add(static_line_6, 0, wxEXPAND, 0);
     sizer_7->Add(label_3, 0, 0, 0);
-    sizer_7->Add(grid_values, 1, wxEXPAND, 0);
+    sizer_7->Add(grid_values, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
 	sizer_11->Add(button_value_add, 0, 0, 0);
 	sizer_11->Add(button_value_delete, 0, 0, 0);
 	sizer_7->Add(sizer_11, 0, wxALIGN_RIGHT, 0);
@@ -106,7 +111,7 @@ void LibraryDialog::do_layout()
     sizer_1->Add(static_line_4, 0, wxEXPAND, 0);
     
 	sizer_8->Add(label_4, 0, 0, 0);
-    sizer_8->Add(grid_states, 1, wxEXPAND, 0);
+    sizer_8->Add(grid_states, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
     sizer_1->Add(sizer_8, 1, wxEXPAND, 0);
     sizer_1->Add(static_line_5, 0, wxEXPAND, 0);
     

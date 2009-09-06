@@ -24,6 +24,11 @@
 
 #include "DMXPatchDialog.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 
 DMXPatchDialog::DMXPatchDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
@@ -47,7 +52,7 @@ void DMXPatchDialog::set_properties()
 void DMXPatchDialog::do_layout()
 {
     wxBoxSizer* sizer_2 = new wxBoxSizer(wxVERTICAL);
-    sizer_2->Add(dmx_patch_grid, 1, wxEXPAND, 0);
+    sizer_2->Add(dmx_patch_grid, 1, wxEXPAND | wxFIXED_MINSIZE, 0);
     sizer_2->Add(button_close, 0, wxALIGN_RIGHT, 0);
     SetAutoLayout(true);
     SetSizer(sizer_2);

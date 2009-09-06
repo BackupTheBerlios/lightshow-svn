@@ -24,6 +24,11 @@
 
 #include "MainToolBar.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
 #ifdef __WXMAC__
 #  include "../bitmaps/text/menu.xpm"
 #  include "../bitmaps/text/desk.xpm"
